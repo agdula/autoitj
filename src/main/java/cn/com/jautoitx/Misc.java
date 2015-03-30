@@ -1,5 +1,7 @@
 package cn.com.jautoitx;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class Misc extends AutoItX {
 	private Misc() {
 		// Do nothing
@@ -26,4 +28,82 @@ public class Misc extends AutoItX {
 	public static void sleep(final int milliSeconds) {
 		autoItX.AU3_Sleep(milliSeconds);
 	}
+
+
+	/**
+	 * Clears a displaying tooltip
+	 */
+	public static void tooltip() {
+		tooltip(null);
+	}
+
+	/**
+	 * Creates a tooltip anywhere on the screen.
+	 *
+	 * If the x and y coordinates are omitted the, tip is placed near the mouse
+	 * cursor. If the coords would cause the tooltip to run off screen, it is
+	 * repositioned to visible. Tooltip appears until it is cleared, until
+	 * script terminates, or sometimes until it is clicked upon. You may use a
+	 * linefeed character to create multi-line tooltips.
+	 *
+	 * @param text
+	 *            The text of the tooltip. (An empty string clears a displaying
+	 *            tooltip).
+	 */
+	public static void tooltip(final String text) {
+		if (StringUtils.isEmpty(text)) {
+			// clear tooltip
+			tooltip(text, null, null);
+		} else {
+			// If the x and y coordinates are omitted the, tip is placed near
+			// the mouse cursor
+
+			// Fix AutoItX's bug
+			Opt.CoordMode newCoodMode = Opt.CoordMode.ABSOLUTE_SCREEN_COORDINATES;
+			Opt.CoordMode oldCoodMode = Opt.setMouseCoordMode(newCoodMode);
+
+			int mousePosX = Mouse.getPosX();
+			int mousePosY = Mouse.getPosY();
+
+			// restore MouseCoordMode
+			if (!newCoodMode.equals(oldCoodMode)) {
+				Opt.setMouseCoordMode(oldCoodMode);
+			}
+
+			tooltip(text, mousePosX, mousePosY);
+		}
+	}
+
+	/**
+	 * Creates a tooltip anywhere on the screen.
+	 *
+	 * If the x and y coordinates are omitted, the tip is placed near the mouse
+	 * cursor. If the coords would cause the tooltip to run off screen, it is
+	 * repositioned to visible. Tooltip appears until it is cleared, until
+	 * script terminates, or sometimes until it is clicked upon. You may use a
+	 * linefeed character to create multi-line tooltips.
+	 *
+	 * @param text
+	 *            The text of the tooltip. (An empty string clears a displaying
+	 *            tooltip).
+	 * @param x
+	 *            The x position of the tooltip.
+	 * @param y
+	 *            The y position of the tooltip.
+	 */
+	public static void tooltip(final String text, Integer x, Integer y) {
+		if (StringUtils.isEmpty(text)) {
+			autoItX.AU3_ToolTip(stringToWString(""), null, null);
+		} else {
+			// Fix AutoItX's bug
+			if ((x != null) && (x < 0)) {
+				x = 0;
+			}
+			if ((y != null) && (y < 0)) {
+				y = 0;
+			}
+			autoItX.AU3_ToolTip(stringToWString(defaultString(text)), x, y);
+		}
+	}
+
 }
