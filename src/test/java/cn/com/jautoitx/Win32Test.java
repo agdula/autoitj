@@ -2,9 +2,11 @@ package cn.com.jautoitx;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class Win32Test extends BaseTest {
 
+	@Autowired Win32 Win32;
 	@Test
 	public void getFileVersion() {
 		Assert.assertNull(Win32.getFileVersion("cn/com/jautoitx/lib"));

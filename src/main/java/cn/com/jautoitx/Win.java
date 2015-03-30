@@ -39,8 +39,11 @@ public final class Win {
 	public static final int WIN_STATE_MAXIMIZED = 32;
 	private final AutoItX autoItX = new AutoItX();
 
-	private Win() {
+	private Win32 _win32;
+
+	public Win(Win32 win32) {
 		// Do nothing
+		this._win32 = win32;
 	}
 
 	/**
@@ -412,7 +415,7 @@ public final class Win {
 	 * @return Returns the classname from the window if success, returns null if
 	 *         no window matches the criteria.
 	 */
-	public static String getClassName(final String title) {
+	public String getClassName(final String title) {
 		return getClassName(title, null);
 	}
 
@@ -426,8 +429,8 @@ public final class Win {
 	 * @return Returns the classname from the window if success, returns null if
 	 *         no window matches the criteria.
 	 */
-	public static String getClassName(final String title, final String text) {
-		return Win32.getClassName(getHandle_(title, text));
+	public String getClassName(final String title, final String text) {
+		return _win32.getClassName(getHandle_(title, text));
 	}
 
 	/**
@@ -438,7 +441,7 @@ public final class Win {
 	 * @return Returns the classname from the window if success, returns null if
 	 *         no window matches the criteria.
 	 */
-	public static String getClassName(final HWND hWnd) {
+	public String getClassName(final HWND hWnd) {
 		return (hWnd == null) ? null : getClassName(AutoItX.buildTitle(hWnd));
 	}
 

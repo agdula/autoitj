@@ -11,8 +11,6 @@ import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
 
-import cn.com.jautoitx.Opt.CoordMode;
-
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
@@ -165,7 +163,7 @@ public class AutoItX {
 			copyInputStreamToFile(libInputStream, libFile);
 			closeQuietly(libInputStream);
 			if (AUTOITX_VERSION == null) {
-				AUTOITX_VERSION = Win32.getFileVersion(libFile);
+				AUTOITX_VERSION = Win32Impl.instance.getFileVersion(libFile);
 			}
 
 			System.load(libFile.getPath());
@@ -221,7 +219,7 @@ public class AutoItX {
 	}
 
 	static String buildControlId(final HWND hCtrl) {
-		return ControlIdBuilder.byHandle(hCtrl);
+		return ControlIdBuilder.getInstance(Win32Impl.instance).byHandle(hCtrl);
 	}
 
 	protected static void closeQuietly(final Closeable closeable) {

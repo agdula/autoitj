@@ -2,8 +2,12 @@ package cn.com.jautoitx;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ClipTest extends BaseTest {
+	@Autowired
+	Clip Clip;
+
 	@Test
 	public void get() {
 		Clip.put("Hello");

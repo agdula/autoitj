@@ -4,8 +4,13 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import cn.com.jautoitx.TitleBuilder.By;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class TitleBuilderTest extends BaseTest {
+
+	@Autowired
+	private Win Win;
+
 	@Test
 	public void by() {
 		Assert.assertEquals("[]", TitleBuilder.by());

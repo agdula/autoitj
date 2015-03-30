@@ -16,8 +16,15 @@ import cn.com.jautoitx.Mouse.MouseButton;
 import cn.com.jautoitx.Opt.CoordMode;
 import cn.com.jautoitx.Opt.WinTextMatchMode;
 import cn.com.jautoitx.Opt.WinTitleMatchMode;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class OptTest extends BaseTest {
+
+	@Autowired
+	Win32 Win32;
+	@Autowired
+	Control Control;
+
 	@Test
 	public void setMouseClickDelay() {
 		String title1 = "setMouseClickDelay - " + currentTimeMillis;

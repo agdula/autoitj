@@ -52,8 +52,10 @@ public class TreeView {
 	/* Buffer size for method ControlTreeView */
 	private static int BUF_SIZE = 8 * 1024;
 
-	private TreeView() {
-		// Do nothing
+	Control _control;
+
+	public TreeView(Control control) {
+		this._control = control;
 	}
 
 	/**
@@ -104,7 +106,7 @@ public class TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	public static boolean check(final String title, final String control,
+	public boolean check(final String title, final String control,
 			final String item) {
 		return check(title, null, control, item);
 	}
@@ -159,14 +161,14 @@ public class TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	public static boolean check(final String title, final String text,
+	public boolean check(final String title, final String text,
 			final String control, final String item) {
 		boolean status = true;
 
 		if (StringUtils.isBlank(item)) {
 			status = false;
 		} else {
-			IsChecked isChecked = TreeView.isChecked_(title, text, control,
+			IsChecked isChecked = isChecked_(title, text, control,
 					item);
 			// if item is not checked, then check it
 			if (isChecked == IsChecked.UNCHECKED) {
@@ -244,7 +246,7 @@ public class TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	public static boolean check(final HWND hWnd, final HWND hCtrl,
+	public boolean check(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : check(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -299,7 +301,7 @@ public class TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	public static boolean collapse(final String title, final String control,
+	public boolean collapse(final String title, final String control,
 			final String item) {
 		return collapse(title, null, control, item);
 	}
@@ -355,7 +357,7 @@ public class TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	public static boolean collapse(final String title, final String text,
+	public boolean collapse(final String title, final String text,
 			final String control, final String item) {
 		boolean status = false;
 		if (StringUtils.isNotEmpty(item)) {
@@ -422,7 +424,7 @@ public class TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	public static boolean collapse(final HWND hWnd, final HWND hCtrl,
+	public boolean collapse(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : collapse(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -475,7 +477,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if an item exists, otherwise returns false.
 	 */
-	public static boolean exists(final String title, final String control,
+	public boolean exists(final String title, final String control,
 			final String item) {
 		return exists(title, null, control, item);
 	}
@@ -529,7 +531,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if an item exists, otherwise returns false.
 	 */
-	public static boolean exists(final String title, final String text,
+	public boolean exists(final String title, final String text,
 			final String control, final String item) {
 		return "1".equals(controlTreeView(title, text, control, COMMAND_EXISTS,
 				item, null, AutoItX.BOOLEAN_BUF_SIZE));
@@ -582,7 +584,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if an item exists, otherwise returns false.
 	 */
-	public static boolean exists(final HWND hWnd, final HWND hCtrl,
+	public boolean exists(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : exists(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -637,7 +639,7 @@ public class TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	public static boolean expand(final String title, final String control,
+	public boolean expand(final String title, final String control,
 			final String item) {
 		return expand(title, null, control, item);
 	}
@@ -693,7 +695,7 @@ public class TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	public static boolean expand(final String title, final String text,
+	public boolean expand(final String title, final String text,
 			final String control, final String item) {
 		boolean status = false;
 		if (StringUtils.isNotEmpty(item)) {
@@ -760,7 +762,7 @@ public class TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	public static boolean expand(final HWND hWnd, final HWND hCtrl,
+	public boolean expand(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : expand(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -814,7 +816,7 @@ public class TreeView {
 	 * @return Returns the handle of the item if success, returns null if
 	 *         failed.
 	 */
-	public static HWND getHandle(final String title, final String control,
+	public HWND getHandle(final String title, final String control,
 			final String item) {
 		return getHandle(title, null, control, item);
 	}
@@ -869,7 +871,7 @@ public class TreeView {
 	 * @return Returns the handle of the item if success, returns null if
 	 *         failed.
 	 */
-	public static HWND getHandle(final String title, final String text,
+	public HWND getHandle(final String title, final String text,
 			final String control, final String item) {
 		HWND itemHWND = null;
 		if (StringUtils.isNotEmpty(item) && exists(title, text, control, item)) {
@@ -982,7 +984,7 @@ public class TreeView {
 	 * @return Returns the handle of the item if success, returns null if
 	 *         failed.
 	 */
-	public static HWND getHandle(final HWND hWnd, final HWND hCtrl,
+	public HWND getHandle(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHandle(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -1035,7 +1037,7 @@ public class TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the number of children for a selected item.
 	 */
-	public static Integer getItemCount(final String title,
+	public Integer getItemCount(final String title,
 			final String control, final String item) {
 		return getItemCount(title, null, control, item);
 	}
@@ -1089,7 +1091,7 @@ public class TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the number of children for a selected item.
 	 */
-	public static Integer getItemCount(final String title, final String text,
+	public Integer getItemCount(final String title, final String text,
 			final String control, final String item) {
 		Integer itemCount = null;
 		if (exists(title, text, control, item)) {
@@ -1149,7 +1151,7 @@ public class TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the number of children for a selected item.
 	 */
-	public static Integer getItemCount(final HWND hWnd, final HWND hCtrl,
+	public Integer getItemCount(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getItemCount(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -1166,7 +1168,7 @@ public class TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the item reference of the current selection.
 	 */
-	public static String getSelected(final String title, final String control) {
+	public String getSelected(final String title, final String control) {
 		return getSelected(title, null, control);
 	}
 
@@ -1183,7 +1185,7 @@ public class TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the item reference of the current selection.
 	 */
-	public static String getSelected(final String title, final String text,
+	public String getSelected(final String title, final String text,
 			final String control) {
 		return getSelected(title, text, control, null);
 	}
@@ -1199,7 +1201,7 @@ public class TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the item reference of the current selection.
 	 */
-	public static String getSelected(final HWND hWnd, final HWND hCtrl) {
+	public String getSelected(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
@@ -1220,7 +1222,7 @@ public class TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the item reference of the current selection.
 	 */
-	public static String getSelected(final String title, final String control,
+	public String getSelected(final String title, final String control,
 			final Boolean useIndex) {
 		return getSelected(title, null, control, useIndex);
 	}
@@ -1243,7 +1245,7 @@ public class TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the item reference of the current selection.
 	 */
-	public static String getSelected(final String title, final String text,
+	public String getSelected(final String title, final String text,
 			final String control, final Boolean useIndex) {
 		final String selected = controlTreeView(title, text, control,
 				COMMAND_GET_SELECTED, (useIndex == null) ? null
@@ -1267,7 +1269,7 @@ public class TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the item reference of the current selection.
 	 */
-	public static String getSelected(final HWND hWnd, final HWND hCtrl,
+	public String getSelected(final HWND hWnd, final HWND hCtrl,
 			final Boolean useIndex) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), useIndex);
@@ -1283,7 +1285,7 @@ public class TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the text of the current selected item.
 	 */
-	public static String getSelectedText(final String title,
+	public String getSelectedText(final String title,
 			final String control) {
 		return getSelectedText(title, null, control);
 	}
@@ -1300,7 +1302,7 @@ public class TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the text of the current selected item.
 	 */
-	public static String getSelectedText(final String title, final String text,
+	public String getSelectedText(final String title, final String text,
 			final String control) {
 		String selectedText = null;
 		String selectedItem = getSelected(title, text, control, true);
@@ -1320,7 +1322,7 @@ public class TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the text of the current selected item.
 	 */
-	public static String getSelectedText(final HWND hWnd, final HWND hCtrl) {
+	public String getSelectedText(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelectedText(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
@@ -1373,7 +1375,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns the text of an item.
 	 */
-	public static String getText(final String title, final String control,
+	public String getText(final String title, final String control,
 			final String item) {
 		return getText(title, null, control, item);
 	}
@@ -1428,7 +1430,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns the text of an item.
 	 */
-	public static String getText(final String title, final String text,
+	public String getText(final String title, final String text,
 			final String control, final String item) {
 		String itemText = null;
 		if (StringUtils.isNotBlank(item)) {
@@ -1489,7 +1491,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns the text of an item.
 	 */
-	public static String getText(final HWND hWnd, final HWND hCtrl,
+	public String getText(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getText(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -1541,7 +1543,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is checked, otherwise return false.
 	 */
-	public static boolean isChecked(final String title, final String control,
+	public boolean isChecked(final String title, final String control,
 			final String item) {
 		return isChecked(title, null, control, item);
 	}
@@ -1594,7 +1596,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is checked, otherwise return false.
 	 */
-	public static boolean isChecked(final String title, final String text,
+	public boolean isChecked(final String title, final String text,
 			final String control, final String item) {
 		return isChecked_(title, text, control, item) == IsChecked.CHECKED;
 	}
@@ -1645,7 +1647,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is checked, otherwise return false.
 	 */
-	public static boolean isChecked(final HWND hWnd, final HWND hCtrl,
+	public boolean isChecked(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isChecked(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -1699,7 +1701,7 @@ public class TreeView {
 	 *         IsChecked.UNCHECKED if item is not checked, otherwise return
 	 *         IsChecked.NOT_A_CHECKBOX.
 	 */
-	public static IsChecked isChecked_(final String title,
+	public IsChecked isChecked_(final String title,
 			final String control, final String item) {
 		return isChecked_(title, null, control, item);
 	}
@@ -1754,7 +1756,7 @@ public class TreeView {
 	 *         IsChecked.UNCHECKED if item is not checked, otherwise return
 	 *         IsChecked.NOT_A_CHECKBOX.
 	 */
-	public static IsChecked isChecked_(final String title, final String text,
+	public IsChecked isChecked_(final String title, final String text,
 			final String control, final String item) {
 		IsChecked isChecked = IsChecked.NOT_A_CHECKBOX;
 		if (StringUtils.isNotBlank(item)) {
@@ -1824,7 +1826,7 @@ public class TreeView {
 	 *         IsChecked.UNCHECKED if item is not checked, otherwise return
 	 *         IsChecked.NOT_A_CHECKBOX.
 	 */
-	public static IsChecked isChecked_(final HWND hWnd, final HWND hCtrl,
+	public IsChecked isChecked_(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? IsChecked.NOT_A_CHECKBOX
 				: isChecked_(AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -1876,7 +1878,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is collapsed, otherwise return false.
 	 */
-	public static boolean isCollapsed(final String title, final String control,
+	public boolean isCollapsed(final String title, final String control,
 			final String item) {
 		return isCollapsed(title, null, control, item);
 	}
@@ -1929,7 +1931,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is collapsed, otherwise return false.
 	 */
-	public static boolean isCollapsed(final String title, final String text,
+	public  boolean isCollapsed(final String title, final String text,
 			final String control, final String item) {
 		// item has sub items and item is not expanded
 		return (getItemCount(title, text, control, item) > 0)
@@ -1982,7 +1984,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is collapsed, otherwise return false.
 	 */
-	public static boolean isCollapsed(final HWND hWnd, final HWND hCtrl,
+	public boolean isCollapsed(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isCollapsed(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -2034,7 +2036,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is expanded, otherwise return false.
 	 */
-	public static boolean isExpanded(final String title, final String control,
+	public boolean isExpanded(final String title, final String control,
 			final String item) {
 		return isExpanded(title, null, control, item);
 	}
@@ -2087,10 +2089,10 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is expanded, otherwise return false.
 	 */
-	public static boolean isExpanded(final String title, final String text,
+	public boolean isExpanded(final String title, final String text,
 			final String control, final String item) {
 		boolean expanded = false;
-		HWND hWnd = Control.getHandle_(title, text, control);
+		HWND hWnd = _control.getHandle_(title, text, control);
 		if (hWnd != null) {
 			HWND itemHWND = getHandle(title, text, control, item);
 			if (itemHWND != null) {
@@ -2098,7 +2100,7 @@ public class TreeView {
 				treeViewItem.mask = new UINT(TVIF_STATE);
 				treeViewItem.hItem = (int) Pointer.nativeValue(itemHWND
 						.getPointer());
-				Win32.user32.SendMessage(hWnd, TVM_GETITEMW, new WPARAM(0),
+				Win32Impl.user32.SendMessage(hWnd, TVM_GETITEMW, new WPARAM(0),
 						treeViewItem);
 				expanded = ((treeViewItem.state.intValue() & TVIS_EXPANDED) != 0);
 			}
@@ -2152,7 +2154,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is expanded, otherwise return false.
 	 */
-	public static boolean isExpanded(final HWND hWnd, final HWND hCtrl,
+	public boolean isExpanded(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isExpanded(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -2204,7 +2206,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is selected, otherwise return false.
 	 */
-	public static boolean isSelected(final String title, final String control,
+	public boolean isSelected(final String title, final String control,
 			final String item) {
 		return isSelected(title, null, control, item);
 	}
@@ -2257,7 +2259,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is selected, otherwise return false.
 	 */
-	public static boolean isSelected(final String title, final String text,
+	public boolean isSelected(final String title, final String text,
 			final String control, final String item) {
 		boolean selected = false;
 		if (StringUtils.isNotEmpty(item)) {
@@ -2336,7 +2338,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is selected, otherwise return false.
 	 */
-	public static boolean isSelected(final HWND hWnd, final HWND hCtrl,
+	public boolean isSelected(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isSelected(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -2388,7 +2390,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is a leaf node, otherwise return false.
 	 */
-	public static boolean isLeaf(final String title, final String control,
+	public boolean isLeaf(final String title, final String control,
 			final String item) {
 		return isLeaf(title, null, control, item);
 	}
@@ -2441,7 +2443,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is a leaf node, otherwise return false.
 	 */
-	public static boolean isLeaf(final String title, final String text,
+	public boolean isLeaf(final String title, final String text,
 			final String control, final String item) {
 		Integer itemCount = getItemCount(title, text, control, item);
 		return (itemCount != null) && (itemCount == 0);
@@ -2493,7 +2495,7 @@ public class TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is a leaf node, otherwise return false.
 	 */
-	public static boolean isLeaf(final HWND hWnd, final HWND hCtrl,
+	public boolean isLeaf(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isLeaf(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -2548,7 +2550,7 @@ public class TreeView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public static boolean select(final String title, final String control,
+	public boolean select(final String title, final String control,
 			final String item) {
 		return select(title, null, control, item);
 	}
@@ -2604,7 +2606,7 @@ public class TreeView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public static boolean select(final String title, final String text,
+	public boolean select(final String title, final String text,
 			final String control, final String item) {
 		boolean status = false;
 		if (StringUtils.isNotEmpty(item)) {
@@ -2663,7 +2665,7 @@ public class TreeView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public static boolean select(final HWND hWnd, final HWND hCtrl,
+	public boolean select(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : select(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -2717,7 +2719,7 @@ public class TreeView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public static boolean uncheck(final String title, final String control,
+	public boolean uncheck(final String title, final String control,
 			final String item) {
 		return uncheck(title, null, control, item);
 	}
@@ -2772,14 +2774,14 @@ public class TreeView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public static boolean uncheck(final String title, final String text,
+	public boolean uncheck(final String title, final String text,
 			final String control, final String item) {
 		boolean status = true;
 
 		if (StringUtils.isBlank(item)) {
 			status = false;
 		} else {
-			IsChecked isChecked = TreeView.isChecked_(title, text, control,
+			IsChecked isChecked = isChecked_(title, text, control,
 					item);
 			// if item is checked, then uncheck it
 			if (isChecked == IsChecked.CHECKED) {
@@ -2857,7 +2859,7 @@ public class TreeView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public static boolean uncheck(final HWND hWnd, final HWND hCtrl,
+	public boolean uncheck(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : uncheck(
 				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
@@ -2952,12 +2954,12 @@ public class TreeView {
 		return AutoItX.hasError() ? "" : Native.toString(result.array());
 	}
 
-	private static HWND getFirstChildHandle(final String title,
+	private HWND getFirstChildHandle(final String title,
 			final String text, final String control, final HWND itemHWND) {
 		HWND firstChildHWND = null;
-		HWND hWnd = Control.getHandle_(title, text, control);
+		HWND hWnd = _control.getHandle_(title, text, control);
 		if (hWnd != null) {
-			firstChildHWND = Win32.user32.SendMessage(hWnd, TVM_GETNEXTITEM,
+			firstChildHWND = Win32Impl.user32.SendMessage(hWnd, TVM_GETNEXTITEM,
 					new WPARAM(TVGN_CHILD), itemHWND);
 		}
 		return firstChildHWND;
@@ -2969,24 +2971,24 @@ public class TreeView {
 	// getHandle(title, text, control, item));
 	// }
 
-	private static HWND getFirstItemHandle(final String title,
+	private HWND getFirstItemHandle(final String title,
 			final String text, final String control) {
 		HWND firstItemHWND = null;
-		HWND hWnd = Control.getHandle_(title, text, control);
+		HWND hWnd = _control.getHandle_(title, text, control);
 		if (hWnd != null) {
-			firstItemHWND = Win32.user32.SendMessage(hWnd, TVM_GETNEXTITEM,
+			firstItemHWND = Win32Impl.user32.SendMessage(hWnd, TVM_GETNEXTITEM,
 					new WPARAM(TVGN_ROOT), new LPARAM(0));
 		}
 		return firstItemHWND;
 	}
 
-	private static HWND getNextSiblingHandle(final String title,
+	private HWND getNextSiblingHandle(final String title,
 			final String text, final String control, final HWND itemHWND) {
 		HWND nextSiblingHWND = null;
 		if (itemHWND != null) {
-			HWND hWnd = Control.getHandle_(title, text, control);
+			HWND hWnd = _control.getHandle_(title, text, control);
 			if (hWnd != null) {
-				nextSiblingHWND = Win32.user32.SendMessage(hWnd,
+				nextSiblingHWND = Win32Impl.user32.SendMessage(hWnd,
 						TVM_GETNEXTITEM, new WPARAM(TVGN_NEXT), itemHWND);
 			}
 		}
@@ -3025,7 +3027,7 @@ public class TreeView {
 	 * 
 	 * @author zhengbo.wang
 	 */
-	public static enum IsChecked {
+	public enum IsChecked {
 		/* checked */
 		CHECKED(1),
 
@@ -3068,7 +3070,7 @@ public class TreeView {
 	 * 
 	 * @author zhengbo.wang
 	 */
-	public static class TVITEM extends Structure {
+	public class TVITEM extends Structure {
 		private static final int TEXT_BUF_SIZE = 1024;
 		public UINT mask;
 		public int hItem;

@@ -7,8 +7,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import cn.com.jautoitx.ListView.ControlListViewView;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ListViewTest extends BaseTest {
+	@Autowired
+	Control Control;
 	@Test
 	public void deSelect() {
 		Assert.assertFalse(ListView.deSelect(HASH_MY_FILES_TITLE,

@@ -13,8 +13,12 @@ import cn.com.jautoitx.Win.WinState;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinUser;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class WinTest extends BaseTest {
+
+	@Autowired Win Win;
+
 	@Test
 	public void activate() {
 		Assert.assertFalse(Win.activate((HWND) null));

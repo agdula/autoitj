@@ -6,8 +6,14 @@ import org.junit.Test;
 import cn.com.jautoitx.ControlIdBuilder.By;
 
 import com.sun.jna.platform.win32.WinDef.HWND;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ControlIdBuilderTest extends BaseTest {
+
+	@Autowired ControlIdBuilder ControlIdBuilder;
+	@Autowired Win32 Win32;
+	@Autowired Control Control;
+
 	@Test
 	public void by() {
 		Assert.assertEquals("[]", ControlIdBuilder.by());
@@ -164,11 +170,11 @@ public class ControlIdBuilderTest extends BaseTest {
 
 		// by handle
 		Assert.assertEquals("[ID:-1]",
-				ControlIdBuilder.by(By.handle((String) null)));
+				ControlIdBuilder.by(By.handle(Win32,(String) null)));
 		Assert.assertEquals("[ID:-1]",
-				ControlIdBuilder.by(By.handle((HWND) null)));
-		Assert.assertEquals("[ID:-1]", ControlIdBuilder.by(By.handle("")));
-		Assert.assertEquals("[ID:-1]", ControlIdBuilder.by(By.handle("0")));
+				ControlIdBuilder.by(By.handle(Win32,(HWND) null)));
+		Assert.assertEquals("[ID:-1]", ControlIdBuilder.by(By.handle(Win32,"")));
+		Assert.assertEquals("[ID:-1]", ControlIdBuilder.by(By.handle(Win32,"0")));
 		Assert.assertEquals("[ID:-1]", ControlIdBuilder.byHandle((String) null));
 		Assert.assertEquals("[ID:-1]", ControlIdBuilder.byHandle((HWND) null));
 		Assert.assertEquals("[ID:-1]", ControlIdBuilder.byHandle(""));
@@ -283,9 +289,9 @@ public class ControlIdBuilderTest extends BaseTest {
 		Assert.assertEquals(
 				handle,
 				Control.getHandle(NOTEPAD_TITLE,
-						ControlIdBuilder.by(By.handle(handle))));
+						ControlIdBuilder.by(By.handle(Win32,handle))));
 		Assert.assertEquals(handle, Control.getHandle(NOTEPAD_TITLE,
-				ControlIdBuilder.by(By.handle(AutoItX.handleToHwnd(handle)))));
+				ControlIdBuilder.by(By.handle(Win32,AutoItX.handleToHwnd(handle)))));
 
 		// close notepad
 		Process.close(pid);

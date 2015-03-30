@@ -10,9 +10,22 @@ import com.sun.jna.platform.win32.WinDef.HWND;
  * @author zhengbo.wang
  */
 public class ControlIdBuilder {
-	private ControlIdBuilder() {
+	private Win32 win32;
+
+	private ControlIdBuilder(Win32 win32) {
 		// Do nothing
+		this.win32 = win32;
 	}
+
+	static ControlIdBuilder instance;
+
+	public static ControlIdBuilder getInstance(Win32 win32) {
+		if(instance == null){
+			instance = new ControlIdBuilder(win32);
+		}
+		return instance;
+	}
+
 
 	/**
 	 * Build control id base on Advanced Control Descriptions.
@@ -21,7 +34,7 @@ public class ControlIdBuilder {
 	 *            Selectors to build advanced control id.
 	 * @return Returns advanced control id.
 	 */
-	public static String by(By... bys) {
+	public String by(By... bys) {
 		StringBuilder controlId = new StringBuilder();
 
 		controlId.append('[');
@@ -52,7 +65,7 @@ public class ControlIdBuilder {
 	 *            you to get this Control ID.
 	 * @return Returns advanced control id.
 	 */
-	public static String byId(int id) {
+	public String byId(int id) {
 		return by(By.id(id));
 	}
 
@@ -64,7 +77,7 @@ public class ControlIdBuilder {
 	 * @return a By which locates control by the text on a control.
 	 * @return Returns advanced control id.
 	 */
-	public static String byText(String text) {
+	public String byText(String text) {
 		return by(By.text(text));
 	}
 
@@ -75,7 +88,7 @@ public class ControlIdBuilder {
 	 *            The internal control classname such as "Edit" or "Button".
 	 * @return Returns advanced control id.
 	 */
-	public static String byClassName(String className) {
+	public String byClassName(String className) {
 		return by(By.className(className));
 	}
 
@@ -87,7 +100,7 @@ public class ControlIdBuilder {
 	 *            such as "Edit1".
 	 * @return Returns advanced control id.
 	 */
-	public static String byClassNameNN(String classNameNN) {
+	public String byClassNameNN(String classNameNN) {
 		return by(By.classNameNN(classNameNN));
 	}
 
@@ -98,7 +111,7 @@ public class ControlIdBuilder {
 	 *            The internal .NET Framework WinForms name (if available).
 	 * @return Returns advanced control id.
 	 */
-	public static String byName(String name) {
+	public String byName(String name) {
 		return by(By.name(name));
 	}
 
@@ -110,7 +123,7 @@ public class ControlIdBuilder {
 	 *            Control classname using a regular expression.
 	 * @return Returns advanced control id.
 	 */
-	public static String byRegexpClassName(String regexpClassName) {
+	public String byRegexpClassName(String regexpClassName) {
 		return by(By.regexpClassName(regexpClassName));
 	}
 
@@ -128,7 +141,7 @@ public class ControlIdBuilder {
 	 *            Optional, the height of the control.
 	 * @return Returns advanced control id.
 	 */
-	public static String byBounds(Integer x, Integer y, Integer width,
+	public String byBounds(Integer x, Integer y, Integer width,
 			Integer height) {
 		return by(By.bounds(x, y, width, height));
 	}
@@ -143,7 +156,7 @@ public class ControlIdBuilder {
 	 *            Optional, the Y coordinate of the control.
 	 * @return Returns advanced control id.
 	 */
-	public static String byPosition(Integer x, Integer y) {
+	public String byPosition(Integer x, Integer y) {
 		return by(By.position(x, y));
 	}
 
@@ -157,7 +170,7 @@ public class ControlIdBuilder {
 	 *            Optional, the height of the control.
 	 * @return Returns advanced control id.
 	 */
-	public static String bySize(Integer width, Integer height) {
+	public String bySize(Integer width, Integer height) {
 		return by(By.size(width, height));
 	}
 
@@ -169,7 +182,7 @@ public class ControlIdBuilder {
 	 *            The 1-based instance when all given properties match.
 	 * @return Returns advanced control id.
 	 */
-	public static String byInstance(int instance) {
+	public String byInstance(int instance) {
 		return by(By.instance(instance));
 	}
 
@@ -182,8 +195,8 @@ public class ControlIdBuilder {
 	 *            Control.getHandle.
 	 * @return Returns advanced control id.
 	 */
-	public static String byHandle(String handle) {
-		return by(By.handle(handle));
+	public String byHandle(String handle) {
+		return by(By.handle(win32, handle));
 	}
 
 	/**
@@ -195,8 +208,8 @@ public class ControlIdBuilder {
 	 *            Control.getHandle_.
 	 * @return Returns advanced control id.
 	 */
-	public static String byHandle(HWND hCtrl) {
-		return by(By.handle(hCtrl));
+	public String byHandle(HWND hCtrl) {
+		return by(By.handle(win32,hCtrl));
 	}
 
 	/**
@@ -343,8 +356,8 @@ public class ControlIdBuilder {
 		 * @return a By which locates control by the handle address as returned
 		 *         by a method like Control.getHandle.
 		 */
-		public static By handle(String handle) {
-			return new ByHandle(handle);
+		public static By handle(Win32 win32, String handle) {
+			return new ByHandle(win32,handle);
 		}
 
 		/**
@@ -354,8 +367,8 @@ public class ControlIdBuilder {
 		 * @return a By which locates control by the handle address as returned
 		 *         by a method like Control.getHandle.
 		 */
-		public static By handle(HWND hCtrl) {
-			return new ByHandle(hCtrl);
+		public static By handle(Win32 win32,HWND hCtrl) {
+			return new ByHandle(win32,hCtrl);
 		}
 
 		public String toAdvancedControlId() {
@@ -520,17 +533,20 @@ public class ControlIdBuilder {
 	 * @author zhengbo.wang
 	 */
 	public static class ByHandle extends By {
-		public ByHandle(String handle) {
+		private Win32 win32;
+
+		public ByHandle(Win32 win32, String handle) {
 			super("HANDLE", handle);
+			this.win32 = win32;
 		}
 
-		public ByHandle(HWND hCtrl) {
-			this(AutoItX.hwndToHandle(hCtrl));
+		public ByHandle(Win32 win32,  HWND hCtrl) {
+			this(win32,AutoItX.hwndToHandle(hCtrl));
 		}
 
 		@Override
 		public String toAdvancedControlId() {
-			return new ById(Win32.getControlId(AutoItX.handleToHwnd(value)))
+			return new ById(win32.getControlId(AutoItX.handleToHwnd(value)))
 					.toAdvancedControlId();
 		}
 	}

@@ -8,8 +8,12 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import cn.com.jautoitx.Keyboard.SendFlag;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class KeyboardTest extends BaseTest {
+
+	@Autowired Control Control;
+
 	@Test
 	public void send() throws IOException {
 		// run notepad

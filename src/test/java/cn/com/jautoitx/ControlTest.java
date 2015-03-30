@@ -23,9 +23,14 @@ import org.omg.CORBA.IntHolder;
 
 import cn.com.jautoitx.Control.ControlClickMouseButton;
 import cn.com.jautoitx.Process.RunShowFlag;
-import cn.com.jautoitx.Win32.User32Ext;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class ControlTest extends BaseTest {
+
+	@Autowired Control Control;
+	@Autowired Win32 Win32;
+
+
 	@Test
 	public void click() {
 		String title = "click - " + currentTimeMillis;
@@ -157,7 +162,7 @@ public class ControlTest extends BaseTest {
 		final String title = "isVisible - " + currentTimeMillis;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				User32Ext.INSTANCE.MessageBox(null, "How are you?", title, 0);
+				Win32.MessageBox(null, "How are you?", title, 0);
 			}
 		});
 		thread.start();
@@ -185,7 +190,7 @@ public class ControlTest extends BaseTest {
 		final String title = "isEnabled - " + currentTimeMillis;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				User32Ext.INSTANCE.MessageBox(null, "How are you?", title, 0);
+				Win32.MessageBox(null, "How are you?", title, 0);
 			}
 		});
 		thread.start();
@@ -2628,7 +2633,7 @@ public class ControlTest extends BaseTest {
 		final String title = "getHeight - " + currentTimeMillis;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				User32Ext.INSTANCE.MessageBox(null, "How are you?", title, 0);
+				Win32.MessageBox(null, "How are you?", title, 0);
 			}
 		});
 		thread.start();
@@ -2676,7 +2681,7 @@ public class ControlTest extends BaseTest {
 		final String title = "getWidth - " + currentTimeMillis;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				User32Ext.INSTANCE.MessageBox(null, "How are you?", title, 0);
+				Win32.MessageBox(null, "How are you?", title, 0);
 			}
 		});
 		thread.start();
@@ -2724,7 +2729,7 @@ public class ControlTest extends BaseTest {
 		final String title = "getPosX - " + currentTimeMillis;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				User32Ext.INSTANCE.MessageBox(null, "How are you?", title, 0);
+				Win32.MessageBox(null, "How are you?", title, 0);
 			}
 		});
 		thread.start();
@@ -2771,7 +2776,7 @@ public class ControlTest extends BaseTest {
 		final String title = "getPosY - " + currentTimeMillis;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				User32Ext.INSTANCE.MessageBox(null, "How are you?", title, 0);
+				Win32.MessageBox(null, "How are you?", title, 0);
 			}
 		});
 		thread.start();
@@ -2840,7 +2845,7 @@ public class ControlTest extends BaseTest {
 		final String title = "Control.hide - " + currentTimeMillis;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				User32Ext.INSTANCE.MessageBox(null, "How are you?", title, 0);
+				Win32.MessageBox(null, "How are you?", title, 0);
 			}
 		});
 		thread.start();
@@ -2879,7 +2884,7 @@ public class ControlTest extends BaseTest {
 		final String title = "move - " + currentTimeMillis;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				User32Ext.INSTANCE.MessageBox(null, "How are you?", title, 0);
+				Win32.MessageBox(null, "How are you?", title, 0);
 			}
 		});
 		thread.start();
@@ -3030,7 +3035,7 @@ public class ControlTest extends BaseTest {
 		final String title = "controlSetText - " + currentTimeMillis;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				User32Ext.INSTANCE.MessageBox(null, "How are you?", title, 0);
+				Win32.MessageBox(null, "How are you?", title, 0);
 			}
 		});
 		thread.start();
@@ -3069,7 +3074,7 @@ public class ControlTest extends BaseTest {
 		final String title = "controlShow - " + currentTimeMillis;
 		Thread thread = new Thread(new Runnable() {
 			public void run() {
-				User32Ext.INSTANCE.MessageBox(null, "How are you?", title, 0);
+				Win32.MessageBox(null, "How are you?", title, 0);
 			}
 		});
 		thread.start();

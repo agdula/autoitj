@@ -10,8 +10,11 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import cn.com.jautoitx.TreeView.IsChecked;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class TreeViewTest extends BaseTest {
+	@Autowired TreeView TreeView;
+	@Autowired Control Control;
 	@Test
 	public void check() {
 		String title = "TreeView.check - " + System.currentTimeMillis();
