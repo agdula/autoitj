@@ -115,10 +115,10 @@ public class Win32 {
 	 *            The name of the file to get version information.
 	 * @return Return version information for the specified file if success,
 	 *         return null if failed.
-	 * @see http://msdn.microsoft.com/en-us/library/ms647005(v=vs.85).aspx
-	 * @see http://msdn.microsoft.com/en-us/library/ms647003(v=vs.85).aspx
-	 * @see http://msdn.microsoft.com/en-us/library/ms647464(v=vs.85).aspx
-	 * @see http://stackoverflow.com/questions/6918022/get-version-info-for-exe
+	 * @see <a href="http://msdn.microsoft.com/en-us/library/ms647005(v=vs.85).aspx">ms647005</a>
+	 * @see <a href="http://msdn.microsoft.com/en-us/library/ms647003(v=vs.85).aspx">ms647003</a>
+	 * @see <a href="http://msdn.microsoft.com/en-us/library/ms647464(v=vs.85).aspx">ms647464</a>
+	 * @see <a href="http://stackoverflow.com/questions/6918022/get-version-info-for-exe">get-version-info-for-exe</a>
 	 */
 	public static String getFileVersion(String filename) {
 		return getFileVersion((filename == null) ? null : new File(filename));
@@ -131,10 +131,10 @@ public class Win32 {
 	 *            The file to get version information.
 	 * @return Return version information for the specified file if success,
 	 *         return null if failed.
-	 * @see http://msdn.microsoft.com/en-us/library/ms647005(v=vs.85).aspx
-	 * @see http://msdn.microsoft.com/en-us/library/ms647003(v=vs.85).aspx
-	 * @see http://msdn.microsoft.com/en-us/library/ms647464(v=vs.85).aspx
-	 * @see http://stackoverflow.com/questions/6918022/get-version-info-for-exe
+	 * @see <a href="http://msdn.microsoft.com/en-us/library/ms647005(v=vs.85).aspx">ms647005</a>
+	 * @see <a href="http://msdn.microsoft.com/en-us/library/ms647003(v=vs.85).aspx">ms647003</a>
+	 * @see <a href="http://msdn.microsoft.com/en-us/library/ms647464(v=vs.85).aspx">ms647464</a>
+	 * @see <a href="http://stackoverflow.com/questions/6918022/get-version-info-for-exe">et-version-info-for-exe</a>
 	 */
 	public static String getFileVersion(File file) {
 		String fileVersion = null;
