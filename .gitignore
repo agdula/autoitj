@@ -118,3 +118,5 @@ $RECYCLE.BIN/
 *.lnk
 
 
+# HashMyFiles cfg file - appears in tests
+src/test/resources/HashMyFiles.cfg
