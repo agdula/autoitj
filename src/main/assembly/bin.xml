@@ -1,0 +1,50 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/2.5.1"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/2.5.1 http://maven.apache.org/xsd/assembly-2.5.1.xsd">
+
+    <id>package</id>
+
+    <formats>
+        <!--<format>tar.gz</format>-->
+        <format>zip</format>
+    </formats>
+    <!-- Enter Filesets -->
+    <fileSets>
+        <fileSet>
+            <directory>src/main/assembly/resources</directory>
+            <includes>
+                <include>*.bat</include>
+            </includes>
+            <filtered>true</filtered>
+            <lineEnding>dos</lineEnding>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/assembly/resources</directory>
+            <includes>
+                <include>*.exe</include>
+                <include>*.chm</include>
+            </includes>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>src/main/assembly/resources</directory>
+            <includes>
+                <include>*.txt</include>
+            </includes>
+            <lineEnding>dos</lineEnding>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>target/lib</directory>
+            <outputDirectory>/lib</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>target</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>*.jar</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+</assembly>
