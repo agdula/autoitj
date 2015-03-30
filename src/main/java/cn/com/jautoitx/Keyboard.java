@@ -2,7 +2,8 @@ package cn.com.jautoitx;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class Keyboard extends AutoItX {
+public class Keyboard {
+
 	private Keyboard() {
 		// Do nothing
 	}
@@ -274,7 +275,7 @@ public class Keyboard extends AutoItX {
 	 */
 	public static void send(final String text, final Integer flag) {
 		if (StringUtils.isNotEmpty(text)) {
-			autoItX.AU3_Send(stringToWString(defaultString(text)), flag);
+			AutoItX.autoItX.AU3_Send(AutoItX.stringToWString(AutoItX.defaultString(text)), flag);
 		}
 	}
 

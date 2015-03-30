@@ -208,19 +208,19 @@ public class AutoItX {
 	}
 
 
-	protected static String defaultString(final String string) {
+	static String defaultString(final String string) {
 		return StringUtils.defaultString(string);
 	}
 
-	protected static WString stringToWString(final String string) {
+	static WString stringToWString(final String string) {
 		return (string == null ? null : new WString(string));
 	}
 
-	protected static String buildTitle(final HWND hWnd) {
+	static String buildTitle(final HWND hWnd) {
 		return TitleBuilder.byHandle(hWnd);
 	}
 
-	protected static String buildControlId(final HWND hCtrl) {
+	static String buildControlId(final HWND hCtrl) {
 		return ControlIdBuilder.byHandle(hCtrl);
 	}
 

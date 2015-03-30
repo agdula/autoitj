@@ -5,7 +5,7 @@ import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 import com.sun.jna.win32.W32APIOptions;
 
-public class Process extends AutoItX {
+public class Process {
 	/* Idle/Low */
 	public static final int PRIORITY_LOW = 0;
 
@@ -87,6 +87,7 @@ public class Process extends AutoItX {
 	 * to be unresponsive.
 	 */
 	private static final int REALTIME_PRIORITY_CLASS = 0x00000100;
+	private final AutoItX autoItX = new AutoItX();
 
 	private Process() {
 		// Do nothing
@@ -127,7 +128,7 @@ public class Process extends AutoItX {
 	 *            The title or PID of the process to terminate.
 	 */
 	public static void close(final String process) {
-		autoItX.AU3_ProcessClose(stringToWString(defaultString(process)));
+		AutoItX.autoItX.AU3_ProcessClose(AutoItX.stringToWString(AutoItX.defaultString(process)));
 	}
 
 	/**
@@ -163,8 +164,8 @@ public class Process extends AutoItX {
 	 *         process does not exist.
 	 */
 	public static Integer exists(final String process) {
-		int pid = autoItX
-				.AU3_ProcessExists(stringToWString(defaultString(process)));
+		int pid = AutoItX.autoItX
+				.AU3_ProcessExists(AutoItX.stringToWString(AutoItX.defaultString(process)));
 		return (pid > 0) ? pid : null;
 	}
 
@@ -325,9 +326,9 @@ public class Process extends AutoItX {
 	 */
 	public static Integer run(final String fileName, final String workingDir,
 			final Integer showFlag) {
-		final int pid = autoItX.AU3_Run(
-				stringToWString(defaultString(fileName)),
-				stringToWString(workingDir), (showFlag == null) ? SW_SHOWNORMAL
+		final int pid = AutoItX.autoItX.AU3_Run(
+				AutoItX.stringToWString(AutoItX.defaultString(fileName)),
+				AutoItX.stringToWString(workingDir), (showFlag == null) ? AutoItX.SW_SHOWNORMAL
 						: showFlag);
 		return (pid > 0) ? pid : null;
 	}
@@ -613,12 +614,12 @@ public class Process extends AutoItX {
 			final String password, final Integer logonFlag,
 			final String fileName, final String workingDir,
 			final Integer showFlag) {
-		final int pid = autoItX.AU3_RunAs(stringToWString(defaultString(user)),
-				stringToWString(defaultString(domain)),
-				stringToWString(defaultString(password)),
+		final int pid = AutoItX.autoItX.AU3_RunAs(AutoItX.stringToWString(AutoItX.defaultString(user)),
+				AutoItX.stringToWString(AutoItX.defaultString(domain)),
+				AutoItX.stringToWString(AutoItX.defaultString(password)),
 				(logonFlag == null) ? RunLogonFlag.DEFAULT.getLogonFlag()
-						: logonFlag, stringToWString(defaultString(fileName)),
-				stringToWString(workingDir), (showFlag == null) ? SW_SHOWNORMAL
+						: logonFlag, AutoItX.stringToWString(AutoItX.defaultString(fileName)),
+				AutoItX.stringToWString(workingDir), (showFlag == null) ? AutoItX.SW_SHOWNORMAL
 						: showFlag);
 		return (pid > 0) ? pid : null;
 	}
@@ -945,15 +946,15 @@ public class Process extends AutoItX {
 			final String domain, final String password,
 			final Integer logonFlag, final String fileName,
 			final String workingDir, final Integer showFlag) {
-		final int exitCode = autoItX.AU3_RunAsWait(
-				stringToWString(defaultString(user)),
-				stringToWString(defaultString(domain)),
-				stringToWString(defaultString(password)),
+		final int exitCode = AutoItX.autoItX.AU3_RunAsWait(
+				AutoItX.stringToWString(AutoItX.defaultString(user)),
+				AutoItX.stringToWString(AutoItX.defaultString(domain)),
+				AutoItX.stringToWString(AutoItX.defaultString(password)),
 				(logonFlag == null) ? RunLogonFlag.DEFAULT.getLogonFlag()
-						: logonFlag, stringToWString(defaultString(fileName)),
-				stringToWString(workingDir), (showFlag == null) ? SW_SHOWNORMAL
+						: logonFlag, AutoItX.stringToWString(AutoItX.defaultString(fileName)),
+				AutoItX.stringToWString(workingDir), (showFlag == null) ? AutoItX.SW_SHOWNORMAL
 						: showFlag);
-		return new RunWaitResult(autoItX.AU3_error(), exitCode);
+		return new RunWaitResult(AutoItX.autoItX.AU3_error(), exitCode);
 	}
 
 	/**
@@ -1099,11 +1100,11 @@ public class Process extends AutoItX {
 	 */
 	public static RunWaitResult runWait(final String fileName,
 			final String workingDir, final Integer flag) {
-		int exitCode = autoItX.AU3_RunWait(
-				stringToWString(defaultString(fileName)),
-				stringToWString(workingDir), (flag == null) ? SW_SHOWNORMAL
+		int exitCode = AutoItX.autoItX.AU3_RunWait(
+				AutoItX.stringToWString(AutoItX.defaultString(fileName)),
+				AutoItX.stringToWString(workingDir), (flag == null) ? AutoItX.SW_SHOWNORMAL
 						: flag);
-		return new RunWaitResult(autoItX.AU3_error(), exitCode);
+		return new RunWaitResult(AutoItX.autoItX.AU3_error(), exitCode);
 	}
 
 	/**
@@ -1172,8 +1173,8 @@ public class Process extends AutoItX {
 	 * @return Return true if success, return false if failed.
 	 */
 	public static boolean setPriority(final String process, final int priority) {
-		return autoItX.AU3_ProcessSetPriority(
-				stringToWString(defaultString(process)), priority) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ProcessSetPriority(
+				AutoItX.stringToWString(AutoItX.defaultString(process)), priority) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -1217,7 +1218,7 @@ public class Process extends AutoItX {
 	 * @return Return true if success, return false if failed.
 	 */
 	public static boolean shutdown(final int code) {
-		return autoItX.AU3_Shutdown(code) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_Shutdown(code) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -1260,8 +1261,8 @@ public class Process extends AutoItX {
 	 */
 	public static boolean wait(final String process,
 			final Integer timeoutInSeconds) {
-		return autoItX.AU3_ProcessWait(stringToWString(defaultString(process)),
-				timeoutInSeconds) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ProcessWait(AutoItX.stringToWString(AutoItX.defaultString(process)),
+				timeoutInSeconds) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -1339,8 +1340,8 @@ public class Process extends AutoItX {
 	 */
 	public static boolean waitClose(final String process,
 			final Integer timeoutInSeconds) {
-		return autoItX.AU3_ProcessWaitClose(
-				stringToWString(defaultString(process)), timeoutInSeconds) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ProcessWaitClose(
+				AutoItX.stringToWString(AutoItX.defaultString(process)), timeoutInSeconds) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -1441,16 +1442,16 @@ public class Process extends AutoItX {
 	 */
 	public static enum RunShowFlag {
 		/* Normal window */
-		NORMAL(SW_SHOWNORMAL),
+		NORMAL(AutoItX.SW_SHOWNORMAL),
 
 		/* Hidden window */
-		HIDE(SW_HIDE),
+		HIDE(AutoItX.SW_HIDE),
 
 		/* Minimized window */
-		MINIMIZE(SW_MINIMIZE),
+		MINIMIZE(AutoItX.SW_MINIMIZE),
 
 		/* Maximized window */
-		MAXIMIZE(SW_MAXIMIZE);
+		MAXIMIZE(AutoItX.SW_MAXIMIZE);
 
 		private int showFlag;
 

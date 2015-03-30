@@ -2,7 +2,8 @@ package cn.com.jautoitx;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class Misc extends AutoItX {
+public class Misc {
+
 	private Misc() {
 		// Do nothing
 	}
@@ -14,7 +15,7 @@ public class Misc extends AutoItX {
 	 *         0 if user lacks admin privileges.
 	 */
 	public static boolean isAdmin() {
-		return autoItX.AU3_IsAdmin() == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_IsAdmin() == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -26,7 +27,7 @@ public class Misc extends AutoItX {
 	 *            Amount of time to pause (in milliseconds).
 	 */
 	public static void sleep(final int milliSeconds) {
-		autoItX.AU3_Sleep(milliSeconds);
+		AutoItX.autoItX.AU3_Sleep(milliSeconds);
 	}
 
 
@@ -93,7 +94,7 @@ public class Misc extends AutoItX {
 	 */
 	public static void tooltip(final String text, Integer x, Integer y) {
 		if (StringUtils.isEmpty(text)) {
-			autoItX.AU3_ToolTip(stringToWString(""), null, null);
+			AutoItX.autoItX.AU3_ToolTip(AutoItX.stringToWString(""), null, null);
 		} else {
 			// Fix AutoItX's bug
 			if ((x != null) && (x < 0)) {
@@ -102,7 +103,7 @@ public class Misc extends AutoItX {
 			if ((y != null) && (y < 0)) {
 				y = 0;
 			}
-			autoItX.AU3_ToolTip(stringToWString(defaultString(text)), x, y);
+			AutoItX.autoItX.AU3_ToolTip(AutoItX.stringToWString(AutoItX.defaultString(text)), x, y);
 		}
 	}
 

@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.Native;
 
-public class DriveMap extends AutoItX {
+public class DriveMap {
 	public static int DRIVE_MAP_ADD_BUF_SIZE = 1024;
 
 	private DriveMap() {
@@ -362,12 +362,12 @@ public class DriveMap extends AutoItX {
 		}
 
 		device = StringUtils.isBlank(device) ? "" : device.trim();
-		autoItX.AU3_DriveMapAdd(stringToWString(device),
-				stringToWString(defaultString(share)), flags,
-				stringToWString(defaultString(user)),
-				stringToWString(defaultString(password)), result, bufSize);
+		AutoItX.autoItX.AU3_DriveMapAdd(AutoItX.stringToWString(device),
+				AutoItX.stringToWString(AutoItX.defaultString(share)), flags,
+				AutoItX.stringToWString(AutoItX.defaultString(user)),
+				AutoItX.stringToWString(AutoItX.defaultString(password)), result, bufSize);
 
-		if (hasError()) {
+		if (AutoItX.hasError()) {
 			return null;
 		} else if (StringUtils.isBlank(device)) {
 			// If you pass a blank string for this parameter a connection is
@@ -390,8 +390,8 @@ public class DriveMap extends AutoItX {
 	public static DriveMapAddError getAddError() {
 		DriveMapAddError driveMapAddError = null;
 
-		if (hasError()) {
-			int errorCode = error();
+		if (AutoItX.hasError()) {
+			int errorCode = AutoItX.error();
 
 			for (DriveMapAddError error : DriveMapAddError.values()) {
 				if (error.getCode() == errorCode) {
@@ -403,7 +403,7 @@ public class DriveMap extends AutoItX {
 			// Unknown error type
 			if (driveMapAddError == null) {
 				driveMapAddError = DriveMapAddError.UNDEFINED;
-				logger.fine(String
+				AutoItX.logger.fine(String
 						.format("Unknown error type %d for DriveMapAdd, return %s.%s instead.",
 								errorCode,
 								DriveMapAddError.class.getSimpleName(),
@@ -426,7 +426,7 @@ public class DriveMap extends AutoItX {
 	 *         unsuccessful.
 	 */
 	public static boolean del(final String device) {
-		return autoItX.AU3_DriveMapDel(stringToWString(defaultString(device))) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_DriveMapDel(AutoItX.stringToWString(AutoItX.defaultString(device))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -458,10 +458,10 @@ public class DriveMap extends AutoItX {
 			bufSize = DRIVE_MAP_ADD_BUF_SIZE;
 		}
 		final CharBuffer mapping = CharBuffer.allocate(bufSize);
-		autoItX.AU3_DriveMapGet(stringToWString(defaultString(device)),
+		AutoItX.autoItX.AU3_DriveMapGet(AutoItX.stringToWString(AutoItX.defaultString(device)),
 				mapping, bufSize);
 
-		return hasError() ? null : Native.toString(mapping.array());
+		return AutoItX.hasError() ? null : Native.toString(mapping.array());
 	}
 
 	public static enum DriveMapAddFlag {

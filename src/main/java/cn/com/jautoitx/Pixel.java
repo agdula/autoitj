@@ -7,7 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.sun.jna.platform.win32.WinDef.POINT;
 import com.sun.jna.platform.win32.WinDef.RECT;
 
-public class Pixel extends AutoItX {
+public class Pixel {
 	public static final int INVALID_COLOR = -1;
 	public static final int DEFAULT_STEP = 1;
 
@@ -82,7 +82,7 @@ public class Pixel extends AutoItX {
 		rect.top = top;
 		rect.right = right;
 		rect.bottom = bottom;
-		return autoItX.AU3_PixelChecksum(rect, step);
+		return AutoItX.autoItX.AU3_PixelChecksum(rect, step);
 	}
 
 	/**
@@ -96,7 +96,7 @@ public class Pixel extends AutoItX {
 	 *         invalid coordinates.
 	 */
 	public static Integer getColor(int x, int y) {
-		Integer color = autoItX.AU3_PixelGetColor(x, y);
+		Integer color = AutoItX.autoItX.AU3_PixelGetColor(x, y);
 		if (color == -1) {
 			color = null;
 		}
@@ -214,8 +214,8 @@ public class Pixel extends AutoItX {
 		rect.top = top;
 		rect.right = right;
 		rect.bottom = bottom;
-		autoItX.AU3_PixelSearch(rect, color, shadeVariation, step, point);
+		AutoItX.autoItX.AU3_PixelSearch(rect, color, shadeVariation, step, point);
 
-		return hasError() ? null : new int[] { point.x, point.y };
+		return AutoItX.hasError() ? null : new int[] { point.x, point.y };
 	}
 }

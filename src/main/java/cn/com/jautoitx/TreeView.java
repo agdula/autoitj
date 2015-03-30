@@ -18,7 +18,7 @@ import com.sun.jna.platform.win32.WinDef.LPARAM;
 import com.sun.jna.platform.win32.WinDef.UINT;
 import com.sun.jna.platform.win32.WinDef.WPARAM;
 
-public class TreeView extends AutoItX {
+public class TreeView {
 	/* Command used in method ControlTreeView */
 	private static final String COMMAND_CHECK = "Check";
 	private static final String COMMAND_COLLAPSE = "Collapse";
@@ -186,7 +186,7 @@ public class TreeView extends AutoItX {
 				if (status) {
 					controlTreeView(title, text, control, COMMAND_CHECK, item,
 							null, 0);
-					status = !hasError();
+					status = !AutoItX.hasError();
 				}
 			} else if (isChecked == IsChecked.NOT_A_CHECKBOX) {
 				status = false;
@@ -247,7 +247,7 @@ public class TreeView extends AutoItX {
 	public static boolean check(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : check(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -364,7 +364,7 @@ public class TreeView extends AutoItX {
 				if (isExpanded(title, text, control, item)) {
 					controlTreeView(title, text, control, COMMAND_COLLAPSE,
 							item, null, 0);
-					status = !hasError();
+					status = !AutoItX.hasError();
 				} else {
 					status = true;
 				}
@@ -425,7 +425,7 @@ public class TreeView extends AutoItX {
 	public static boolean collapse(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : collapse(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -532,7 +532,7 @@ public class TreeView extends AutoItX {
 	public static boolean exists(final String title, final String text,
 			final String control, final String item) {
 		return "1".equals(controlTreeView(title, text, control, COMMAND_EXISTS,
-				item, null, BOOLEAN_BUF_SIZE));
+				item, null, AutoItX.BOOLEAN_BUF_SIZE));
 	}
 
 	/**
@@ -585,7 +585,7 @@ public class TreeView extends AutoItX {
 	public static boolean exists(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : exists(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -702,7 +702,7 @@ public class TreeView extends AutoItX {
 				if (isCollapsed(title, text, control, item)) {
 					controlTreeView(title, text, control, COMMAND_EXPAND, item,
 							null, 0);
-					status = !hasError();
+					status = !AutoItX.hasError();
 				} else {
 					status = true;
 				}
@@ -763,7 +763,7 @@ public class TreeView extends AutoItX {
 	public static boolean expand(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : expand(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -985,7 +985,7 @@ public class TreeView extends AutoItX {
 	public static HWND getHandle(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHandle(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -1094,8 +1094,8 @@ public class TreeView extends AutoItX {
 		Integer itemCount = null;
 		if (exists(title, text, control, item)) {
 			final String strItemCount = controlTreeView(title, text, control,
-					COMMAND_GET_ITEM_COUNT, item, null, INT_BUF_SIZE);
-			if (!hasError()) {
+					COMMAND_GET_ITEM_COUNT, item, null, AutoItX.INT_BUF_SIZE);
+			if (!AutoItX.hasError()) {
 				itemCount = NumberUtils.toInt(strItemCount);
 			}
 		}
@@ -1152,7 +1152,7 @@ public class TreeView extends AutoItX {
 	public static Integer getItemCount(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getItemCount(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -1201,7 +1201,7 @@ public class TreeView extends AutoItX {
 	 */
 	public static String getSelected(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -1247,8 +1247,8 @@ public class TreeView extends AutoItX {
 			final String control, final Boolean useIndex) {
 		final String selected = controlTreeView(title, text, control,
 				COMMAND_GET_SELECTED, (useIndex == null) ? null
-						: (useIndex ? "1" : null), null, INT_BUF_SIZE);
-		return hasError() ? null : selected;
+						: (useIndex ? "1" : null), null, AutoItX.INT_BUF_SIZE);
+		return AutoItX.hasError() ? null : selected;
 	}
 
 	/**
@@ -1270,7 +1270,7 @@ public class TreeView extends AutoItX {
 	public static String getSelected(final HWND hWnd, final HWND hCtrl,
 			final Boolean useIndex) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
-				buildTitle(hWnd), buildControlId(hCtrl), useIndex);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), useIndex);
 	}
 
 	/**
@@ -1322,7 +1322,7 @@ public class TreeView extends AutoItX {
 	 */
 	public static String getSelectedText(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelectedText(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -1434,7 +1434,7 @@ public class TreeView extends AutoItX {
 		if (StringUtils.isNotBlank(item)) {
 			itemText = controlTreeView(title, text, control, COMMAND_GET_TEXT,
 					item, null, BUF_SIZE);
-			if (hasError()) {
+			if (AutoItX.hasError()) {
 				itemText = null;
 			}
 		}
@@ -1492,7 +1492,7 @@ public class TreeView extends AutoItX {
 	public static String getText(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getText(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -1648,7 +1648,7 @@ public class TreeView extends AutoItX {
 	public static boolean isChecked(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isChecked(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -1759,7 +1759,7 @@ public class TreeView extends AutoItX {
 		IsChecked isChecked = IsChecked.NOT_A_CHECKBOX;
 		if (StringUtils.isNotBlank(item)) {
 			String status = controlTreeView(title, text, control,
-					COMMAND_IS_CHECKED, item, null, INT_BUF_SIZE);
+					COMMAND_IS_CHECKED, item, null, AutoItX.INT_BUF_SIZE);
 			if (String.valueOf(IsChecked.CHECKED.getStatus()).equals(status)) {
 				isChecked = IsChecked.CHECKED;
 			} else if (String.valueOf(IsChecked.UNCHECKED.getStatus()).equals(
@@ -1827,7 +1827,7 @@ public class TreeView extends AutoItX {
 	public static IsChecked isChecked_(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? IsChecked.NOT_A_CHECKBOX
-				: isChecked_(buildTitle(hWnd), buildControlId(hCtrl), item);
+				: isChecked_(AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -1985,7 +1985,7 @@ public class TreeView extends AutoItX {
 	public static boolean isCollapsed(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isCollapsed(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -2155,7 +2155,7 @@ public class TreeView extends AutoItX {
 	public static boolean isExpanded(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isExpanded(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -2339,7 +2339,7 @@ public class TreeView extends AutoItX {
 	public static boolean isSelected(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isSelected(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -2496,7 +2496,7 @@ public class TreeView extends AutoItX {
 	public static boolean isLeaf(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isLeaf(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -2609,7 +2609,7 @@ public class TreeView extends AutoItX {
 		boolean status = false;
 		if (StringUtils.isNotEmpty(item)) {
 			controlTreeView(title, text, control, COMMAND_SELECT, item, null, 0);
-			status = !hasError();
+			status = !AutoItX.hasError();
 		}
 		return status;
 	}
@@ -2666,7 +2666,7 @@ public class TreeView extends AutoItX {
 	public static boolean select(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : select(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -2799,7 +2799,7 @@ public class TreeView extends AutoItX {
 				if (status) {
 					controlTreeView(title, text, control, COMMAND_UNCHECK,
 							item, null, 0);
-					status = !hasError();
+					status = !AutoItX.hasError();
 				}
 			} else if (isChecked == IsChecked.NOT_A_CHECKBOX) {
 				status = false;
@@ -2860,7 +2860,7 @@ public class TreeView extends AutoItX {
 	public static boolean uncheck(final HWND hWnd, final HWND hCtrl,
 			final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : uncheck(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -2944,12 +2944,12 @@ public class TreeView extends AutoItX {
 			bufSize = 1;
 		}
 		final CharBuffer result = CharBuffer.allocate(bufSize);
-		autoItX.AU3_ControlTreeView(stringToWString(defaultString(title)),
-				stringToWString(text), stringToWString(defaultString(control)),
-				stringToWString(defaultString(command)),
-				stringToWString(defaultString(extra1)),
-				stringToWString(defaultString(extra2)), result, bufSize);
-		return hasError() ? "" : Native.toString(result.array());
+		AutoItX.autoItX.AU3_ControlTreeView(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
+				AutoItX.stringToWString(AutoItX.defaultString(command)),
+				AutoItX.stringToWString(AutoItX.defaultString(extra1)),
+				AutoItX.stringToWString(AutoItX.defaultString(extra2)), result, bufSize);
+		return AutoItX.hasError() ? "" : Native.toString(result.array());
 	}
 
 	private static HWND getFirstChildHandle(final String title,

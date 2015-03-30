@@ -12,7 +12,7 @@ import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinDef.RECT;
 import com.sun.jna.platform.win32.WinDef.WPARAM;
 
-public class Control extends AutoItX {
+public class Control {
 	public static int CONTROL_GET_FOCUS_BUF_ZIZE = 512;
 	public static int CONTROL_GET_TEXT_BUF_ZIZE = 8 * 1024;
 	public static int STATUSBAR_GET_TEXT_BUF_SIZE = 256;
@@ -53,6 +53,7 @@ public class Control extends AutoItX {
 	private static final int LB_GETTEXT = 393;
 	private static final int LB_GETTEXTLEN = 394;
 	private static final int LB_GETCOUNT = 395;
+	private final AutoItX autoItX = new AutoItX();
 
 	private Control() {
 		// Do nothing
@@ -407,9 +408,9 @@ public class Control extends AutoItX {
 			x = null;
 		}
 
-		return autoItX.AU3_ControlClick(stringToWString(defaultString(title)),
-				stringToWString(text), stringToWString(defaultString(control)),
-				stringToWString(defaultString(button)), numClicks, x, y) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlClick(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
+				AutoItX.stringToWString(AutoItX.defaultString(button)), numClicks, x, y) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -459,7 +460,7 @@ public class Control extends AutoItX {
 	public static boolean isVisible(final String title, final String text,
 			final String control) {
 		return "1".equals(controlCommand(title, text, control,
-				CONTROL_COMMAND_IS_VISIBLE, null, BOOLEAN_BUF_SIZE));
+				CONTROL_COMMAND_IS_VISIBLE, null, AutoItX.BOOLEAN_BUF_SIZE));
 	}
 
 	/**
@@ -483,7 +484,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean isVisible(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isVisible(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -532,9 +533,9 @@ public class Control extends AutoItX {
 	 */
 	public static boolean isEnabled(final String title, final String text,
 			final String control) {
-		return String.valueOf(TRUE).equals(
+		return String.valueOf(AutoItX.TRUE).equals(
 				controlCommand(title, text, control,
-						CONTROL_COMMAND_IS_ENABLED, null, BOOLEAN_BUF_SIZE));
+						CONTROL_COMMAND_IS_ENABLED, null, AutoItX.BOOLEAN_BUF_SIZE));
 	}
 
 	/**
@@ -558,7 +559,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean isEnabled(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isEnabled(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -612,7 +613,7 @@ public class Control extends AutoItX {
 		controlCommand(title, text, control, CONTROL_COMMAND_SHOW_DROP_DOWN,
 				null, 0);
 
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -637,7 +638,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean showDropDown(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : showDropDown(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -691,7 +692,7 @@ public class Control extends AutoItX {
 		controlCommand(title, text, control, CONTROL_COMMAND_HIDE_DROP_DOWN,
 				null, 0);
 
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -716,7 +717,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean hideDropDown(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : hideDropDown(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -777,7 +778,7 @@ public class Control extends AutoItX {
 		controlCommand(title, text, control, CONTROL_COMMAND_ADD_STRING,
 				string, 0);
 
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -806,7 +807,7 @@ public class Control extends AutoItX {
 	public static boolean addString(final HWND hWnd, final HWND hCtrl,
 			final String string) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : addString(
-				buildTitle(hWnd), buildControlId(hCtrl), string);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), string);
 	}
 
 	/**
@@ -871,7 +872,7 @@ public class Control extends AutoItX {
 		controlCommand(title, text, control, CONTROL_COMMAND_DEL_STRING,
 				String.valueOf(occurrence), 0);
 
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -900,7 +901,7 @@ public class Control extends AutoItX {
 	public static boolean delString(final HWND hWnd, final HWND hCtrl,
 			final int occurrence) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : delString(
-				buildTitle(hWnd), buildControlId(hCtrl), occurrence);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), occurrence);
 	}
 
 	/**
@@ -1013,7 +1014,7 @@ public class Control extends AutoItX {
 	public static Integer findString(final HWND hWnd, final HWND hCtrl,
 			final String string) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : findString(
-				buildTitle(hWnd), buildControlId(hCtrl), string);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), string);
 	}
 
 	/**
@@ -1092,7 +1093,7 @@ public class Control extends AutoItX {
 	public static Integer findString(final HWND hWnd, final HWND hCtrl,
 			final String string, final boolean ignoreCase) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : findString(
-				buildTitle(hWnd), buildControlId(hCtrl), string, ignoreCase);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), string, ignoreCase);
 	}
 
 	/**
@@ -1204,7 +1205,7 @@ public class Control extends AutoItX {
 	public static String getString(final HWND hWnd, final HWND hCtrl,
 			final int index) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getString(
-				buildTitle(hWnd), buildControlId(hCtrl), index);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), index);
 	}
 
 	/**
@@ -1295,7 +1296,7 @@ public class Control extends AutoItX {
 	 */
 	public static List<String> getStringList(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getStringList(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -1382,7 +1383,7 @@ public class Control extends AutoItX {
 	 */
 	public static Integer getStringCount(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getStringCount(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -1446,7 +1447,7 @@ public class Control extends AutoItX {
 		controlCommand(title, text, control,
 				CONTROL_COMMAND_SET_CURRENT_SELECTION,
 				String.valueOf(occurrence), 0);
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -1475,7 +1476,7 @@ public class Control extends AutoItX {
 	public static boolean setCurrentSelection(final HWND hWnd,
 			final HWND hCtrl, final int occurrence) {
 		return ((hWnd == null) || (hCtrl == null)) ? false
-				: setCurrentSelection(buildTitle(hWnd), buildControlId(hCtrl),
+				: setCurrentSelection(AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl),
 						occurrence);
 	}
 
@@ -1574,7 +1575,7 @@ public class Control extends AutoItX {
 	public static Integer selectString(final HWND hWnd, final HWND hCtrl,
 			final String string) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : selectString(
-				buildTitle(hWnd), buildControlId(hCtrl), string);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), string);
 	}
 
 	/**
@@ -1624,7 +1625,7 @@ public class Control extends AutoItX {
 	public static boolean isChecked(final String title, final String text,
 			final String control) {
 		return "1".equals(controlCommand(title, text, control,
-				CONTROL_COMMAND_IS_CHECKED, null, BOOLEAN_BUF_SIZE));
+				CONTROL_COMMAND_IS_CHECKED, null, AutoItX.BOOLEAN_BUF_SIZE));
 	}
 
 	/**
@@ -1648,7 +1649,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean isChecked(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isChecked(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -1700,7 +1701,7 @@ public class Control extends AutoItX {
 	public static boolean check(final String title, final String text,
 			final String control) {
 		controlCommand(title, text, control, CONTROL_COMMAND_CHECK, null, 0);
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -1725,7 +1726,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean check(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : check(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -1777,7 +1778,7 @@ public class Control extends AutoItX {
 	public static boolean uncheck(final String title, final String text,
 			final String control) {
 		controlCommand(title, text, control, CONTROL_COMMAND_UN_CHECK, null, 0);
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -1802,7 +1803,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean uncheck(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : uncheck(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -1857,8 +1858,8 @@ public class Control extends AutoItX {
 	public static Integer getCurrentLine(final String title, final String text,
 			final String control) {
 		final String currentLine = controlCommand(title, text, control,
-				CONTROL_COMMAND_GET_CURRENT_LINE, null, INT_BUF_SIZE);
-		if (!hasError() && StringUtils.isNotBlank(currentLine)) {
+				CONTROL_COMMAND_GET_CURRENT_LINE, null, AutoItX.INT_BUF_SIZE);
+		if (!AutoItX.hasError() && StringUtils.isNotBlank(currentLine)) {
 			return NumberUtils.toInt(currentLine);
 		}
 		return null;
@@ -1887,7 +1888,7 @@ public class Control extends AutoItX {
 	 */
 	public static Integer getCurrentLine(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getCurrentLine(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -1941,8 +1942,8 @@ public class Control extends AutoItX {
 	public static Integer getCurrentCol(final String title, final String text,
 			final String control) {
 		final String currentCol = controlCommand(title, text, control,
-				CONTROL_COMMAND_GET_CURRENT_COL, null, INT_BUF_SIZE);
-		if (!hasError() && StringUtils.isNotBlank(currentCol)) {
+				CONTROL_COMMAND_GET_CURRENT_COL, null, AutoItX.INT_BUF_SIZE);
+		if (!AutoItX.hasError() && StringUtils.isNotBlank(currentCol)) {
 			return NumberUtils.toInt(currentCol);
 		}
 		return null;
@@ -1971,7 +1972,7 @@ public class Control extends AutoItX {
 	 */
 	public static Integer getCurrentCol(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getCurrentCol(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -2026,7 +2027,7 @@ public class Control extends AutoItX {
 		String selection = controlCommand(title, text, control,
 				CONTROL_COMMAND_GET_CURRENT_SELECTION, null,
 				CONTROL_COMMAND_GET_CURRENT_SELECTION_BUF_SIZE);
-		return hasError() ? null : selection;
+		return AutoItX.hasError() ? null : selection;
 	}
 
 	/**
@@ -2051,7 +2052,7 @@ public class Control extends AutoItX {
 	 */
 	public static String getCurrentSelection(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null
-				: getCurrentSelection(buildTitle(hWnd), buildControlId(hCtrl));
+				: getCurrentSelection(AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -2103,8 +2104,8 @@ public class Control extends AutoItX {
 	public static Integer getLineCount(final String title, final String text,
 			final String control) {
 		final String lineCount = controlCommand(title, text, control,
-				CONTROL_COMMAND_GET_LINE_COUNT, null, INT_BUF_SIZE);
-		if (!hasError() && StringUtils.isNotBlank(lineCount)) {
+				CONTROL_COMMAND_GET_LINE_COUNT, null, AutoItX.INT_BUF_SIZE);
+		if (!AutoItX.hasError() && StringUtils.isNotBlank(lineCount)) {
 			return NumberUtils.toInt(lineCount);
 		}
 		return null;
@@ -2132,7 +2133,7 @@ public class Control extends AutoItX {
 	 */
 	public static Integer getLineCount(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getLineCount(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -2191,7 +2192,7 @@ public class Control extends AutoItX {
 		String line = controlCommand(title, text, control,
 				CONTROL_COMMAND_GET_LINE, String.valueOf(lineNumber),
 				CONTROL_COMMAND_BUF_SIZE);
-		if (hasError()) {
+		if (AutoItX.hasError()) {
 			if (lineNumber > 0) {
 				Integer lineCount = getLineCount(title, text, control);
 				if ((lineCount != null) && (lineCount == lineNumber)) {
@@ -2231,7 +2232,7 @@ public class Control extends AutoItX {
 	public static String getLine(final HWND hWnd, final HWND hCtrl,
 			final int lineNumber) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getLine(
-				buildTitle(hWnd), buildControlId(hCtrl), lineNumber);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), lineNumber);
 	}
 
 	/**
@@ -2288,7 +2289,7 @@ public class Control extends AutoItX {
 		}
 		String selectedText = controlCommand(title, text, control,
 				CONTROL_COMMAND_GET_SELECTED, null, CONTROL_COMMAND_BUF_SIZE);
-		return hasError() ? ("Edit".equals(className) ? "" : null)
+		return AutoItX.hasError() ? ("Edit".equals(className) ? "" : null)
 				: selectedText;
 	}
 
@@ -2314,7 +2315,7 @@ public class Control extends AutoItX {
 	 */
 	public static String getSelected(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -2372,7 +2373,7 @@ public class Control extends AutoItX {
 			final String control, final String string) {
 		controlCommand(title, text, control, CONTROL_COMMAND_EDIT_PASTE,
 				StringUtils.defaultString(string), 0);
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -2400,7 +2401,7 @@ public class Control extends AutoItX {
 	public static boolean editPaste(final HWND hWnd, final HWND hCtrl,
 			final String string) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : editPaste(
-				buildTitle(hWnd), buildControlId(hCtrl), string);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), string);
 	}
 
 	/**
@@ -2452,8 +2453,8 @@ public class Control extends AutoItX {
 	public static Integer currentTab(final String title, final String text,
 			final String control) {
 		String currentTab = controlCommand(title, text, control,
-				CONTROL_COMMAND_CURRENT_TAB, null, INT_BUF_SIZE);
-		return hasError() ? null : NumberUtils.toInt(currentTab);
+				CONTROL_COMMAND_CURRENT_TAB, null, AutoItX.INT_BUF_SIZE);
+		return AutoItX.hasError() ? null : NumberUtils.toInt(currentTab);
 	}
 
 	/**
@@ -2478,7 +2479,7 @@ public class Control extends AutoItX {
 	 */
 	public static Integer currentTab(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : currentTab(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -2528,7 +2529,7 @@ public class Control extends AutoItX {
 	public static boolean tabRight(final String title, final String text,
 			final String control) {
 		controlCommand(title, text, control, CONTROL_COMMAND_TAB_RIGHT, null, 0);
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -2552,7 +2553,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean tabRight(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : tabRight(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -2602,7 +2603,7 @@ public class Control extends AutoItX {
 	public static boolean tabLeft(final String title, final String text,
 			final String control) {
 		controlCommand(title, text, control, CONTROL_COMMAND_TAB_LEFT, null, 0);
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -2626,7 +2627,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean tabLeft(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : tabLeft(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -2763,12 +2764,12 @@ public class Control extends AutoItX {
 		}
 
 		final CharBuffer result = CharBuffer.allocate(bufSize);
-		autoItX.AU3_ControlCommand(stringToWString(defaultString(title)),
-				stringToWString(text), stringToWString(defaultString(control)),
-				stringToWString(defaultString(command)),
-				stringToWString(defaultString(extra)), result, bufSize);
+		AutoItX.autoItX.AU3_ControlCommand(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
+				AutoItX.stringToWString(AutoItX.defaultString(command)),
+				AutoItX.stringToWString(AutoItX.defaultString(extra)), result, bufSize);
 
-		return hasError() ? "" : Native.toString(result.array());
+		return AutoItX.hasError() ? "" : Native.toString(result.array());
 	}
 
 	/**
@@ -2807,9 +2808,9 @@ public class Control extends AutoItX {
 	 */
 	public static boolean disable(final String title, final String text,
 			final String control) {
-		return autoItX.AU3_ControlDisable(
-				stringToWString(defaultString(title)), stringToWString(text),
-				stringToWString(defaultString(control))) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlDisable(
+				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text),
+				AutoItX.stringToWString(AutoItX.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2828,7 +2829,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean disable(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : disable(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -2869,8 +2870,8 @@ public class Control extends AutoItX {
 	 */
 	public static boolean enable(final String title, final String text,
 			final String control) {
-		return autoItX.AU3_ControlEnable(stringToWString(defaultString(title)),
-				stringToWString(text), stringToWString(defaultString(control))) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlEnable(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2890,7 +2891,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean enable(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : enable(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -2929,8 +2930,8 @@ public class Control extends AutoItX {
 	 */
 	public static boolean focus(final String title, final String text,
 			final String control) {
-		return autoItX.AU3_ControlFocus(stringToWString(defaultString(title)),
-				stringToWString(text), stringToWString(defaultString(control))) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlFocus(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2949,7 +2950,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean focus(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : focus(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -2979,10 +2980,10 @@ public class Control extends AutoItX {
 	public static String getFocus(final String title, final String text) {
 		final int bufSize = CONTROL_GET_FOCUS_BUF_ZIZE;
 		final CharBuffer controlWithFocus = CharBuffer.allocate(bufSize);
-		autoItX.AU3_ControlGetFocus(stringToWString(defaultString(title)),
-				stringToWString(text), controlWithFocus, bufSize);
+		AutoItX.autoItX.AU3_ControlGetFocus(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), controlWithFocus, bufSize);
 
-		return hasError() ? null : Native.toString(controlWithFocus.array());
+		return AutoItX.hasError() ? null : Native.toString(controlWithFocus.array());
 	}
 
 	/**
@@ -2995,7 +2996,7 @@ public class Control extends AutoItX {
 	 *         a specified window, returns null if window is not found.
 	 */
 	public static String getFocus(final HWND hWnd) {
-		return (hWnd == null) ? null : getFocus(buildTitle(hWnd));
+		return (hWnd == null) ? null : getFocus(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -3026,13 +3027,13 @@ public class Control extends AutoItX {
 	 */
 	public static String getHandle(final String title, final String text,
 			final String control) {
-		final CharBuffer retText = CharBuffer.allocate(HANDLE_BUF_SIZE);
-		autoItX.AU3_ControlGetHandleAsText(
-				stringToWString(defaultString(title)), stringToWString(text),
-				stringToWString(defaultString(control)), retText,
-				HANDLE_BUF_SIZE);
+		final CharBuffer retText = CharBuffer.allocate(AutoItX.HANDLE_BUF_SIZE);
+		AutoItX.autoItX.AU3_ControlGetHandleAsText(
+				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text),
+				AutoItX.stringToWString(AutoItX.defaultString(control)), retText,
+				AutoItX.HANDLE_BUF_SIZE);
 
-		return hasError() ? null : Native.toString(retText.array());
+		return AutoItX.hasError() ? null : Native.toString(retText.array());
 	}
 
 	/**
@@ -3047,7 +3048,7 @@ public class Control extends AutoItX {
 	 */
 	public static String getHandle(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHandle(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -3078,7 +3079,7 @@ public class Control extends AutoItX {
 	 */
 	public static HWND getHandle_(final String title, final String text,
 			final String control) {
-		return handleToHwnd(getHandle(title, text, control));
+		return AutoItX.handleToHwnd(getHandle(title, text, control));
 	}
 
 	/**
@@ -3093,7 +3094,7 @@ public class Control extends AutoItX {
 	 */
 	public static HWND getHandle_(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHandle_(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -3135,11 +3136,11 @@ public class Control extends AutoItX {
 	public static int[] getPos(final String title, final String text,
 			final String control) {
 		RECT rect = new RECT();
-		autoItX.AU3_ControlGetPos(stringToWString(defaultString(title)),
-				stringToWString(text), stringToWString(defaultString(control)),
+		AutoItX.autoItX.AU3_ControlGetPos(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
 				rect);
 
-		return hasError() ? null : new int[] { rect.left, rect.top };
+		return AutoItX.hasError() ? null : new int[] { rect.left, rect.top };
 	}
 
 	/**
@@ -3159,7 +3160,7 @@ public class Control extends AutoItX {
 	 */
 	public static int[] getPos(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getPos(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -3222,7 +3223,7 @@ public class Control extends AutoItX {
 	 */
 	public static Integer getPosX(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getPosX(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -3285,7 +3286,7 @@ public class Control extends AutoItX {
 	 */
 	public static Integer getPosY(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getPosY(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -3348,7 +3349,7 @@ public class Control extends AutoItX {
 	 */
 	public static Integer getHeight(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHeight(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -3411,7 +3412,7 @@ public class Control extends AutoItX {
 	 */
 	public static Integer getWidth(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getWidth(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -3453,11 +3454,11 @@ public class Control extends AutoItX {
 	public static int[] getSize(final String title, final String text,
 			final String control) {
 		RECT rect = new RECT();
-		autoItX.AU3_ControlGetPos(stringToWString(defaultString(title)),
-				stringToWString(text), stringToWString(defaultString(control)),
+		AutoItX.autoItX.AU3_ControlGetPos(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
 				rect);
 
-		return hasError() ? null : new int[] { rect.right - rect.left,
+		return AutoItX.hasError() ? null : new int[] { rect.right - rect.left,
 				rect.bottom - rect.top };
 	}
 
@@ -3478,7 +3479,7 @@ public class Control extends AutoItX {
 	 */
 	public static int[] getSize(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSize(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -3519,11 +3520,11 @@ public class Control extends AutoItX {
 			final String controlId) {
 		final int bufSize = CONTROL_GET_TEXT_BUF_ZIZE;
 		final CharBuffer controlText = CharBuffer.allocate(bufSize);
-		autoItX.AU3_ControlGetText(stringToWString(defaultString(title)),
-				stringToWString(text),
-				stringToWString(defaultString(controlId)), controlText, bufSize);
+		AutoItX.autoItX.AU3_ControlGetText(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text),
+				AutoItX.stringToWString(AutoItX.defaultString(controlId)), controlText, bufSize);
 
-		return hasError() ? Win32.getControlText(Control.getHandle_(title,
+		return AutoItX.hasError() ? Win32.getControlText(Control.getHandle_(title,
 				text, controlId)) : Native.toString(controlText.array());
 	}
 
@@ -3543,7 +3544,7 @@ public class Control extends AutoItX {
 	 */
 	public static String getText(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getText(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -3584,8 +3585,8 @@ public class Control extends AutoItX {
 	 */
 	public static boolean hide(final String title, final String text,
 			final String control) {
-		return autoItX.AU3_ControlHide(stringToWString(defaultString(title)),
-				stringToWString(text), stringToWString(defaultString(control))) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlHide(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -3605,7 +3606,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean hide(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : hide(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -3680,7 +3681,7 @@ public class Control extends AutoItX {
 	public static boolean move(final HWND hWnd, final HWND hCtrl, final int x,
 			final int y) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : move(
-				buildTitle(hWnd), buildControlId(hCtrl), x, y);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), x, y);
 	}
 
 	/**
@@ -3745,9 +3746,9 @@ public class Control extends AutoItX {
 		if ((height == null) || (height < 0)) {
 			height = getHeight(title, text, control);
 		}
-		return autoItX.AU3_ControlMove(stringToWString(defaultString(title)),
-				stringToWString(text), stringToWString(defaultString(control)),
-				x, y, width, height) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlMove(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
+				x, y, width, height) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -3776,7 +3777,7 @@ public class Control extends AutoItX {
 	public static boolean move(final HWND hWnd, final HWND hCtrl, final int x,
 			final int y, Integer width, Integer height) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : move(
-				buildTitle(hWnd), buildControlId(hCtrl), x, y, width, height);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), x, y, width, height);
 	}
 
 	/**
@@ -3888,7 +3889,7 @@ public class Control extends AutoItX {
 	public static boolean send(final HWND hWnd, final HWND hCtrl,
 			final String sendText) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : send(
-				buildTitle(hWnd), buildControlId(hCtrl), sendText);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), sendText);
 	}
 
 	/**
@@ -3929,10 +3930,10 @@ public class Control extends AutoItX {
 		// indicate SHIFT and {LEFT} to indicate left arrow.
 		//
 		// flag = 1, keys are sent raw.
-		return autoItX.AU3_ControlSend(stringToWString(defaultString(title)),
-				stringToWString(text), stringToWString(defaultString(control)),
-				stringToWString(defaultString(sendText)),
-				(sendRawText == null) ? null : (sendRawText ? 1 : 0)) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlSend(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
+				AutoItX.stringToWString(AutoItX.defaultString(sendText)),
+				(sendRawText == null) ? null : (sendRawText ? 1 : 0)) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -3965,7 +3966,7 @@ public class Control extends AutoItX {
 	public static boolean send(final HWND hWnd, final HWND hCtrl,
 			final String sendText, final Boolean sendRawText) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : send(
-				buildTitle(hWnd), buildControlId(hCtrl), sendText, sendRawText);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), sendText, sendRawText);
 	}
 
 	/**
@@ -4011,10 +4012,10 @@ public class Control extends AutoItX {
 	 */
 	public static boolean setText(final String title, final String text,
 			final String controlId, final String controlText) {
-		return autoItX.AU3_ControlSetText(
-				stringToWString(defaultString(title)), stringToWString(text),
-				stringToWString(defaultString(controlId)),
-				stringToWString(defaultString(controlText))) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlSetText(
+				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text),
+				AutoItX.stringToWString(AutoItX.defaultString(controlId)),
+				AutoItX.stringToWString(AutoItX.defaultString(controlText))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -4037,7 +4038,7 @@ public class Control extends AutoItX {
 	public static boolean setText(final HWND hWnd, final HWND hCtrl,
 			final String controlText) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : setText(
-				buildTitle(hWnd), buildControlId(hCtrl), controlText);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), controlText);
 	}
 
 	/**
@@ -4078,9 +4079,9 @@ public class Control extends AutoItX {
 	 */
 	public static boolean show(final String title, final String text,
 			final String controlId) {
-		return autoItX.AU3_ControlShow(stringToWString(defaultString(title)),
-				stringToWString(text),
-				stringToWString(defaultString(controlId))) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlShow(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text),
+				AutoItX.stringToWString(AutoItX.defaultString(controlId))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -4100,7 +4101,7 @@ public class Control extends AutoItX {
 	 */
 	public static boolean show(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : show(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -4162,7 +4163,7 @@ public class Control extends AutoItX {
 	 *         be read.
 	 */
 	public static String statusbarGetText(final HWND hWnd) {
-		return (hWnd == null) ? null : statusbarGetText(buildTitle(hWnd));
+		return (hWnd == null) ? null : statusbarGetText(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -4215,10 +4216,10 @@ public class Control extends AutoItX {
 			final String text, final Integer part) {
 		final int bufSize = STATUSBAR_GET_TEXT_BUF_SIZE;
 		final CharBuffer statusText = CharBuffer.allocate(bufSize);
-		autoItX.AU3_StatusbarGetText(stringToWString(defaultString(title)),
-				stringToWString(text), part, statusText, bufSize);
+		AutoItX.autoItX.AU3_StatusbarGetText(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), part, statusText, bufSize);
 
-		return hasError() ? null : Native.toString(statusText.array());
+		return AutoItX.hasError() ? null : Native.toString(statusText.array());
 	}
 
 	/**
@@ -4242,7 +4243,7 @@ public class Control extends AutoItX {
 	 *         be read.
 	 */
 	public static String statusbarGetText(final HWND hWnd, final Integer part) {
-		return (hWnd == null) ? null : statusbarGetText(buildTitle(hWnd), part);
+		return (hWnd == null) ? null : statusbarGetText(AutoItX.buildTitle(hWnd), part);
 	}
 
 	/**

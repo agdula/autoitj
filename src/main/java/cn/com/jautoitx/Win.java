@@ -10,7 +10,7 @@ import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinDef.POINT;
 import com.sun.jna.platform.win32.WinDef.RECT;
 
-public final class Win extends AutoItX {
+public final class Win {
 	public static final String PROGRAM_MANAGER = "Program Manager";
 
 	public static int WIN_GET_CLASS_LIST_BUF_SIZE = 256;
@@ -37,6 +37,7 @@ public final class Win extends AutoItX {
 
 	/* Windows is maximized */
 	public static final int WIN_STATE_MAXIMIZED = 32;
+	private final AutoItX autoItX = new AutoItX();
 
 	private Win() {
 		// Do nothing
@@ -75,8 +76,8 @@ public final class Win extends AutoItX {
 	 * @return Returns true if window is activated, otherwise returns false.
 	 */
 	public static boolean activate(final String title, final String text) {
-		autoItX.AU3_WinActivate(stringToWString(defaultString(title)),
-				stringToWString(text));
+		AutoItX.autoItX.AU3_WinActivate(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text));
 		return active(title, text);
 	}
 
@@ -94,7 +95,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if window is activated, otherwise returns false.
 	 */
 	public static boolean activate(final HWND hWnd) {
-		return (hWnd == null) ? false : activate(buildTitle(hWnd));
+		return (hWnd == null) ? false : activate(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -118,8 +119,8 @@ public final class Win extends AutoItX {
 	 * @return Returns true if window is active, otherwise returns false.
 	 */
 	public static boolean active(final String title, final String text) {
-		return autoItX.AU3_WinActive(stringToWString(defaultString(title)),
-				stringToWString(text)) == TRUE;
+		return AutoItX.autoItX.AU3_WinActive(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text)) == AutoItX.TRUE;
 	}
 
 	/**
@@ -130,7 +131,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if window is active, otherwise returns false.
 	 */
 	public static boolean active(final HWND hWnd) {
-		return (hWnd == null) ? false : active(buildTitle(hWnd));
+		return (hWnd == null) ? false : active(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -164,8 +165,8 @@ public final class Win extends AutoItX {
 	 * @return Returns 1 if success, returns 0 if window is not found.
 	 */
 	public static boolean close(final String title, final String text) {
-		return autoItX.AU3_WinClose(stringToWString(defaultString(title)),
-				stringToWString(text)) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinClose(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text)) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -181,7 +182,7 @@ public final class Win extends AutoItX {
 	 * @return Returns 1 if success, returns 0 if window is not found.
 	 */
 	public static boolean close(final HWND hWnd) {
-		return (hWnd == null) ? false : close(buildTitle(hWnd));
+		return (hWnd == null) ? false : close(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -207,8 +208,8 @@ public final class Win extends AutoItX {
 	 *         WinExist will return true even if a window is hidden.
 	 */
 	public static boolean exists(final String title, final String text) {
-		return autoItX.AU3_WinExists(stringToWString(defaultString(title)),
-				stringToWString(text)) == TRUE;
+		return AutoItX.autoItX.AU3_WinExists(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text)) == AutoItX.TRUE;
 	}
 
 	/**
@@ -220,7 +221,7 @@ public final class Win extends AutoItX {
 	 *         WinExist will return true even if a window is hidden.
 	 */
 	public static boolean exists(final HWND hWnd) {
-		return (hWnd == null) ? false : exists(buildTitle(hWnd));
+		return (hWnd == null) ? false : exists(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -278,8 +279,8 @@ public final class Win extends AutoItX {
 	 */
 	public static int[] getCaretPos() {
 		POINT point = new POINT();
-		autoItX.AU3_WinGetCaretPos(point);
-		return hasError() ? null : new int[] { point.x, point.y };
+		AutoItX.autoItX.AU3_WinGetCaretPos(point);
+		return AutoItX.hasError() ? null : new int[] { point.x, point.y };
 	}
 
 	/**
@@ -317,10 +318,10 @@ public final class Win extends AutoItX {
 	public static String getClassList(final String title, final String text) {
 		final int bufSize = WIN_GET_CLASS_LIST_BUF_SIZE;
 		final CharBuffer retText = CharBuffer.allocate(bufSize);
-		autoItX.AU3_WinGetClassList(stringToWString(defaultString(title)),
-				stringToWString(text), retText, bufSize);
+		AutoItX.autoItX.AU3_WinGetClassList(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), retText, bufSize);
 
-		return hasError() ? null : Native.toString(retText.array());
+		return AutoItX.hasError() ? null : Native.toString(retText.array());
 	}
 
 	/**
@@ -337,7 +338,7 @@ public final class Win extends AutoItX {
 	 *         returns null if no window matches the criteria.
 	 */
 	public static String getClassList(final HWND hWnd) {
-		return (hWnd == null) ? null : getClassList(buildTitle(hWnd));
+		return (hWnd == null) ? null : getClassList(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -438,7 +439,7 @@ public final class Win extends AutoItX {
 	 *         no window matches the criteria.
 	 */
 	public static String getClassName(final HWND hWnd) {
-		return (hWnd == null) ? null : getClassName(buildTitle(hWnd));
+		return (hWnd == null) ? null : getClassName(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -540,9 +541,9 @@ public final class Win extends AutoItX {
 		int[] clientSize = null;
 		if (!minimized(title, text)) {
 			RECT rect = new RECT();
-			autoItX.AU3_WinGetClientSize(stringToWString(defaultString(title)),
-					stringToWString(text), rect);
-			if (!hasError()) {
+			AutoItX.autoItX.AU3_WinGetClientSize(AutoItX.stringToWString(AutoItX.defaultString(title)),
+					AutoItX.stringToWString(text), rect);
+			if (!AutoItX.hasError()) {
 				clientSize = new int[] { rect.right - rect.left,
 						rect.bottom - rect.top };
 			}
@@ -698,7 +699,7 @@ public final class Win extends AutoItX {
 	 *         returns null if no window matches the criteria.
 	 */
 	public static String getHandle(final HWND hWnd) {
-		return (hWnd == null) ? null : getHandle(buildTitle(hWnd));
+		return (hWnd == null) ? null : getHandle(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -734,8 +735,8 @@ public final class Win extends AutoItX {
 	 *         window matches the criteria.
 	 */
 	public static HWND getHandle_(final String title, final String text) {
-		return autoItX.AU3_WinGetHandle(stringToWString(defaultString(title)),
-				stringToWString(text));
+		return AutoItX.autoItX.AU3_WinGetHandle(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text));
 	}
 
 	/**
@@ -774,9 +775,9 @@ public final class Win extends AutoItX {
 		int[] pos = null;
 		if (!Win.minimized(title, text)) {
 			RECT rect = new RECT();
-			autoItX.AU3_WinGetPos(stringToWString(defaultString(title)),
-					stringToWString(text), rect);
-			if (!hasError()) {
+			AutoItX.autoItX.AU3_WinGetPos(AutoItX.stringToWString(AutoItX.defaultString(title)),
+					AutoItX.stringToWString(text), rect);
+			if (!AutoItX.hasError()) {
 				pos = new int[] { rect.left, rect.top };
 			}
 		}
@@ -798,7 +799,7 @@ public final class Win extends AutoItX {
 	 *         windows is not found or window is minimized.
 	 */
 	public static int[] getPos(final HWND hWnd) {
-		return (hWnd == null) ? null : getPos(buildTitle(hWnd));
+		return (hWnd == null) ? null : getPos(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -852,7 +853,7 @@ public final class Win extends AutoItX {
 	 *         windows is not found or window is minimized.
 	 */
 	public static Integer getPosX(final HWND hWnd) {
-		return (hWnd == null) ? null : getPosX(buildTitle(hWnd));
+		return (hWnd == null) ? null : getPosX(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -906,7 +907,7 @@ public final class Win extends AutoItX {
 	 *         windows is not found or window is minimize.
 	 */
 	public static Integer getPosY(final HWND hWnd) {
-		return (hWnd == null) ? null : getPosY(buildTitle(hWnd));
+		return (hWnd == null) ? null : getPosY(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -964,7 +965,7 @@ public final class Win extends AutoItX {
 	 *         windows is not found or window is minimized.
 	 */
 	public static Integer getHeight(final HWND hWnd) {
-		return (hWnd == null) ? null : getHeight(buildTitle(hWnd));
+		return (hWnd == null) ? null : getHeight(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1022,7 +1023,7 @@ public final class Win extends AutoItX {
 	 *         windows is not found or window is minimized.
 	 */
 	public static Integer getWidth(final HWND hWnd) {
-		return (hWnd == null) ? null : getWidth(buildTitle(hWnd));
+		return (hWnd == null) ? null : getWidth(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1046,8 +1047,8 @@ public final class Win extends AutoItX {
 	 * @return Returns the Process ID (PID) if success, return null if failed.
 	 */
 	public static Integer getProcess(final String title, final String text) {
-		int pid = autoItX.AU3_WinGetProcess(
-				stringToWString(defaultString(title)), stringToWString(text));
+		int pid = AutoItX.autoItX.AU3_WinGetProcess(
+				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text));
 		return (pid <= 0) ? null : pid;
 	}
 
@@ -1059,7 +1060,7 @@ public final class Win extends AutoItX {
 	 * @return Returns the Process ID (PID) if success, return null if failed.
 	 */
 	public static Integer getProcess(final HWND hWnd) {
-		return (hWnd == null) ? null : getProcess(buildTitle(hWnd));
+		return (hWnd == null) ? null : getProcess(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1098,9 +1099,9 @@ public final class Win extends AutoItX {
 		int[] size = null;
 		if (!minimized(title, text)) {
 			RECT rect = new RECT();
-			autoItX.AU3_WinGetPos(stringToWString(defaultString(title)),
-					stringToWString(text), rect);
-			if (!hasError()) {
+			AutoItX.autoItX.AU3_WinGetPos(AutoItX.stringToWString(AutoItX.defaultString(title)),
+					AutoItX.stringToWString(text), rect);
+			if (!AutoItX.hasError()) {
 				size = new int[] { rect.right - rect.left,
 						rect.bottom - rect.top };
 			}
@@ -1122,7 +1123,7 @@ public final class Win extends AutoItX {
 	 *         windows is not found or window is minimized.
 	 */
 	public static int[] getSize(final HWND hWnd) {
-		return (hWnd == null) ? null : getSize(buildTitle(hWnd));
+		return (hWnd == null) ? null : getSize(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1158,7 +1159,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if the window is visible, otherwise returns false.
 	 */
 	public static boolean visible(final HWND hWnd) {
-		return (hWnd == null) ? false : visible(buildTitle(hWnd));
+		return (hWnd == null) ? false : visible(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1194,7 +1195,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if the window is enabled, otherwise returns false.
 	 */
 	public static boolean enabled(final HWND hWnd) {
-		return (hWnd == null) ? false : enabled(buildTitle(hWnd));
+		return (hWnd == null) ? false : enabled(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1230,7 +1231,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if the window is minimized, otherwise returns false.
 	 */
 	public static boolean minimized(final HWND hWnd) {
-		return (hWnd == null) ? false : minimized(buildTitle(hWnd));
+		return (hWnd == null) ? false : minimized(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1266,7 +1267,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if the window is maximized, otherwise returns false.
 	 */
 	public static boolean maximized(final HWND hWnd) {
-		return (hWnd == null) ? false : maximized(buildTitle(hWnd));
+		return (hWnd == null) ? false : maximized(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1306,9 +1307,9 @@ public final class Win extends AutoItX {
 	 *         Returns null if the window is not found.
 	 */
 	public static Integer getState(final String title, final String text) {
-		int state = autoItX.AU3_WinGetState(
-				stringToWString(defaultString(title)), stringToWString(text));
-		return hasError() ? null : state;
+		int state = AutoItX.autoItX.AU3_WinGetState(
+				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text));
+		return AutoItX.hasError() ? null : state;
 	}
 
 	/**
@@ -1327,7 +1328,7 @@ public final class Win extends AutoItX {
 	 *         Returns null if the window is not found.
 	 */
 	public static Integer getState(final HWND hWnd) {
-		return (hWnd == null) ? null : getState(buildTitle(hWnd));
+		return (hWnd == null) ? null : getState(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1377,7 +1378,7 @@ public final class Win extends AutoItX {
 	 *         window. Returns null if the window is not found.
 	 */
 	public static List<WinState> getState_(final HWND hWnd) {
-		return (hWnd == null) ? null : getState_(buildTitle(hWnd));
+		return (hWnd == null) ? null : getState_(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1416,8 +1417,8 @@ public final class Win extends AutoItX {
 	 */
 	public static String getText(final String title, final String text) {
 		final CharBuffer retText = CharBuffer.allocate(WIN_GET_TEXT_BUF_SIZE);
-		autoItX.AU3_WinGetText(stringToWString(defaultString(title)),
-				stringToWString(text), retText, WIN_GET_TEXT_BUF_SIZE);
+		AutoItX.autoItX.AU3_WinGetText(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), retText, WIN_GET_TEXT_BUF_SIZE);
 
 		return Native.toString(retText.array());
 	}
@@ -1437,7 +1438,7 @@ public final class Win extends AutoItX {
 	 * @return Returns a string containing the window text read.
 	 */
 	public static String getText(final HWND hWnd) {
-		return (hWnd == null) ? null : getText(buildTitle(hWnd));
+		return (hWnd == null) ? null : getText(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1473,10 +1474,10 @@ public final class Win extends AutoItX {
 	public static String getTitle(final String title, final String text) {
 		if (Win.exists(title, text)) {
 			CharBuffer retText = CharBuffer.allocate(WIN_GET_TITLE_BUF_SIZE);
-			autoItX.AU3_WinGetTitle(stringToWString(defaultString(title)),
-					stringToWString(text), retText, WIN_GET_TITLE_BUF_SIZE);
+			AutoItX.autoItX.AU3_WinGetTitle(AutoItX.stringToWString(AutoItX.defaultString(title)),
+					AutoItX.stringToWString(text), retText, WIN_GET_TITLE_BUF_SIZE);
 
-			if (!hasError()) {
+			if (!AutoItX.hasError()) {
 				return Native.toString(retText.array());
 			}
 		}
@@ -1496,7 +1497,7 @@ public final class Win extends AutoItX {
 	 *         returns null if no title match.
 	 */
 	public static String getTitle(final HWND hWnd) {
-		return (hWnd == null) ? null : getTitle(buildTitle(hWnd));
+		return (hWnd == null) ? null : getTitle(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1533,8 +1534,8 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean kill(final String title, final String text) {
-		return autoItX.AU3_WinKill(stringToWString(defaultString(title)),
-				stringToWString(text)) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinKill(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text)) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -1552,7 +1553,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean kill(final HWND hWnd) {
-		return (hWnd == null) ? false : kill(buildTitle(hWnd));
+		return (hWnd == null) ? false : kill(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -1627,7 +1628,7 @@ public final class Win extends AutoItX {
 	 *         found.
 	 */
 	public static boolean menuSelectItem(final HWND hWnd, final String item1) {
-		return (hWnd == null) ? false : menuSelectItem(buildTitle(hWnd), item1);
+		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), item1);
 	}
 
 	/**
@@ -1683,7 +1684,7 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean menuSelectItem(final HWND hWnd, final String item1,
 			final String item2) {
-		return (hWnd == null) ? false : menuSelectItem(buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
 				item1, item2);
 	}
 
@@ -1744,7 +1745,7 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean menuSelectItem(final HWND hWnd, final String item1,
 			final String item2, final String item3) {
-		return (hWnd == null) ? false : menuSelectItem(buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
 				item1, item2, item3);
 	}
 
@@ -1810,7 +1811,7 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean menuSelectItem(final HWND hWnd, final String item1,
 			final String item2, final String item3, final String item4) {
-		return (hWnd == null) ? false : menuSelectItem(buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
 				item1, item2, item3, item4);
 	}
 
@@ -1882,7 +1883,7 @@ public final class Win extends AutoItX {
 	public static boolean menuSelectItem(final HWND hWnd, final String item1,
 			final String item2, final String item3, final String item4,
 			final String item5) {
-		return (hWnd == null) ? false : menuSelectItem(buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
 				item1, item2, item3, item4, item5);
 	}
 
@@ -1958,7 +1959,7 @@ public final class Win extends AutoItX {
 	public static boolean menuSelectItem(final HWND hWnd, final String item1,
 			final String item2, final String item3, final String item4,
 			final String item5, final String item6) {
-		return (hWnd == null) ? false : menuSelectItem(buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
 				item1, item2, item3, item4, item5, item6);
 	}
 
@@ -2039,7 +2040,7 @@ public final class Win extends AutoItX {
 	public static boolean menuSelectItem(final HWND hWnd, final String item1,
 			final String item2, final String item3, final String item4,
 			final String item5, final String item6, final String item7) {
-		return (hWnd == null) ? false : menuSelectItem(buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
 				item1, item2, item3, item4, item5, item6, item7);
 	}
 
@@ -2083,16 +2084,16 @@ public final class Win extends AutoItX {
 			final String item1, final String item2, final String item3,
 			final String item4, final String item5, final String item6,
 			final String item7, final String item8) {
-		return autoItX.AU3_WinMenuSelectItem(
-				stringToWString(defaultString(title)), stringToWString(text),
-				stringToWString(defaultString(item1)),
-				stringToWString(defaultString(item2)),
-				stringToWString(defaultString(item3)),
-				stringToWString(defaultString(item4)),
-				stringToWString(defaultString(item5)),
-				stringToWString(defaultString(item6)),
-				stringToWString(defaultString(item7)),
-				stringToWString(defaultString(item8))) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinMenuSelectItem(
+				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text),
+				AutoItX.stringToWString(AutoItX.defaultString(item1)),
+				AutoItX.stringToWString(AutoItX.defaultString(item2)),
+				AutoItX.stringToWString(AutoItX.defaultString(item3)),
+				AutoItX.stringToWString(AutoItX.defaultString(item4)),
+				AutoItX.stringToWString(AutoItX.defaultString(item5)),
+				AutoItX.stringToWString(AutoItX.defaultString(item6)),
+				AutoItX.stringToWString(AutoItX.defaultString(item7)),
+				AutoItX.stringToWString(AutoItX.defaultString(item8))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2133,7 +2134,7 @@ public final class Win extends AutoItX {
 			final String item2, final String item3, final String item4,
 			final String item5, final String item6, final String item7,
 			final String item8) {
-		return (hWnd == null) ? false : menuSelectItem(buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
 				item1, item2, item3, item4, item5, item6, item7, item8);
 	}
 
@@ -2141,7 +2142,7 @@ public final class Win extends AutoItX {
 	 * Minimizes all windows.
 	 */
 	public static void minimizeAll() {
-		autoItX.AU3_WinMinimizeAll();
+		AutoItX.autoItX.AU3_WinMinimizeAll();
 	}
 
 	/**
@@ -2150,7 +2151,7 @@ public final class Win extends AutoItX {
 	 * Send("#+m") is a possible alternative.
 	 */
 	public static void minimizeAllUndo() {
-		autoItX.AU3_WinMinimizeAllUndo();
+		AutoItX.autoItX.AU3_WinMinimizeAllUndo();
 	}
 
 	/**
@@ -2205,8 +2206,8 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean move(final String title, final String text,
 			final int x, final int y) {
-		return autoItX.AU3_WinMove(stringToWString(defaultString(title)),
-				stringToWString(text), x, y, null, null) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinMove(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), x, y, null, null) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2232,7 +2233,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean move(final HWND hWnd, final int x, final int y) {
-		return (hWnd == null) ? false : move(buildTitle(hWnd), x, y);
+		return (hWnd == null) ? false : move(AutoItX.buildTitle(hWnd), x, y);
 	}
 
 	/**
@@ -2292,8 +2293,8 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean move(final String title, final String text,
 			final int x, final int y, final int width) {
-		return autoItX.AU3_WinMove(stringToWString(defaultString(title)),
-				stringToWString(text), x, y, width, null) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinMove(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), x, y, width, null) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2322,7 +2323,7 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean move(final HWND hWnd, final int x, final int y,
 			final int width) {
-		return (hWnd == null) ? false : move(buildTitle(hWnd), x, y, width);
+		return (hWnd == null) ? false : move(AutoItX.buildTitle(hWnd), x, y, width);
 	}
 
 	/**
@@ -2386,8 +2387,8 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean move(final String title, final String text,
 			final int x, final int y, final int width, final int height) {
-		return autoItX.AU3_WinMove(stringToWString(defaultString(title)),
-				stringToWString(text), x, y, width, height) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinMove(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), x, y, width, height) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2418,7 +2419,7 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean move(final HWND hWnd, final int x, final int y,
 			final int width, final int height) {
-		return (hWnd == null) ? false : move(buildTitle(hWnd), x, y, width,
+		return (hWnd == null) ? false : move(AutoItX.buildTitle(hWnd), x, y, width,
 				height);
 	}
 
@@ -2454,7 +2455,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean setOnTop(final HWND hWnd) {
-		return (hWnd == null) ? false : setOnTop(buildTitle(hWnd));
+		return (hWnd == null) ? false : setOnTop(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -2485,8 +2486,8 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean setOnTop(final String title, final String text,
 			final boolean on) {
-		return autoItX.AU3_WinSetOnTop(stringToWString(defaultString(title)),
-				stringToWString(text), on ? 1 : 0) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinSetOnTop(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), on ? 1 : 0) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2500,7 +2501,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean setOnTop(final HWND hWnd, final boolean on) {
-		return (hWnd == null) ? false : setOnTop(buildTitle(hWnd), on);
+		return (hWnd == null) ? false : setOnTop(AutoItX.buildTitle(hWnd), on);
 	}
 
 	/**
@@ -2544,7 +2545,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean show(final HWND hWnd) {
-		return (hWnd == null) ? false : show(buildTitle(hWnd));
+		return (hWnd == null) ? false : show(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -2588,7 +2589,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean hide(final HWND hWnd) {
-		return (hWnd == null) ? false : hide(buildTitle(hWnd));
+		return (hWnd == null) ? false : hide(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -2632,7 +2633,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean minimize(final HWND hWnd) {
-		return (hWnd == null) ? false : minimize(buildTitle(hWnd));
+		return (hWnd == null) ? false : minimize(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -2676,7 +2677,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean maximize(final HWND hWnd) {
-		return (hWnd == null) ? false : maximize(buildTitle(hWnd));
+		return (hWnd == null) ? false : maximize(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -2720,7 +2721,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean restore(final HWND hWnd) {
-		return (hWnd == null) ? false : restore(buildTitle(hWnd));
+		return (hWnd == null) ? false : restore(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -2807,7 +2808,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean setState(final HWND hWnd, final WinSetState winState) {
-		return (hWnd == null) ? false : setState(buildTitle(hWnd), winState);
+		return (hWnd == null) ? false : setState(AutoItX.buildTitle(hWnd), winState);
 	}
 
 	/**
@@ -2839,8 +2840,8 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean setState(final String title, final String text,
 			final int flags) {
-		return autoItX.AU3_WinSetState(stringToWString(defaultString(title)),
-				stringToWString(text), flags) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinSetState(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), flags) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2869,7 +2870,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean setState(final HWND hWnd, final int flags) {
-		return (hWnd == null) ? false : setState(buildTitle(hWnd), flags);
+		return (hWnd == null) ? false : setState(AutoItX.buildTitle(hWnd), flags);
 	}
 
 	/**
@@ -2904,10 +2905,10 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean setTitle(final String title, final String text,
 			final String newTitle) {
-		return autoItX
-				.AU3_WinSetTitle(stringToWString(defaultString(title)),
-						stringToWString(text),
-						stringToWString(defaultString(newTitle))) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX
+				.AU3_WinSetTitle(AutoItX.stringToWString(AutoItX.defaultString(title)),
+						AutoItX.stringToWString(text),
+						AutoItX.stringToWString(AutoItX.defaultString(newTitle))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2923,7 +2924,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public static boolean setTitle(final HWND hWnd, final String newTitle) {
-		return (hWnd == null) ? false : setTitle(buildTitle(hWnd), newTitle);
+		return (hWnd == null) ? false : setTitle(AutoItX.buildTitle(hWnd), newTitle);
 	}
 
 	/**
@@ -2954,8 +2955,8 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean setTrans(final String title, final String text,
 			final int transparency) {
-		return autoItX.AU3_WinSetTrans(stringToWString(defaultString(title)),
-				stringToWString(text), transparency) != FAILED_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinSetTrans(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), transparency) != AutoItX.FAILED_RETURN_VALUE;
 	}
 
 	/**
@@ -2970,7 +2971,7 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean setTrans(final HWND hWnd, final int transparency) {
 		return (hWnd == null) ? false
-				: setTrans(buildTitle(hWnd), transparency);
+				: setTrans(AutoItX.buildTitle(hWnd), transparency);
 	}
 
 	/**
@@ -3011,7 +3012,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
 	public static boolean wait(final HWND hWnd) {
-		return (hWnd == null) ? false : wait(buildTitle(hWnd));
+		return (hWnd == null) ? false : wait(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -3044,8 +3045,8 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean wait(final String title, final String text,
 			final Integer timeout) {
-		return autoItX.AU3_WinWait(stringToWString(defaultString(title)),
-				stringToWString(text), timeout) != FAILED_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinWait(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), timeout) != AutoItX.FAILED_RETURN_VALUE;
 	}
 
 	/**
@@ -3060,7 +3061,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
 	public static boolean wait(final HWND hWnd, final Integer timeout) {
-		return (hWnd == null) ? false : wait(buildTitle(hWnd), timeout);
+		return (hWnd == null) ? false : wait(AutoItX.buildTitle(hWnd), timeout);
 	}
 
 	/**
@@ -3101,7 +3102,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
 	public static boolean waitActive(final HWND hWnd) {
-		return (hWnd == null) ? false : waitActive(buildTitle(hWnd));
+		return (hWnd == null) ? false : waitActive(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -3134,8 +3135,8 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean waitActive(final String title, final String text,
 			final Integer timeout) {
-		return autoItX.AU3_WinWaitActive(stringToWString(defaultString(title)),
-				stringToWString(text), timeout) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinWaitActive(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), timeout) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -3150,7 +3151,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
 	public static boolean waitActive(final HWND hWnd, final Integer timeout) {
-		return (hWnd == null) ? false : waitActive(buildTitle(hWnd), timeout);
+		return (hWnd == null) ? false : waitActive(AutoItX.buildTitle(hWnd), timeout);
 	}
 
 	/**
@@ -3194,7 +3195,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
 	public static boolean waitClose(final HWND hWnd) {
-		return (hWnd == null) ? false : waitClose(buildTitle(hWnd));
+		return (hWnd == null) ? false : waitClose(AutoItX.buildTitle(hWnd));
 	}
 
 	/**
@@ -3229,8 +3230,8 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean waitClose(final String title, final String text,
 			final Integer timeout) {
-		return autoItX.AU3_WinWaitClose(stringToWString(defaultString(title)),
-				stringToWString(text), timeout) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinWaitClose(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), timeout) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -3246,7 +3247,7 @@ public final class Win extends AutoItX {
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
 	public static boolean waitClose(final HWND hWnd, final Integer timeout) {
-		return (hWnd == null) ? false : waitClose(buildTitle(hWnd), timeout);
+		return (hWnd == null) ? false : waitClose(AutoItX.buildTitle(hWnd), timeout);
 	}
 
 	/**
@@ -3332,9 +3333,9 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean waitNotActive(final String title, final String text,
 			final Integer timeout) {
-		return autoItX.AU3_WinWaitNotActive(
-				stringToWString(defaultString(title)), stringToWString(text),
-				timeout) == SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinWaitNotActive(
+				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text),
+				timeout) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -3352,7 +3353,7 @@ public final class Win extends AutoItX {
 	 */
 	public static boolean waitNotActive(final HWND hWnd, final Integer timeout) {
 		return (hWnd == null) ? false
-				: waitNotActive(buildTitle(hWnd), timeout);
+				: waitNotActive(AutoItX.buildTitle(hWnd), timeout);
 	}
 
 	public static enum WinSetState {
@@ -3375,19 +3376,19 @@ public final class Win extends AutoItX {
 		// SHOW_DEFAULT(SW_SHOWDEFAULT);
 
 		/* Hide window */
-		HIDE(SW_HIDE),
+		HIDE(AutoItX.SW_HIDE),
 
 		/* Shows a previously hidden window */
-		SHOW(SW_SHOW),
+		SHOW(AutoItX.SW_SHOW),
 
 		/* Minimize window */
-		MINIMIZE(SW_MINIMIZE),
+		MINIMIZE(AutoItX.SW_MINIMIZE),
 
 		/* Maximize window */
-		MAXIMIZE(SW_MAXIMIZE),
+		MAXIMIZE(AutoItX.SW_MAXIMIZE),
 
 		/* Undoes a window minimization or maximization */
-		RESTORE(SW_RESTORE);
+		RESTORE(AutoItX.SW_RESTORE);
 
 		private final int state;
 

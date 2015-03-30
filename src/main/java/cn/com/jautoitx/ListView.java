@@ -9,7 +9,7 @@ import org.apache.commons.lang3.math.NumberUtils;
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.WinDef.HWND;
 
-public final class ListView extends AutoItX {
+public final class ListView {
 	private static int CONTROL_LIST_VIEW_BUF_SIZE = 8 * 1024;
 
 	/* Command used in method ControlListView */
@@ -79,7 +79,7 @@ public final class ListView extends AutoItX {
 	public static boolean deSelect(final HWND hWnd, final HWND hCtrl,
 			final int from) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : deSelect(
-				buildTitle(hWnd), buildControlId(hCtrl), from);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), from);
 	}
 
 	/**
@@ -124,7 +124,7 @@ public final class ListView extends AutoItX {
 		controlListView(title, text, control, LIST_VIEW_DE_SELECT,
 				String.valueOf(from), (to == null) ? null : String.valueOf(to),
 				CONTROL_LIST_VIEW_BUF_SIZE);
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -142,7 +142,7 @@ public final class ListView extends AutoItX {
 	public static boolean deSelect(final HWND hWnd, final HWND hCtrl,
 			final int from, Integer to) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : deSelect(
-				buildTitle(hWnd), buildControlId(hCtrl), from, to);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), from, to);
 	}
 
 	/**
@@ -194,7 +194,7 @@ public final class ListView extends AutoItX {
 	public static Integer findItem(final HWND hWnd, final HWND hCtrl,
 			final String stringToFind) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : findItem(
-				buildTitle(hWnd), buildControlId(hCtrl), stringToFind);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), stringToFind);
 	}
 
 	/**
@@ -236,9 +236,9 @@ public final class ListView extends AutoItX {
 			final Integer subItem) {
 		final String itemIndex = controlListView(title, text, control,
 				LIST_VIEW_FIND_ITEM, stringToFind, (subItem == null) ? null
-						: subItem.toString(), INT_BUF_SIZE);
+						: subItem.toString(), AutoItX.INT_BUF_SIZE);
 		int index = NumberUtils.toInt(itemIndex, -1);
-		return (hasError() || index < 0) ? null : index;
+		return (AutoItX.hasError() || index < 0) ? null : index;
 	}
 
 	/**
@@ -258,7 +258,7 @@ public final class ListView extends AutoItX {
 	public static Integer findItem(final HWND hWnd, final HWND hCtrl,
 			final String stringToFind, final Integer subItem) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : findItem(
-				buildTitle(hWnd), buildControlId(hCtrl), stringToFind, subItem);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), stringToFind, subItem);
 	}
 
 	/**
@@ -288,8 +288,8 @@ public final class ListView extends AutoItX {
 	public static Integer getItemCount(final String title, final String text,
 			final String control) {
 		final String itemCount = controlListView(title, text, control,
-				LIST_VIEW_GET_ITEM_COUNT, null, null, INT_BUF_SIZE);
-		return hasError() ? null : NumberUtils.toInt(itemCount);
+				LIST_VIEW_GET_ITEM_COUNT, null, null, AutoItX.INT_BUF_SIZE);
+		return AutoItX.hasError() ? null : NumberUtils.toInt(itemCount);
 	}
 
 	/**
@@ -303,7 +303,7 @@ public final class ListView extends AutoItX {
 	 */
 	public static Integer getItemCount(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getItemCount(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -350,7 +350,7 @@ public final class ListView extends AutoItX {
 	 */
 	public static Integer getSelected(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -403,8 +403,8 @@ public final class ListView extends AutoItX {
 		// returned
 		String result = controlListView(title, text, control,
 				LIST_VIEW_GET_SELECTED, getAllSelected ? "1" : "0", null,
-				INT_BUF_SIZE);
-		if (!hasError()) {
+				AutoItX.INT_BUF_SIZE);
+		if (!AutoItX.hasError()) {
 			String[] strItems = StringUtils.split(result, "|");
 			items = new int[strItems.length];
 			for (int i = 0; i < items.length; i++) {
@@ -434,7 +434,7 @@ public final class ListView extends AutoItX {
 	public static int[] getSelected(final HWND hWnd, final HWND hCtrl,
 			final boolean getAllSelected) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
-				buildTitle(hWnd), buildControlId(hCtrl), getAllSelected);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), getAllSelected);
 	}
 
 	/**
@@ -467,8 +467,8 @@ public final class ListView extends AutoItX {
 	public static Integer getSelectedCount(final String title,
 			final String text, final String control) {
 		final String selectedCount = controlListView(title, text, control,
-				LIST_VIEW_GET_SELECTED_COUNT, null, null, INT_BUF_SIZE);
-		return hasError() ? null : NumberUtils.toInt(selectedCount);
+				LIST_VIEW_GET_SELECTED_COUNT, null, null, AutoItX.INT_BUF_SIZE);
+		return AutoItX.hasError() ? null : NumberUtils.toInt(selectedCount);
 	}
 
 	/**
@@ -483,7 +483,7 @@ public final class ListView extends AutoItX {
 	 */
 	public static Integer getSelectedCount(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelectedCount(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -516,8 +516,8 @@ public final class ListView extends AutoItX {
 	public static Integer getSubItemCount(final String title,
 			final String text, final String control) {
 		final String subItemCount = controlListView(title, text, control,
-				LIST_VIEW_GET_SUB_ITEM_COUNT, null, null, INT_BUF_SIZE);
-		return hasError() ? null : NumberUtils.toInt(subItemCount);
+				LIST_VIEW_GET_SUB_ITEM_COUNT, null, null, AutoItX.INT_BUF_SIZE);
+		return AutoItX.hasError() ? null : NumberUtils.toInt(subItemCount);
 	}
 
 	/**
@@ -532,7 +532,7 @@ public final class ListView extends AutoItX {
 	 */
 	public static Integer getSubItemCount(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSubItemCount(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -609,7 +609,7 @@ public final class ListView extends AutoItX {
 	public static String[] getText(final HWND hWnd, final HWND hCtrl,
 			final int item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getText(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -662,7 +662,7 @@ public final class ListView extends AutoItX {
 					String result = controlListView(title, text, control,
 							LIST_VIEW_GET_TEXT, String.valueOf(item),
 							String.valueOf(subItem), CONTROL_LIST_VIEW_BUF_SIZE);
-					if (!hasError()) {
+					if (!AutoItX.hasError()) {
 						strText = result;
 					}
 				}
@@ -691,7 +691,7 @@ public final class ListView extends AutoItX {
 	public static String getText(final HWND hWnd, final HWND hCtrl,
 			final int item, final int subItem) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getText(
-				buildTitle(hWnd), buildControlId(hCtrl), item, subItem);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item, subItem);
 	}
 
 	/**
@@ -729,7 +729,7 @@ public final class ListView extends AutoItX {
 			final String control, final int item) {
 		return "1".equals(controlListView(title, text, control,
 				LIST_VIEW_IS_SELECTED, String.valueOf(item), null,
-				BOOLEAN_BUF_SIZE));
+				AutoItX.BOOLEAN_BUF_SIZE));
 	}
 
 	/**
@@ -747,7 +747,7 @@ public final class ListView extends AutoItX {
 	public static boolean isSelected(final HWND hWnd, final HWND hCtrl,
 			final int item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isSelected(
-				buildTitle(hWnd), buildControlId(hCtrl), item);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
 	}
 
 	/**
@@ -798,7 +798,7 @@ public final class ListView extends AutoItX {
 	public static boolean select(final HWND hWnd, final HWND hCtrl,
 			final int from) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : select(
-				buildTitle(hWnd), buildControlId(hCtrl), from);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), from);
 	}
 
 	/**
@@ -843,7 +843,7 @@ public final class ListView extends AutoItX {
 		controlListView(title, text, control, LIST_VIEW_SELECT,
 				String.valueOf(from), (to == null) ? null : String.valueOf(to),
 				1);
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -861,7 +861,7 @@ public final class ListView extends AutoItX {
 	public static boolean select(final HWND hWnd, final HWND hCtrl,
 			final int from, Integer to) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : select(
-				buildTitle(hWnd), buildControlId(hCtrl), from, to);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), from, to);
 	}
 
 	/**
@@ -894,7 +894,7 @@ public final class ListView extends AutoItX {
 			final String control) {
 		controlListView(title, text, control, LIST_VIEW_SELECT_ALL, null, null,
 				0);
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -909,7 +909,7 @@ public final class ListView extends AutoItX {
 	 */
 	public static boolean selectAll(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : selectAll(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -942,7 +942,7 @@ public final class ListView extends AutoItX {
 			final String control) {
 		controlListView(title, text, control, LIST_VIEW_SELECT_CLEAR, null,
 				null, 0);
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -957,7 +957,7 @@ public final class ListView extends AutoItX {
 	 */
 	public static boolean selectClear(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : selectClear(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -990,7 +990,7 @@ public final class ListView extends AutoItX {
 			final String control) {
 		controlListView(title, text, control, LIST_VIEW_SELECT_INVERT, null,
 				null, 0);
-		return !hasError();
+		return !AutoItX.hasError();
 	}
 
 	/**
@@ -1005,7 +1005,7 @@ public final class ListView extends AutoItX {
 	 */
 	public static boolean selectInvert(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : selectInvert(
-				buildTitle(hWnd), buildControlId(hCtrl));
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
 	}
 
 	/**
@@ -1076,7 +1076,7 @@ public final class ListView extends AutoItX {
 	public static boolean viewChange(final HWND hWnd, final HWND hCtrl,
 			final ControlListViewView view) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : viewChange(
-				buildTitle(hWnd), buildControlId(hCtrl), view);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), view);
 	}
 
 	/**
@@ -1108,7 +1108,7 @@ public final class ListView extends AutoItX {
 		if (controlListView != null) {
 			controlListView(title, text, control, LIST_VIEW_VIEW_CHANGE, view,
 					null, 0);
-			status = !hasError();
+			status = !AutoItX.hasError();
 		}
 
 		return status;
@@ -1129,7 +1129,7 @@ public final class ListView extends AutoItX {
 	public static boolean viewChange(final HWND hWnd, final HWND hCtrl,
 			final String view) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : viewChange(
-				buildTitle(hWnd), buildControlId(hCtrl), view);
+				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), view);
 	}
 
 	/**
@@ -1231,12 +1231,12 @@ public final class ListView extends AutoItX {
 			bufSize = 1;
 		}
 		final CharBuffer result = CharBuffer.allocate(bufSize);
-		autoItX.AU3_ControlListView(stringToWString(defaultString(title)),
-				stringToWString(text), stringToWString(defaultString(control)),
-				stringToWString(defaultString(command)),
-				stringToWString(defaultString(extra1)),
-				stringToWString(defaultString(extra2)), result, bufSize);
-		return hasError() ? "" : Native.toString(result.array());
+		AutoItX.autoItX.AU3_ControlListView(AutoItX.stringToWString(AutoItX.defaultString(title)),
+				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
+				AutoItX.stringToWString(AutoItX.defaultString(command)),
+				AutoItX.stringToWString(AutoItX.defaultString(extra1)),
+				AutoItX.stringToWString(AutoItX.defaultString(extra2)), result, bufSize);
+		return AutoItX.hasError() ? "" : Native.toString(result.array());
 	}
 
 	/**
