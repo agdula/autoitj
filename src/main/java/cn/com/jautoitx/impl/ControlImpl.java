@@ -4,7 +4,6 @@ import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.Control;
 import cn.com.jautoitx.util.ControlIdBuilder;
 import cn.com.jautoitx.util.TitleBuilder;

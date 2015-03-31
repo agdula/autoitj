@@ -2,10 +2,7 @@ package cn.com.jautoitx.impl;
 
 import java.nio.CharBuffer;
 
-import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.ListView;
-import cn.com.jautoitx.impl.AutoItUtils;
-import cn.com.jautoitx.impl.LocalInstances;
 import cn.com.jautoitx.util.ControlIdBuilder;
 import cn.com.jautoitx.util.TitleBuilder;
 import org.apache.commons.lang3.ArrayUtils;

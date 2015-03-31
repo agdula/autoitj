@@ -1,7 +1,6 @@
 package cn.com.jautoitx;
 
-import org.junit.Assert;
-import org.junit.Ignore;
+import cn.com.jautoitx.impl.AutoItX;
 import org.junit.Test;
 
 public class AutoItXTest extends BaseTest {

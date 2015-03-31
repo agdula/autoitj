@@ -1,4 +1,4 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.impl;
 
 import java.io.Closeable;
 import java.io.File;
@@ -8,8 +8,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.CharBuffer;
 import java.util.logging.Logger;
-
-import cn.com.jautoitx.impl.LocalInstances;
 
 import com.sun.jna.Library;
 import com.sun.jna.Native;

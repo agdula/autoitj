@@ -1,10 +1,6 @@
 package cn.com.jautoitx.impl;
 
-import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.Mouse;
-import cn.com.jautoitx.impl.AutoItUtils;
-import cn.com.jautoitx.impl.LocalInstances;
-import cn.com.jautoitx.impl.OptImpl;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.platform.win32.WinDef.POINT;

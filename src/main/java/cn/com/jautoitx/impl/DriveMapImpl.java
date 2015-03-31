@@ -3,9 +3,7 @@ package cn.com.jautoitx.impl;
 import java.nio.CharBuffer;
 import java.util.logging.Logger;
 
-import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.DriveMap;
-import cn.com.jautoitx.impl.AutoItUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.Native;

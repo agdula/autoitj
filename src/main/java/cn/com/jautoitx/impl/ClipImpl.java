@@ -2,9 +2,7 @@ package cn.com.jautoitx.impl;
 
 import java.nio.CharBuffer;
 
-import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.Clip;
-import cn.com.jautoitx.impl.AutoItUtils;
 import com.sun.jna.Native;
 
 public class ClipImpl implements Clip {

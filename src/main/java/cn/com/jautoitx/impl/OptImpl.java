@@ -1,8 +1,6 @@
 package cn.com.jautoitx.impl;
 
-import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.Opt;
-import cn.com.jautoitx.impl.AutoItUtils;
 
 public final class OptImpl implements Opt {
 

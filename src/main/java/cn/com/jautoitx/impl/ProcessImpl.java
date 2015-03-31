@@ -1,7 +1,6 @@
 package cn.com.jautoitx.impl;
 
 import cn.com.jautoitx.*;
-import cn.com.jautoitx.impl.AutoItUtils;
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
