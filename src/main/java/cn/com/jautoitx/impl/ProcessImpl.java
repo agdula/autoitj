@@ -1,10 +1,9 @@
 package cn.com.jautoitx.impl;
 
 import cn.com.jautoitx.*;
-import com.sun.jna.Native;
+import cn.com.jautoitx.jna.Kernel32Ext;
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
-import com.sun.jna.win32.W32APIOptions;
 
 public class ProcessImpl implements cn.com.jautoitx.Process {
 
@@ -1311,37 +1310,4 @@ public class ProcessImpl implements cn.com.jautoitx.Process {
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(process)), timeoutInSeconds) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
-	protected static interface Kernel32Ext extends Kernel32 {
-		Kernel32Ext INSTANCE = (Kernel32Ext) Native.loadLibrary("kernel32",
-				Kernel32Ext.class, W32APIOptions.UNICODE_OPTIONS);
-
-		/**
-		 * Retrieves the priority class for the specified process. This value,
-		 * together with the priority value of each thread of the process,
-		 * determines each thread's base priority level.
-		 * 
-		 * @param hProcess
-		 *            A handle to the process. The handle must have the
-		 *            PROCESS_QUERY_INFORMATION or
-		 *            PROCESS_QUERY_LIMITED_INFORMATION access right. For more
-		 *            information, see Process Security and Access Rights.
-		 *            Windows Server 2003 and Windows XP: The handle must have
-		 *            the PROCESS_QUERY_INFORMATION access right.
-		 * @return If the function succeeds, the return value is the priority
-		 *         class of the specified process.
-		 * 
-		 *         If the function fails, the return value is zero. To get
-		 *         extended error information, call GetLastError.
-		 * 
-		 *         The process's priority class is one of the following values.
-		 * 
-		 *         ABOVE_NORMAL_PRIORITY_CLASS<br/>
-		 *         BELOW_NORMAL_PRIORITY_CLASS<br/>
-		 *         HIGH_PRIORITY_CLASS<br/>
-		 *         IDLE_PRIORITY_CLASS<br/>
-		 *         NORMAL_PRIORITY_CLASS<br/>
-		 *         REALTIME_PRIORITY_CLASS
-		 */
-		int GetPriorityClass(HANDLE hProcess);
-	}
 }
