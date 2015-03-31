@@ -14,4 +14,5 @@ public class LocalInstances {
     public static final Win32Impl win32 = new Win32Impl();
     public static final WinImpl win = new WinImpl();
     public static final TreeViewImpl treeView = new TreeViewImpl();
+    public static final ProcessImpl process = new ProcessImpl();
 }

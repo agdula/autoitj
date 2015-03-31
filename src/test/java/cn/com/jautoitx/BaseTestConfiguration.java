@@ -20,4 +20,5 @@ public class BaseTestConfiguration {
     @Bean  Win getWin(){ return LocalInstances.win; }
     @Bean  Control getControl(){ return LocalInstances.control; }
     @Bean  TreeView getTreeView(){ return LocalInstances.treeView; }
+    @Bean  Process getProcess(){ return LocalInstances.process; }
 }
