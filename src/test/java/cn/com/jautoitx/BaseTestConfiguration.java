@@ -3,6 +3,7 @@ package cn.com.jautoitx;
 import cn.com.jautoitx.impl.ClipImpl;
 import cn.com.jautoitx.impl.ControlImpl;
 import cn.com.jautoitx.impl.LocalInstances;
+import cn.com.jautoitx.impl.PixelImpl;
 import cn.com.jautoitx.impl.TreeViewImpl;
 import cn.com.jautoitx.impl.WinImpl;
 import cn.com.jautoitx.util.ControlIdBuilder;
@@ -23,4 +24,5 @@ public class BaseTestConfiguration {
     @Bean  ControlIdBuilder getControlIdBuilder(Win32 win32){ return ControlIdBuilder.getInstance(win32); }
     @Bean  TreeView getTreeView(){ return LocalInstances.treeView; }
     @Bean  Process getProcess(){ return LocalInstances.process; }
+    @Bean  Pixel getPixel(){ return LocalInstances.pixel; }
 }

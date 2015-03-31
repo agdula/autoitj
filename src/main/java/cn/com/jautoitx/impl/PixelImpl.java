@@ -1,30 +1,30 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.impl;
 
-import java.awt.*;
+import java.awt.Color;
 
-/**
- * @author: Andrzej Gdula
- * @created: 03/31/2015 13:42
- * @version: 1.0
- */
-public interface Pixel {
-	int INVALID_COLOR = -1;
-	int DEFAULT_STEP = 1;
+import cn.com.jautoitx.AutoItX;
+import cn.com.jautoitx.Pixel;
+import org.apache.commons.lang3.StringUtils;
+
+import com.sun.jna.platform.win32.WinDef.POINT;
+import com.sun.jna.platform.win32.WinDef.RECT;
+
+public class PixelImpl implements Pixel {
 
 	/**
 	 * Generates a checksum for a region of pixels.
-	 *
+	 * 
 	 * Performing a checksum of a region is very time consuming, so use the
 	 * smallest region you are able to reduce CPU load. On some machines a
 	 * checksum of the whole screen could take many seconds!
-	 *
+	 * 
 	 * A checksum only allows you to see if "something" has changed in a region
 	 * - it does not tell you exactly what has changed.
-	 *
+	 * 
 	 * When using a step value greater than 1 you must bear in mind that the
 	 * checksumming becomes less reliable for small changes as not every pixel
 	 * is checked.
-	 *
+	 * 
 	 * @param left
 	 *            left coordinate of rectangle.
 	 * @param top
@@ -35,23 +35,25 @@ public interface Pixel {
 	 *            bottom coordinate of rectangle.
 	 * @return Returns the checksum value of the region.
 	 */
-	int checksum(int left, int top, int right,
-				 int bottom);
+	public int checksum(final int left, final int top, final int right,
+			final int bottom) {
+		return checksum(left, top, right, bottom, null);
+	}
 
 	/**
 	 * Generates a checksum for a region of pixels.
-	 *
+	 * 
 	 * Performing a checksum of a region is very time consuming, so use the
 	 * smallest region you are able to reduce CPU load. On some machines a
 	 * checksum of the whole screen could take many seconds!
-	 *
+	 * 
 	 * A checksum only allows you to see if "something" has changed in a region
 	 * - it does not tell you exactly what has changed.
-	 *
+	 * 
 	 * When using a step value greater than 1 you must bear in mind that the
 	 * checksumming becomes less reliable for small changes as not every pixel
 	 * is checked.
-	 *
+	 * 
 	 * @param left
 	 *            left coordinate of rectangle.
 	 * @param top
@@ -66,12 +68,22 @@ public interface Pixel {
 	 *            every other pixel. Default is 1.
 	 * @return Returns the checksum value of the region.
 	 */
-	int checksum(int left, int top, int right,
-				 int bottom, Integer step);
+	public int checksum(final int left, final int top, final int right,
+			final int bottom, Integer step) {
+		if ((step == null) || (step <= 0)) {
+			step = DEFAULT_STEP;
+		}
+		RECT rect = new RECT();
+		rect.left = left;
+		rect.top = top;
+		rect.right = right;
+		rect.bottom = bottom;
+		return AutoItX.autoItX.AU3_PixelChecksum(rect, step);
+	}
 
 	/**
 	 * Returns a pixel color according to x,y pixel coordinates.
-	 *
+	 * 
 	 * @param x
 	 *            x coordinate of pixel.
 	 * @param y
@@ -79,11 +91,17 @@ public interface Pixel {
 	 * @return Return decimal value of pixel's color if success, return null if
 	 *         invalid coordinates.
 	 */
-	Integer getColor(int x, int y);
+	public Integer getColor(int x, int y) {
+		Integer color = AutoItX.autoItX.AU3_PixelGetColor(x, y);
+		if (color == -1) {
+			color = null;
+		}
+		return color;
+	}
 
 	/**
 	 * Returns a java.awt.Color object according to x,y pixel coordinates.
-	 *
+	 * 
 	 * @param x
 	 *            x coordinate of pixel.
 	 * @param y
@@ -91,11 +109,22 @@ public interface Pixel {
 	 * @return Return java.awt.Color object for pixel's color if success, return
 	 *         null if invalid coordinates.
 	 */
-	Color getColor_(int x, int y);
+	public Color getColor_(int x, int y) {
+		final int color = getColor(x, y);
+		if (color == INVALID_COLOR) {
+			return null;
+		}
+
+		final String strColor = StringUtils.leftPad(Integer.toHexString(color),
+				6, '0');
+		return new Color(Integer.parseInt(strColor.substring(0, 2), 16),
+				Integer.parseInt(strColor.substring(2, 4), 16),
+				Integer.parseInt(strColor.substring(4, 6), 16));
+	}
 
 	/**
 	 * Searches a rectangle of pixels for the pixel color provided.
-	 *
+	 * 
 	 * @param left
 	 *            left coordinate of rectangle.
 	 * @param top
@@ -109,12 +138,14 @@ public interface Pixel {
 	 * @return Return a 2 element array containing the pixel's coordinates if
 	 *         success, return null if color is not found.
 	 */
-	int[] search(int left, int top, int right,
-				 int bottom, int color);
+	public int[] search(final int left, final int top, final int right,
+			final int bottom, final int color) {
+		return search(left, top, right, bottom, color, null);
+	}
 
 	/**
 	 * Searches a rectangle of pixels for the pixel color provided.
-	 *
+	 * 
 	 * @param left
 	 *            left coordinate of rectangle.
 	 * @param top
@@ -132,12 +163,14 @@ public interface Pixel {
 	 * @return Return a 2 element array containing the pixel's coordinates if
 	 *         success, return null if color is not found.
 	 */
-	int[] search(int left, int top, int right,
-				 int bottom, int color, Integer shadeVariation);
+	public int[] search(final int left, final int top, final int right,
+			final int bottom, final int color, final Integer shadeVariation) {
+		return search(left, top, right, bottom, color, shadeVariation, null);
+	}
 
 	/**
 	 * Searches a rectangle of pixels for the pixel color provided.
-	 *
+	 * 
 	 * @param left
 	 *            left coordinate of rectangle.
 	 * @param top
@@ -159,7 +192,26 @@ public interface Pixel {
 	 * @return Return a 2 element array containing the pixel's coordinates if
 	 *         success, return null if color is not found.
 	 */
-	int[] search(int left, int top, int right,
-				 int bottom, int color, Integer shadeVariation,
-				 Integer step);
+	public int[] search(final int left, final int top, final int right,
+			final int bottom, final int color, Integer shadeVariation,
+			Integer step) {
+		final POINT point = new POINT();
+
+		if ((shadeVariation == null) || (shadeVariation < 0)
+				|| (shadeVariation > 255)) {
+			shadeVariation = 0;
+		}
+		if ((step == null) || (step <= 0)) {
+			step = DEFAULT_STEP;
+		}
+
+		RECT rect = new RECT();
+		rect.left = left;
+		rect.top = top;
+		rect.right = right;
+		rect.bottom = bottom;
+		AutoItX.autoItX.AU3_PixelSearch(rect, color, shadeVariation, step, point);
+
+		return AutoItX.hasError() ? null : new int[] { point.x, point.y };
+	}
 }

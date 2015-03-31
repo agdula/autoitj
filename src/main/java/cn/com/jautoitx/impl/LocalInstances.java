@@ -15,4 +15,5 @@ public class LocalInstances {
     public static final WinImpl win = new WinImpl();
     public static final TreeViewImpl treeView = new TreeViewImpl();
     public static final ProcessImpl process = new ProcessImpl();
+    public static final PixelImpl pixel = new PixelImpl();
 }

@@ -25,6 +25,8 @@ public class OptTest extends BaseTest {
 	Win32 Win32;
 	@Autowired
 	Control Control;
+	@Autowired
+	Pixel Pixel;
 
 	@Test
 	public void setMouseClickDelay() {
