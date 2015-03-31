@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.nio.CharBuffer;
 import java.util.logging.Logger;
 
+import com.sun.jna.platform.win32.WinNT;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.Library;

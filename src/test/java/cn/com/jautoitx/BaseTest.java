@@ -40,6 +40,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @SpringApplicationConfiguration(classes = BaseTestConfiguration.class)
 public abstract class BaseTest {
 
+
+	@Autowired Win Win;
+
 	protected static final boolean isZhUserLanguage = "zh"
 			.equalsIgnoreCase(System.getProperty("user.language"))
 			|| "Cp1252"

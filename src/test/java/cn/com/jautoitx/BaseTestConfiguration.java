@@ -12,6 +12,6 @@ import org.springframework.context.annotation.Configuration;
 public class BaseTestConfiguration {
     @Bean  Clip getClip(){ return new ClipImpl(); }
     @Bean  Win32 getWin32(){ return Win32Impl.instance; }
-    @Bean  Win getWin(Win32 win32){ return new Win(win32); }
+    @Bean  Win getWin(Win32 win32){ return new WinImpl(win32); }
     @Bean  Control getControl(Win32 win32){ return new ControlImpl(win32); }
 }
