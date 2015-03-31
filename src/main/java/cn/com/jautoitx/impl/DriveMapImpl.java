@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.DriveMap;
+import cn.com.jautoitx.util.AutoItUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.Native;

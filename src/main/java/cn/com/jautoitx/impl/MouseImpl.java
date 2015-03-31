@@ -1,6 +1,7 @@
 package cn.com.jautoitx.impl;
 
 import cn.com.jautoitx.Mouse;
+import cn.com.jautoitx.util.AutoItUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.platform.win32.WinDef.POINT;

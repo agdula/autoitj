@@ -6,6 +6,7 @@ import java.util.List;
 
 import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.Control;
+import cn.com.jautoitx.util.AutoItUtils;
 import cn.com.jautoitx.util.ControlIdBuilder;
 import cn.com.jautoitx.util.TitleBuilder;
 import org.apache.commons.lang3.StringUtils;

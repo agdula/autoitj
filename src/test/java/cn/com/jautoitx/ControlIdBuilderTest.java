@@ -1,6 +1,6 @@
 package cn.com.jautoitx;
 
-import cn.com.jautoitx.impl.AutoItUtils;
+import cn.com.jautoitx.util.AutoItUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

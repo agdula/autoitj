@@ -5,7 +5,7 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.util.List;
 
-import cn.com.jautoitx.impl.AutoItUtils;
+import cn.com.jautoitx.util.AutoItUtils;
 import cn.com.jautoitx.util.TitleBuilder;
 import org.junit.Assert;
 import org.junit.Test;

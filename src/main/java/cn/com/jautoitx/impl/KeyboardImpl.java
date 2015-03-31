@@ -1,6 +1,7 @@
 package cn.com.jautoitx.impl;
 
 import cn.com.jautoitx.Keyboard;
+import cn.com.jautoitx.util.AutoItUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class KeyboardImpl implements Keyboard {

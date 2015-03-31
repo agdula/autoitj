@@ -1,4 +1,4 @@
-package cn.com.jautoitx.impl;
+package cn.com.jautoitx.util;
 
 import com.sun.jna.Platform;
 import com.sun.jna.Pointer;

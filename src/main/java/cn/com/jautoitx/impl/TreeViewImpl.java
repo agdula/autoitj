@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.com.jautoitx.util.AutoItUtils;
 import cn.com.jautoitx.util.ControlIdBuilder;
 import cn.com.jautoitx.util.TitleBuilder;
 import cn.com.jautoitx.TreeView;

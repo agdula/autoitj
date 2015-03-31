@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import cn.com.jautoitx.impl.AutoItUtils;
+import cn.com.jautoitx.util.AutoItUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.widgets.Display;

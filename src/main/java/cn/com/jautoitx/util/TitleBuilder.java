@@ -1,6 +1,5 @@
 package cn.com.jautoitx.util;
 
-import cn.com.jautoitx.impl.AutoItUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.platform.win32.WinDef.HWND;

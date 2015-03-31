@@ -2,6 +2,7 @@ package cn.com.jautoitx.impl;
 
 import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.jna.User32Ext;
+import cn.com.jautoitx.util.AutoItUtils;
 import cn.com.jautoitx.util.TitleBuilder;
 import cn.com.jautoitx.Win32;
 import com.sun.jna.Memory;
