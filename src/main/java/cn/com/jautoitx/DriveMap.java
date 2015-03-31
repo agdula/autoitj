@@ -2,6 +2,7 @@ package cn.com.jautoitx;
 
 import java.nio.CharBuffer;
 
+import cn.com.jautoitx.impl.AutoItUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.Native;
@@ -362,10 +363,10 @@ public class DriveMap {
 		}
 
 		device = StringUtils.isBlank(device) ? "" : device.trim();
-		AutoItX.autoItX.AU3_DriveMapAdd(AutoItX.stringToWString(device),
-				AutoItX.stringToWString(AutoItX.defaultString(share)), flags,
-				AutoItX.stringToWString(AutoItX.defaultString(user)),
-				AutoItX.stringToWString(AutoItX.defaultString(password)), result, bufSize);
+		AutoItX.autoItX.AU3_DriveMapAdd(AutoItUtils.stringToWString(device),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(share)), flags,
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(user)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(password)), result, bufSize);
 
 		if (AutoItX.hasError()) {
 			return null;
@@ -426,7 +427,7 @@ public class DriveMap {
 	 *         unsuccessful.
 	 */
 	public static boolean del(final String device) {
-		return AutoItX.autoItX.AU3_DriveMapDel(AutoItX.stringToWString(AutoItX.defaultString(device))) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_DriveMapDel(AutoItUtils.stringToWString(AutoItUtils.defaultString(device))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -458,7 +459,7 @@ public class DriveMap {
 			bufSize = DRIVE_MAP_ADD_BUF_SIZE;
 		}
 		final CharBuffer mapping = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_DriveMapGet(AutoItX.stringToWString(AutoItX.defaultString(device)),
+		AutoItX.autoItX.AU3_DriveMapGet(AutoItUtils.stringToWString(AutoItUtils.defaultString(device)),
 				mapping, bufSize);
 
 		return AutoItX.hasError() ? null : Native.toString(mapping.array());

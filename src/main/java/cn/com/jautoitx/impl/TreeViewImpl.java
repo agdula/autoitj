@@ -1,10 +1,14 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.impl;
 
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.com.jautoitx.AutoItX;
+import cn.com.jautoitx.ControlIdBuilder;
+import cn.com.jautoitx.TitleBuilder;
+import cn.com.jautoitx.TreeView;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -52,11 +56,6 @@ public class TreeViewImpl implements TreeView {
 	/* Buffer size for method ControlTreeView */
 	private static int BUF_SIZE = 8 * 1024;
 
-	Control _control;
-
-	public TreeViewImpl(Control control) {
-		this._control = control;
-	}
 
 	/**
 	 * Checks an item (if the item supports it).
@@ -249,7 +248,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean check(final HWND hWnd, final HWND hCtrl,
 						 final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : check(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -427,7 +426,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean collapse(final HWND hWnd, final HWND hCtrl,
 							final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : collapse(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -587,7 +586,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean exists(final HWND hWnd, final HWND hCtrl,
 						  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : exists(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -765,7 +764,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean expand(final HWND hWnd, final HWND hCtrl,
 						  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : expand(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -987,7 +986,7 @@ public class TreeViewImpl implements TreeView {
 	public HWND getHandle(final HWND hWnd, final HWND hCtrl,
 						  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHandle(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -1154,7 +1153,7 @@ public class TreeViewImpl implements TreeView {
 	public Integer getItemCount(final HWND hWnd, final HWND hCtrl,
 								final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getItemCount(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -1203,7 +1202,7 @@ public class TreeViewImpl implements TreeView {
 	 */
 	public String getSelected(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -1272,7 +1271,7 @@ public class TreeViewImpl implements TreeView {
 	public String getSelected(final HWND hWnd, final HWND hCtrl,
 							  final Boolean useIndex) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), useIndex);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), useIndex);
 	}
 
 	/**
@@ -1324,7 +1323,7 @@ public class TreeViewImpl implements TreeView {
 	 */
 	public String getSelectedText(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelectedText(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -1494,7 +1493,7 @@ public class TreeViewImpl implements TreeView {
 	public String getText(final HWND hWnd, final HWND hCtrl,
 						  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getText(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -1650,7 +1649,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean isChecked(final HWND hWnd, final HWND hCtrl,
 							 final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isChecked(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -1829,7 +1828,7 @@ public class TreeViewImpl implements TreeView {
 	public IsChecked isChecked_(final HWND hWnd, final HWND hCtrl,
 								final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? IsChecked.NOT_A_CHECKBOX
-				: isChecked_(AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				: isChecked_(TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -1987,7 +1986,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean isCollapsed(final HWND hWnd, final HWND hCtrl,
 							   final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isCollapsed(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -2092,7 +2091,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean isExpanded(final String title, final String text,
 							  final String control, final String item) {
 		boolean expanded = false;
-		HWND hWnd = _control.getHandle_(title, text, control);
+		HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
 		if (hWnd != null) {
 			HWND itemHWND = getHandle(title, text, control, item);
 			if (itemHWND != null) {
@@ -2157,7 +2156,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean isExpanded(final HWND hWnd, final HWND hCtrl,
 							  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isExpanded(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -2341,7 +2340,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean isSelected(final HWND hWnd, final HWND hCtrl,
 							  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isSelected(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -2498,7 +2497,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean isLeaf(final HWND hWnd, final HWND hCtrl,
 						  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isLeaf(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -2668,7 +2667,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean select(final HWND hWnd, final HWND hCtrl,
 						  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : select(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -2862,7 +2861,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean uncheck(final HWND hWnd, final HWND hCtrl,
 						   final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : uncheck(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), item);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
 	}
 
 	/**
@@ -2946,18 +2945,18 @@ public class TreeViewImpl implements TreeView {
 			bufSize = 1;
 		}
 		final CharBuffer result = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_ControlTreeView(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
-				AutoItX.stringToWString(AutoItX.defaultString(command)),
-				AutoItX.stringToWString(AutoItX.defaultString(extra1)),
-				AutoItX.stringToWString(AutoItX.defaultString(extra2)), result, bufSize);
+		AutoItX.autoItX.AU3_ControlTreeView(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(command)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(extra1)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(extra2)), result, bufSize);
 		return AutoItX.hasError() ? "" : Native.toString(result.array());
 	}
 
 	private HWND getFirstChildHandle(final String title,
 			final String text, final String control, final HWND itemHWND) {
 		HWND firstChildHWND = null;
-		HWND hWnd = _control.getHandle_(title, text, control);
+		HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
 		if (hWnd != null) {
 			firstChildHWND = Win32Impl.user32.SendMessage(hWnd, TVM_GETNEXTITEM,
 					new WPARAM(TVGN_CHILD), itemHWND);
@@ -2974,7 +2973,7 @@ public class TreeViewImpl implements TreeView {
 	private HWND getFirstItemHandle(final String title,
 			final String text, final String control) {
 		HWND firstItemHWND = null;
-		HWND hWnd = _control.getHandle_(title, text, control);
+		HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
 		if (hWnd != null) {
 			firstItemHWND = Win32Impl.user32.SendMessage(hWnd, TVM_GETNEXTITEM,
 					new WPARAM(TVGN_ROOT), new LPARAM(0));
@@ -2986,7 +2985,7 @@ public class TreeViewImpl implements TreeView {
 			final String text, final String control, final HWND itemHWND) {
 		HWND nextSiblingHWND = null;
 		if (itemHWND != null) {
-			HWND hWnd = _control.getHandle_(title, text, control);
+			HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
 			if (hWnd != null) {
 				nextSiblingHWND = Win32Impl.user32.SendMessage(hWnd,
 						TVM_GETNEXTITEM, new WPARAM(TVGN_NEXT), itemHWND);

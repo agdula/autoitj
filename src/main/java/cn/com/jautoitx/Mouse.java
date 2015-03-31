@@ -1,5 +1,6 @@
 package cn.com.jautoitx;
 
+import cn.com.jautoitx.impl.AutoItUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.platform.win32.WinDef.POINT;
@@ -712,7 +713,7 @@ public final class Mouse {
 			x = getPosX();
 			y = getPosY();
 		}
-		AutoItX.autoItX.AU3_MouseClick(AutoItX.stringToWString(AutoItX.defaultString(button)
+		AutoItX.autoItX.AU3_MouseClick(AutoItUtils.stringToWString(AutoItUtils.defaultString(button)
 						.toLowerCase()), x, y,
 				(clicks == null) ? DEFAULT_MOUSE_CLICK_TIMES : clicks,
 				(speed == null) ? DEFAULT_MOUSE_MOVE_SPEED : speed);
@@ -891,7 +892,7 @@ public final class Mouse {
 			return false;
 		}
 
-		AutoItX.autoItX.AU3_MouseClickDrag(AutoItX.stringToWString(AutoItX.defaultString(button)), x1,
+		AutoItX.autoItX.AU3_MouseClickDrag(AutoItUtils.stringToWString(AutoItUtils.defaultString(button)), x1,
 				y1, x2, y2, speed);
 		return !AutoItX.hasError();
 	}
@@ -928,7 +929,7 @@ public final class Mouse {
 		int currentMouseClickDownDelay = Opt.currentMouseClickDownDelay;
 
 		long start = System.currentTimeMillis();
-		AutoItX.autoItX.AU3_MouseDown(AutoItX.stringToWString(button));
+		AutoItX.autoItX.AU3_MouseDown(AutoItUtils.stringToWString(button));
 		boolean status = !AutoItX.hasError();
 		long delay = System.currentTimeMillis() - start;
 
@@ -1168,7 +1169,7 @@ public final class Mouse {
 		if (!checkMouseButton(button)) {
 			return false;
 		}
-		AutoItX.autoItX.AU3_MouseUp(AutoItX.stringToWString(button));
+		AutoItX.autoItX.AU3_MouseUp(AutoItUtils.stringToWString(button));
 		return !AutoItX.hasError();
 	}
 
@@ -1232,7 +1233,7 @@ public final class Mouse {
 		}
 
 		AutoItX.autoItX.AU3_MouseWheel(
-				AutoItX.stringToWString(AutoItX.defaultString(direction.toLowerCase())),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(direction.toLowerCase())),
 				(clicks == null) ? 1 : clicks);
 		return !AutoItX.hasError();
 	}

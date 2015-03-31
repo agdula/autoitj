@@ -1,9 +1,13 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.impl;
 
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.com.jautoitx.AutoItX;
+import cn.com.jautoitx.Control;
+import cn.com.jautoitx.ControlIdBuilder;
+import cn.com.jautoitx.TitleBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -29,13 +33,6 @@ public class ControlImpl implements Control {
 	private static final int LB_GETTEXT = 393;
 	private static final int LB_GETTEXTLEN = 394;
 	private static final int LB_GETCOUNT = 395;
-	private final AutoItX autoItX = new AutoItX();
-	private Win32 _win32;
-
-	public ControlImpl(Win32 win32) {
-		// Do nothing
-		this._win32 = win32;
-	}
 
 	/**
 	 * Sends a mouse click command to a given control.
@@ -386,9 +383,9 @@ public class ControlImpl implements Control {
 			x = null;
 		}
 
-		return AutoItX.autoItX.AU3_ControlClick(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
-				AutoItX.stringToWString(AutoItX.defaultString(button)), numClicks, x, y) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlClick(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(button)), numClicks, x, y) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -462,7 +459,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean isVisible(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isVisible(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -537,7 +534,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean isEnabled(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isEnabled(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -616,7 +613,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean showDropDown(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : showDropDown(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -695,7 +692,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean hideDropDown(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : hideDropDown(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -785,7 +782,7 @@ public class ControlImpl implements Control {
 	public boolean addString(final HWND hWnd, final HWND hCtrl,
 							 final String string) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : addString(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), string);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), string);
 	}
 
 	/**
@@ -879,7 +876,7 @@ public class ControlImpl implements Control {
 	public boolean delString(final HWND hWnd, final HWND hCtrl,
 							 final int occurrence) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : delString(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), occurrence);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), occurrence);
 	}
 
 	/**
@@ -992,7 +989,7 @@ public class ControlImpl implements Control {
 	public Integer findString(final HWND hWnd, final HWND hCtrl,
 							  final String string) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : findString(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), string);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), string);
 	}
 
 	/**
@@ -1071,7 +1068,7 @@ public class ControlImpl implements Control {
 	public Integer findString(final HWND hWnd, final HWND hCtrl,
 							  final String string, final boolean ignoreCase) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : findString(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), string, ignoreCase);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), string, ignoreCase);
 	}
 
 	/**
@@ -1129,8 +1126,8 @@ public class ControlImpl implements Control {
 		if (index >= 0) {
 			HWND hWnd = getHandle_(title, text, control);
 			if (hWnd != null) {
-				boolean isComboBox = _win32.isComboBox(hWnd);
-				boolean isListBox = _win32.isListBox(hWnd);
+				boolean isComboBox = LocalInstances.win32.isComboBox(hWnd);
+				boolean isListBox = LocalInstances.win32.isListBox(hWnd);
 				if (isComboBox || isListBox) {
 					int getItemLengthMessage = LB_GETTEXTLEN;
 					int getItemMessage = LB_GETTEXT;
@@ -1183,7 +1180,7 @@ public class ControlImpl implements Control {
 	public String getString(final HWND hWnd, final HWND hCtrl,
 							final int index) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getString(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), index);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), index);
 	}
 
 	/**
@@ -1274,7 +1271,7 @@ public class ControlImpl implements Control {
 	 */
 	public List<String> getStringList(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getStringList(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -1329,9 +1326,9 @@ public class ControlImpl implements Control {
 		Integer count = null;
 		HWND hWnd = getHandle_(title, text, control);
 		if (hWnd != null) {
-			if (_win32.isComboBox(hWnd)) {
+			if (LocalInstances.win32.isComboBox(hWnd)) {
 				count = Win32Impl.user32.SendMessage(hWnd, CB_GETCOUNT, 0, 0);
-			} else if (_win32.isListBox(hWnd)) {
+			} else if (LocalInstances.win32.isListBox(hWnd)) {
 				count = Win32Impl.user32.SendMessage(hWnd, LB_GETCOUNT, 0, 0);
 			}
 		}
@@ -1361,7 +1358,7 @@ public class ControlImpl implements Control {
 	 */
 	public Integer getStringCount(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getStringCount(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -1454,7 +1451,7 @@ public class ControlImpl implements Control {
 	public boolean setCurrentSelection(final HWND hWnd,
 									   final HWND hCtrl, final int occurrence) {
 		return ((hWnd == null) || (hCtrl == null)) ? false
-				: setCurrentSelection(AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl),
+				: setCurrentSelection(TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl),
 						occurrence);
 	}
 
@@ -1553,7 +1550,7 @@ public class ControlImpl implements Control {
 	public Integer selectString(final HWND hWnd, final HWND hCtrl,
 								final String string) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : selectString(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), string);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), string);
 	}
 
 	/**
@@ -1627,7 +1624,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean isChecked(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isChecked(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -1704,7 +1701,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean check(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : check(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -1781,7 +1778,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean uncheck(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : uncheck(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -1866,7 +1863,7 @@ public class ControlImpl implements Control {
 	 */
 	public Integer getCurrentLine(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getCurrentLine(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -1950,7 +1947,7 @@ public class ControlImpl implements Control {
 	 */
 	public Integer getCurrentCol(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getCurrentCol(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -2030,7 +2027,7 @@ public class ControlImpl implements Control {
 	 */
 	public String getCurrentSelection(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null
-				: getCurrentSelection(AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				: getCurrentSelection(TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -2111,7 +2108,7 @@ public class ControlImpl implements Control {
 	 */
 	public Integer getLineCount(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getLineCount(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -2210,7 +2207,7 @@ public class ControlImpl implements Control {
 	public String getLine(final HWND hWnd, final HWND hCtrl,
 						  final int lineNumber) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getLine(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), lineNumber);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), lineNumber);
 	}
 
 	/**
@@ -2261,7 +2258,7 @@ public class ControlImpl implements Control {
 	 */
 	public String getSelected(final String title, final String text,
 							  final String control) {
-		String className = _win32.getClassName(title, text, control);
+		String className = LocalInstances.win32.getClassName(title, text, control);
 		if (StringUtils.isBlank(className)) {
 			return null;
 		}
@@ -2293,7 +2290,7 @@ public class ControlImpl implements Control {
 	 */
 	public String getSelected(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -2379,7 +2376,7 @@ public class ControlImpl implements Control {
 	public boolean editPaste(final HWND hWnd, final HWND hCtrl,
 							 final String string) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : editPaste(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), string);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), string);
 	}
 
 	/**
@@ -2457,7 +2454,7 @@ public class ControlImpl implements Control {
 	 */
 	public Integer currentTab(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : currentTab(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -2531,7 +2528,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean tabRight(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : tabRight(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -2605,7 +2602,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean tabLeft(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : tabLeft(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -2742,10 +2739,10 @@ public class ControlImpl implements Control {
 		}
 
 		final CharBuffer result = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_ControlCommand(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
-				AutoItX.stringToWString(AutoItX.defaultString(command)),
-				AutoItX.stringToWString(AutoItX.defaultString(extra)), result, bufSize);
+		AutoItX.autoItX.AU3_ControlCommand(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(command)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(extra)), result, bufSize);
 
 		return AutoItX.hasError() ? "" : Native.toString(result.array());
 	}
@@ -2787,8 +2784,8 @@ public class ControlImpl implements Control {
 	public boolean disable(final String title, final String text,
 						   final String control) {
 		return AutoItX.autoItX.AU3_ControlDisable(
-				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text),
-				AutoItX.stringToWString(AutoItX.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(title)), AutoItUtils.stringToWString(text),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2807,7 +2804,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean disable(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : disable(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -2848,8 +2845,8 @@ public class ControlImpl implements Control {
 	 */
 	public boolean enable(final String title, final String text,
 						  final String control) {
-		return AutoItX.autoItX.AU3_ControlEnable(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlEnable(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2869,7 +2866,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean enable(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : enable(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -2908,8 +2905,8 @@ public class ControlImpl implements Control {
 	 */
 	public boolean focus(final String title, final String text,
 						 final String control) {
-		return AutoItX.autoItX.AU3_ControlFocus(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlFocus(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2928,7 +2925,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean focus(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : focus(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -2958,8 +2955,8 @@ public class ControlImpl implements Control {
 	public String getFocus(final String title, final String text) {
 		final int bufSize = CONTROL_GET_FOCUS_BUF_ZIZE;
 		final CharBuffer controlWithFocus = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_ControlGetFocus(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), controlWithFocus, bufSize);
+		AutoItX.autoItX.AU3_ControlGetFocus(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), controlWithFocus, bufSize);
 
 		return AutoItX.hasError() ? null : Native.toString(controlWithFocus.array());
 	}
@@ -2974,7 +2971,7 @@ public class ControlImpl implements Control {
 	 *         a specified window, returns null if window is not found.
 	 */
 	public String getFocus(final HWND hWnd) {
-		return (hWnd == null) ? null : getFocus(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getFocus(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -2988,7 +2985,7 @@ public class ControlImpl implements Control {
 	 *         null if no window matches the criteria.
 	 */
 	public String getHandle(final String title, final String control) {
-		return _win32.getHandle(title, null, control);
+		return LocalInstances.win32.getHandle(title, null, control);
 	}
 
 	/**
@@ -3003,7 +3000,7 @@ public class ControlImpl implements Control {
 	 */
 	public String getHandle(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHandle(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -3034,7 +3031,7 @@ public class ControlImpl implements Control {
 	 */
 	public HWND getHandle_(final String title, final String text,
 						   final String control) {
-		return AutoItX.handleToHwnd(_win32.getHandle(title, text, control));
+		return AutoItUtils.handleToHwnd(LocalInstances.win32.getHandle(title, text, control));
 	}
 
 	/**
@@ -3049,7 +3046,7 @@ public class ControlImpl implements Control {
 	 */
 	public HWND getHandle_(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHandle_(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -3091,8 +3088,8 @@ public class ControlImpl implements Control {
 	public int[] getPos(final String title, final String text,
 						final String control) {
 		RECT rect = new RECT();
-		AutoItX.autoItX.AU3_ControlGetPos(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
+		AutoItX.autoItX.AU3_ControlGetPos(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
 				rect);
 
 		return AutoItX.hasError() ? null : new int[] { rect.left, rect.top };
@@ -3115,7 +3112,7 @@ public class ControlImpl implements Control {
 	 */
 	public int[] getPos(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getPos(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -3178,7 +3175,7 @@ public class ControlImpl implements Control {
 	 */
 	public Integer getPosX(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getPosX(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -3241,7 +3238,7 @@ public class ControlImpl implements Control {
 	 */
 	public Integer getPosY(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getPosY(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -3304,7 +3301,7 @@ public class ControlImpl implements Control {
 	 */
 	public Integer getHeight(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHeight(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -3367,7 +3364,7 @@ public class ControlImpl implements Control {
 	 */
 	public Integer getWidth(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getWidth(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -3409,8 +3406,8 @@ public class ControlImpl implements Control {
 	public int[] getSize(final String title, final String text,
 						 final String control) {
 		RECT rect = new RECT();
-		AutoItX.autoItX.AU3_ControlGetPos(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
+		AutoItX.autoItX.AU3_ControlGetPos(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
 				rect);
 
 		return AutoItX.hasError() ? null : new int[] { rect.right - rect.left,
@@ -3434,7 +3431,7 @@ public class ControlImpl implements Control {
 	 */
 	public int[] getSize(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSize(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -3475,11 +3472,11 @@ public class ControlImpl implements Control {
 						  final String controlId) {
 		final int bufSize = CONTROL_GET_TEXT_BUF_ZIZE;
 		final CharBuffer controlText = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_ControlGetText(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text),
-				AutoItX.stringToWString(AutoItX.defaultString(controlId)), controlText, bufSize);
+		AutoItX.autoItX.AU3_ControlGetText(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(controlId)), controlText, bufSize);
 
-		return AutoItX.hasError() ? _win32.getControlText(getHandle_(title,
+		return AutoItX.hasError() ? LocalInstances.win32.getControlText(getHandle_(title,
 				text, controlId)) : Native.toString(controlText.array());
 	}
 
@@ -3499,7 +3496,7 @@ public class ControlImpl implements Control {
 	 */
 	public String getText(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getText(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -3540,8 +3537,8 @@ public class ControlImpl implements Control {
 	 */
 	public boolean hide(final String title, final String text,
 						final String control) {
-		return AutoItX.autoItX.AU3_ControlHide(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlHide(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -3561,7 +3558,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean hide(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : hide(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -3636,7 +3633,7 @@ public class ControlImpl implements Control {
 	public boolean move(final HWND hWnd, final HWND hCtrl, final int x,
 						final int y) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : move(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), x, y);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), x, y);
 	}
 
 	/**
@@ -3701,8 +3698,8 @@ public class ControlImpl implements Control {
 		if ((height == null) || (height < 0)) {
 			height = getHeight(title, text, control);
 		}
-		return AutoItX.autoItX.AU3_ControlMove(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
+		return AutoItX.autoItX.AU3_ControlMove(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
 				x, y, width, height) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
@@ -3732,7 +3729,7 @@ public class ControlImpl implements Control {
 	public boolean move(final HWND hWnd, final HWND hCtrl, final int x,
 						final int y, Integer width, Integer height) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : move(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), x, y, width, height);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), x, y, width, height);
 	}
 
 	/**
@@ -3844,7 +3841,7 @@ public class ControlImpl implements Control {
 	public boolean send(final HWND hWnd, final HWND hCtrl,
 						final String sendText) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : send(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), sendText);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), sendText);
 	}
 
 	/**
@@ -3885,9 +3882,9 @@ public class ControlImpl implements Control {
 		// indicate SHIFT and {LEFT} to indicate left arrow.
 		//
 		// flag = 1, keys are sent raw.
-		return AutoItX.autoItX.AU3_ControlSend(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), AutoItX.stringToWString(AutoItX.defaultString(control)),
-				AutoItX.stringToWString(AutoItX.defaultString(sendText)),
+		return AutoItX.autoItX.AU3_ControlSend(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(sendText)),
 				(sendRawText == null) ? null : (sendRawText ? 1 : 0)) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
@@ -3921,7 +3918,7 @@ public class ControlImpl implements Control {
 	public boolean send(final HWND hWnd, final HWND hCtrl,
 						final String sendText, final Boolean sendRawText) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : send(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), sendText, sendRawText);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), sendText, sendRawText);
 	}
 
 	/**
@@ -3968,9 +3965,9 @@ public class ControlImpl implements Control {
 	public boolean setText(final String title, final String text,
 						   final String controlId, final String controlText) {
 		return AutoItX.autoItX.AU3_ControlSetText(
-				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text),
-				AutoItX.stringToWString(AutoItX.defaultString(controlId)),
-				AutoItX.stringToWString(AutoItX.defaultString(controlText))) == AutoItX.SUCCESS_RETURN_VALUE;
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(title)), AutoItUtils.stringToWString(text),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(controlId)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(controlText))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -3993,7 +3990,7 @@ public class ControlImpl implements Control {
 	public boolean setText(final HWND hWnd, final HWND hCtrl,
 						   final String controlText) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : setText(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl), controlText);
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), controlText);
 	}
 
 	/**
@@ -4034,9 +4031,9 @@ public class ControlImpl implements Control {
 	 */
 	public boolean show(final String title, final String text,
 						final String controlId) {
-		return AutoItX.autoItX.AU3_ControlShow(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text),
-				AutoItX.stringToWString(AutoItX.defaultString(controlId))) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_ControlShow(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(controlId))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -4056,7 +4053,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean show(final HWND hWnd, final HWND hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : show(
-				AutoItX.buildTitle(hWnd), AutoItX.buildControlId(hCtrl));
+				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
 
 	/**
@@ -4118,7 +4115,7 @@ public class ControlImpl implements Control {
 	 *         be read.
 	 */
 	public String statusbarGetText(final HWND hWnd) {
-		return (hWnd == null) ? null : statusbarGetText(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : statusbarGetText(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -4171,8 +4168,8 @@ public class ControlImpl implements Control {
 								   final String text, final Integer part) {
 		final int bufSize = STATUSBAR_GET_TEXT_BUF_SIZE;
 		final CharBuffer statusText = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_StatusbarGetText(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), part, statusText, bufSize);
+		AutoItX.autoItX.AU3_StatusbarGetText(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), part, statusText, bufSize);
 
 		return AutoItX.hasError() ? null : Native.toString(statusText.array());
 	}
@@ -4198,7 +4195,7 @@ public class ControlImpl implements Control {
 	 *         be read.
 	 */
 	public String statusbarGetText(final HWND hWnd, final Integer part) {
-		return (hWnd == null) ? null : statusbarGetText(AutoItX.buildTitle(hWnd), part);
+		return (hWnd == null) ? null : statusbarGetText(TitleBuilder.byHandle(hWnd), part);
 	}
 
 }

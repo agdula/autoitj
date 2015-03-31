@@ -1,7 +1,10 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.impl;
 
 import java.nio.CharBuffer;
 
+import cn.com.jautoitx.AutoItX;
+import cn.com.jautoitx.Clip;
+import cn.com.jautoitx.impl.AutoItUtils;
 import com.sun.jna.Native;
 
 public class ClipImpl implements Clip {
@@ -29,6 +32,6 @@ public class ClipImpl implements Clip {
 	 *            The text to write to the clipboard.
 	 */
 	public void put(final String clip) {
-		AutoItX.autoItX.AU3_ClipPut(AutoItX.stringToWString(AutoItX.defaultString(clip)));
+		AutoItX.autoItX.AU3_ClipPut(AutoItUtils.stringToWString(AutoItUtils.defaultString(clip)));
 	}
 }

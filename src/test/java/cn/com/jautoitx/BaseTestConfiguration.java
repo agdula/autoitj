@@ -1,5 +1,10 @@
 package cn.com.jautoitx;
 
+import cn.com.jautoitx.impl.ClipImpl;
+import cn.com.jautoitx.impl.ControlImpl;
+import cn.com.jautoitx.impl.LocalInstances;
+import cn.com.jautoitx.impl.TreeViewImpl;
+import cn.com.jautoitx.impl.WinImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,9 +15,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class BaseTestConfiguration {
-    @Bean  Clip getClip(){ return new ClipImpl(); }
-    @Bean  Win32 getWin32(){ return Win32Impl.instance; }
-    @Bean  Win getWin(Win32 win32){ return new WinImpl(win32); }
-    @Bean  Control getControl(Win32 win32){ return new ControlImpl(win32); }
-    @Bean  TreeView getTreeView(Control control){ return new TreeViewImpl(control); }
+    @Bean  Clip getClip(){ return LocalInstances.clip; }
+    @Bean  Win32 getWin32(){ return LocalInstances.win32; }
+    @Bean  Win getWin(){ return LocalInstances.win; }
+    @Bean  Control getControl(){ return LocalInstances.control; }
+    @Bean  TreeView getTreeView(){ return LocalInstances.treeView; }
 }

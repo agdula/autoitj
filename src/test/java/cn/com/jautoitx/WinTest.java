@@ -5,6 +5,7 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.util.List;
 
+import cn.com.jautoitx.impl.AutoItUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -578,10 +579,10 @@ public class WinTest extends BaseTest {
 		Assert.assertNotNull(hWnd);
 
 		assertEquals(
-				AutoItX.hwndToHandle(User32.INSTANCE.GetForegroundWindow()),
+				AutoItUtils.hwndToHandle(User32.INSTANCE.GetForegroundWindow()),
 				Win.getHandle(NOTEPAD_TITLE));
 		assertEquals(
-				AutoItX.hwndToHandle(User32.INSTANCE.GetForegroundWindow()),
+				AutoItUtils.hwndToHandle(User32.INSTANCE.GetForegroundWindow()),
 				Win.getHandle(hWnd));
 
 		// close notepad

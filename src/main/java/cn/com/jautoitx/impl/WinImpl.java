@@ -1,16 +1,20 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.impl;
 
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.com.jautoitx.AutoItX;
+import cn.com.jautoitx.TitleBuilder;
+import cn.com.jautoitx.Win;
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.WinDef.HWND;
 import com.sun.jna.platform.win32.WinDef.POINT;
 import com.sun.jna.platform.win32.WinDef.RECT;
 
 public final class WinImpl implements Win {
+
 
 	public static int WIN_GET_CLASS_LIST_BUF_SIZE = 256;
 
@@ -19,12 +23,6 @@ public final class WinImpl implements Win {
 
 	public static int WIN_GET_TITLE_BUF_SIZE = 1024;
 
-	private Win32 _win32;
-
-	public WinImpl(Win32 win32) {
-		// Do nothing
-		this._win32 = win32;
-	}
 
 	/**
 	 * Activates (gives focus to) a window.
@@ -59,8 +57,8 @@ public final class WinImpl implements Win {
 	 * @return Returns true if window is activated, otherwise returns false.
 	 */
 	public boolean activate(final String title, final String text) {
-		AutoItX.autoItX.AU3_WinActivate(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text));
+		AutoItX.autoItX.AU3_WinActivate(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text));
 		return active(title, text);
 	}
 
@@ -78,7 +76,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if window is activated, otherwise returns false.
 	 */
 	public boolean activate(final HWND hWnd) {
-		return (hWnd == null) ? false : activate(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : activate(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -102,8 +100,8 @@ public final class WinImpl implements Win {
 	 * @return Returns true if window is active, otherwise returns false.
 	 */
 	public boolean active(final String title, final String text) {
-		return AutoItX.autoItX.AU3_WinActive(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text)) == AutoItX.TRUE;
+		return AutoItX.autoItX.AU3_WinActive(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text)) == AutoItX.TRUE;
 	}
 
 	/**
@@ -114,7 +112,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if window is active, otherwise returns false.
 	 */
 	public boolean active(final HWND hWnd) {
-		return (hWnd == null) ? false : active(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : active(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -148,8 +146,8 @@ public final class WinImpl implements Win {
 	 * @return Returns 1 if success, returns 0 if window is not found.
 	 */
 	public boolean close(final String title, final String text) {
-		return AutoItX.autoItX.AU3_WinClose(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text)) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinClose(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text)) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -165,7 +163,7 @@ public final class WinImpl implements Win {
 	 * @return Returns 1 if success, returns 0 if window is not found.
 	 */
 	public boolean close(final HWND hWnd) {
-		return (hWnd == null) ? false : close(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : close(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -191,8 +189,8 @@ public final class WinImpl implements Win {
 	 *         WinExist will return true even if a window is hidden.
 	 */
 	public boolean exists(final String title, final String text) {
-		return AutoItX.autoItX.AU3_WinExists(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text)) == AutoItX.TRUE;
+		return AutoItX.autoItX.AU3_WinExists(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text)) == AutoItX.TRUE;
 	}
 
 	/**
@@ -204,7 +202,7 @@ public final class WinImpl implements Win {
 	 *         WinExist will return true even if a window is hidden.
 	 */
 	public boolean exists(final HWND hWnd) {
-		return (hWnd == null) ? false : exists(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : exists(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -301,8 +299,8 @@ public final class WinImpl implements Win {
 	public String getClassList(final String title, final String text) {
 		final int bufSize = WIN_GET_CLASS_LIST_BUF_SIZE;
 		final CharBuffer retText = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_WinGetClassList(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), retText, bufSize);
+		AutoItX.autoItX.AU3_WinGetClassList(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), retText, bufSize);
 
 		return AutoItX.hasError() ? null : Native.toString(retText.array());
 	}
@@ -321,7 +319,7 @@ public final class WinImpl implements Win {
 	 *         returns null if no window matches the criteria.
 	 */
 	public String getClassList(final HWND hWnd) {
-		return (hWnd == null) ? null : getClassList(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getClassList(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -410,7 +408,7 @@ public final class WinImpl implements Win {
 	 *         no window matches the criteria.
 	 */
 	public String getClassName(final String title, final String text) {
-		return _win32.getClassName(getHandle_(title, text));
+		return LocalInstances.win32.getClassName(getHandle_(title, text));
 	}
 
 	/**
@@ -422,7 +420,7 @@ public final class WinImpl implements Win {
 	 *         no window matches the criteria.
 	 */
 	public String getClassName(final HWND hWnd) {
-		return (hWnd == null) ? null : getClassName(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getClassName(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -524,8 +522,8 @@ public final class WinImpl implements Win {
 		int[] clientSize = null;
 		if (!minimized(title, text)) {
 			RECT rect = new RECT();
-			AutoItX.autoItX.AU3_WinGetClientSize(AutoItX.stringToWString(AutoItX.defaultString(title)),
-					AutoItX.stringToWString(text), rect);
+			AutoItX.autoItX.AU3_WinGetClientSize(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+					AutoItUtils.stringToWString(text), rect);
 			if (!AutoItX.hasError()) {
 				clientSize = new int[] { rect.right - rect.left,
 						rect.bottom - rect.top };
@@ -665,7 +663,7 @@ public final class WinImpl implements Win {
 	 *         returns null if no window matches the criteria.
 	 */
 	public String getHandle(final String title, final String text) {
-		return AutoItX.hwndToHandle(getHandle_(title, text));
+		return AutoItUtils.hwndToHandle(getHandle_(title, text));
 	}
 
 	/**
@@ -682,7 +680,7 @@ public final class WinImpl implements Win {
 	 *         returns null if no window matches the criteria.
 	 */
 	public String getHandle(final HWND hWnd) {
-		return (hWnd == null) ? null : getHandle(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getHandle(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -718,8 +716,8 @@ public final class WinImpl implements Win {
 	 *         window matches the criteria.
 	 */
 	public HWND getHandle_(final String title, final String text) {
-		return AutoItX.autoItX.AU3_WinGetHandle(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text));
+		return AutoItX.autoItX.AU3_WinGetHandle(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text));
 	}
 
 	/**
@@ -758,8 +756,8 @@ public final class WinImpl implements Win {
 		int[] pos = null;
 		if (!minimized(title, text)) {
 			RECT rect = new RECT();
-			AutoItX.autoItX.AU3_WinGetPos(AutoItX.stringToWString(AutoItX.defaultString(title)),
-					AutoItX.stringToWString(text), rect);
+			AutoItX.autoItX.AU3_WinGetPos(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+					AutoItUtils.stringToWString(text), rect);
 			if (!AutoItX.hasError()) {
 				pos = new int[] { rect.left, rect.top };
 			}
@@ -782,7 +780,7 @@ public final class WinImpl implements Win {
 	 *         windows is not found or window is minimized.
 	 */
 	public int[] getPos(final HWND hWnd) {
-		return (hWnd == null) ? null : getPos(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getPos(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -836,7 +834,7 @@ public final class WinImpl implements Win {
 	 *         windows is not found or window is minimized.
 	 */
 	public Integer getPosX(final HWND hWnd) {
-		return (hWnd == null) ? null : getPosX(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getPosX(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -890,7 +888,7 @@ public final class WinImpl implements Win {
 	 *         windows is not found or window is minimize.
 	 */
 	public Integer getPosY(final HWND hWnd) {
-		return (hWnd == null) ? null : getPosY(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getPosY(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -948,7 +946,7 @@ public final class WinImpl implements Win {
 	 *         windows is not found or window is minimized.
 	 */
 	public Integer getHeight(final HWND hWnd) {
-		return (hWnd == null) ? null : getHeight(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getHeight(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1006,7 +1004,7 @@ public final class WinImpl implements Win {
 	 *         windows is not found or window is minimized.
 	 */
 	public Integer getWidth(final HWND hWnd) {
-		return (hWnd == null) ? null : getWidth(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getWidth(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1031,7 +1029,7 @@ public final class WinImpl implements Win {
 	 */
 	public Integer getProcess(final String title, final String text) {
 		int pid = AutoItX.autoItX.AU3_WinGetProcess(
-				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text));
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(title)), AutoItUtils.stringToWString(text));
 		return (pid <= 0) ? null : pid;
 	}
 
@@ -1043,7 +1041,7 @@ public final class WinImpl implements Win {
 	 * @return Returns the Process ID (PID) if success, return null if failed.
 	 */
 	public Integer getProcess(final HWND hWnd) {
-		return (hWnd == null) ? null : getProcess(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getProcess(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1082,8 +1080,8 @@ public final class WinImpl implements Win {
 		int[] size = null;
 		if (!minimized(title, text)) {
 			RECT rect = new RECT();
-			AutoItX.autoItX.AU3_WinGetPos(AutoItX.stringToWString(AutoItX.defaultString(title)),
-					AutoItX.stringToWString(text), rect);
+			AutoItX.autoItX.AU3_WinGetPos(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+					AutoItUtils.stringToWString(text), rect);
 			if (!AutoItX.hasError()) {
 				size = new int[] { rect.right - rect.left,
 						rect.bottom - rect.top };
@@ -1106,7 +1104,7 @@ public final class WinImpl implements Win {
 	 *         windows is not found or window is minimized.
 	 */
 	public int[] getSize(final HWND hWnd) {
-		return (hWnd == null) ? null : getSize(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getSize(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1142,7 +1140,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if the window is visible, otherwise returns false.
 	 */
 	public boolean visible(final HWND hWnd) {
-		return (hWnd == null) ? false : visible(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : visible(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1178,7 +1176,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if the window is enabled, otherwise returns false.
 	 */
 	public boolean enabled(final HWND hWnd) {
-		return (hWnd == null) ? false : enabled(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : enabled(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1214,7 +1212,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if the window is minimized, otherwise returns false.
 	 */
 	public boolean minimized(final HWND hWnd) {
-		return (hWnd == null) ? false : minimized(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : minimized(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1250,7 +1248,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if the window is maximized, otherwise returns false.
 	 */
 	public boolean maximized(final HWND hWnd) {
-		return (hWnd == null) ? false : maximized(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : maximized(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1291,7 +1289,7 @@ public final class WinImpl implements Win {
 	 */
 	public Integer getState(final String title, final String text) {
 		int state = AutoItX.autoItX.AU3_WinGetState(
-				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text));
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(title)), AutoItUtils.stringToWString(text));
 		return AutoItX.hasError() ? null : state;
 	}
 
@@ -1311,7 +1309,7 @@ public final class WinImpl implements Win {
 	 *         Returns null if the window is not found.
 	 */
 	public Integer getState(final HWND hWnd) {
-		return (hWnd == null) ? null : getState(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getState(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1361,7 +1359,7 @@ public final class WinImpl implements Win {
 	 *         window. Returns null if the window is not found.
 	 */
 	public List<WinState> getState_(final HWND hWnd) {
-		return (hWnd == null) ? null : getState_(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getState_(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1400,8 +1398,8 @@ public final class WinImpl implements Win {
 	 */
 	public String getText(final String title, final String text) {
 		final CharBuffer retText = CharBuffer.allocate(WIN_GET_TEXT_BUF_SIZE);
-		AutoItX.autoItX.AU3_WinGetText(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), retText, WIN_GET_TEXT_BUF_SIZE);
+		AutoItX.autoItX.AU3_WinGetText(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), retText, WIN_GET_TEXT_BUF_SIZE);
 
 		return Native.toString(retText.array());
 	}
@@ -1421,7 +1419,7 @@ public final class WinImpl implements Win {
 	 * @return Returns a string containing the window text read.
 	 */
 	public String getText(final HWND hWnd) {
-		return (hWnd == null) ? null : getText(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getText(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1457,8 +1455,8 @@ public final class WinImpl implements Win {
 	public String getTitle(final String title, final String text) {
 		if (exists(title, text)) {
 			CharBuffer retText = CharBuffer.allocate(WIN_GET_TITLE_BUF_SIZE);
-			AutoItX.autoItX.AU3_WinGetTitle(AutoItX.stringToWString(AutoItX.defaultString(title)),
-					AutoItX.stringToWString(text), retText, WIN_GET_TITLE_BUF_SIZE);
+			AutoItX.autoItX.AU3_WinGetTitle(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+					AutoItUtils.stringToWString(text), retText, WIN_GET_TITLE_BUF_SIZE);
 
 			if (!AutoItX.hasError()) {
 				return Native.toString(retText.array());
@@ -1480,7 +1478,7 @@ public final class WinImpl implements Win {
 	 *         returns null if no title match.
 	 */
 	public String getTitle(final HWND hWnd) {
-		return (hWnd == null) ? null : getTitle(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? null : getTitle(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1517,8 +1515,8 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean kill(final String title, final String text) {
-		return AutoItX.autoItX.AU3_WinKill(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text)) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinKill(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text)) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -1536,7 +1534,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean kill(final HWND hWnd) {
-		return (hWnd == null) ? false : kill(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : kill(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -1611,7 +1609,7 @@ public final class WinImpl implements Win {
 	 *         found.
 	 */
 	public boolean menuSelectItem(final HWND hWnd, final String item1) {
-		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), item1);
+		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), item1);
 	}
 
 	/**
@@ -1667,7 +1665,7 @@ public final class WinImpl implements Win {
 	 */
 	public boolean menuSelectItem(final HWND hWnd, final String item1,
 								  final String item2) {
-		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
 				item1, item2);
 	}
 
@@ -1728,7 +1726,7 @@ public final class WinImpl implements Win {
 	 */
 	public boolean menuSelectItem(final HWND hWnd, final String item1,
 								  final String item2, final String item3) {
-		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
 				item1, item2, item3);
 	}
 
@@ -1794,7 +1792,7 @@ public final class WinImpl implements Win {
 	 */
 	public boolean menuSelectItem(final HWND hWnd, final String item1,
 								  final String item2, final String item3, final String item4) {
-		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
 				item1, item2, item3, item4);
 	}
 
@@ -1866,7 +1864,7 @@ public final class WinImpl implements Win {
 	public boolean menuSelectItem(final HWND hWnd, final String item1,
 								  final String item2, final String item3, final String item4,
 								  final String item5) {
-		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
 				item1, item2, item3, item4, item5);
 	}
 
@@ -1942,7 +1940,7 @@ public final class WinImpl implements Win {
 	public boolean menuSelectItem(final HWND hWnd, final String item1,
 								  final String item2, final String item3, final String item4,
 								  final String item5, final String item6) {
-		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
 				item1, item2, item3, item4, item5, item6);
 	}
 
@@ -2023,7 +2021,7 @@ public final class WinImpl implements Win {
 	public boolean menuSelectItem(final HWND hWnd, final String item1,
 								  final String item2, final String item3, final String item4,
 								  final String item5, final String item6, final String item7) {
-		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
 				item1, item2, item3, item4, item5, item6, item7);
 	}
 
@@ -2068,15 +2066,15 @@ public final class WinImpl implements Win {
 								  final String item4, final String item5, final String item6,
 								  final String item7, final String item8) {
 		return AutoItX.autoItX.AU3_WinMenuSelectItem(
-				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text),
-				AutoItX.stringToWString(AutoItX.defaultString(item1)),
-				AutoItX.stringToWString(AutoItX.defaultString(item2)),
-				AutoItX.stringToWString(AutoItX.defaultString(item3)),
-				AutoItX.stringToWString(AutoItX.defaultString(item4)),
-				AutoItX.stringToWString(AutoItX.defaultString(item5)),
-				AutoItX.stringToWString(AutoItX.defaultString(item6)),
-				AutoItX.stringToWString(AutoItX.defaultString(item7)),
-				AutoItX.stringToWString(AutoItX.defaultString(item8))) == AutoItX.SUCCESS_RETURN_VALUE;
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(title)), AutoItUtils.stringToWString(text),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(item1)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(item2)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(item3)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(item4)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(item5)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(item6)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(item7)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(item8))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2117,7 +2115,7 @@ public final class WinImpl implements Win {
 								  final String item2, final String item3, final String item4,
 								  final String item5, final String item6, final String item7,
 								  final String item8) {
-		return (hWnd == null) ? false : menuSelectItem(AutoItX.buildTitle(hWnd), null,
+		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
 				item1, item2, item3, item4, item5, item6, item7, item8);
 	}
 
@@ -2189,8 +2187,8 @@ public final class WinImpl implements Win {
 	 */
 	public boolean move(final String title, final String text,
 						final int x, final int y) {
-		return AutoItX.autoItX.AU3_WinMove(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), x, y, null, null) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinMove(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), x, y, null, null) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2216,7 +2214,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean move(final HWND hWnd, final int x, final int y) {
-		return (hWnd == null) ? false : move(AutoItX.buildTitle(hWnd), x, y);
+		return (hWnd == null) ? false : move(TitleBuilder.byHandle(hWnd), x, y);
 	}
 
 	/**
@@ -2276,8 +2274,8 @@ public final class WinImpl implements Win {
 	 */
 	public boolean move(final String title, final String text,
 						final int x, final int y, final int width) {
-		return AutoItX.autoItX.AU3_WinMove(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), x, y, width, null) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinMove(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), x, y, width, null) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2306,7 +2304,7 @@ public final class WinImpl implements Win {
 	 */
 	public boolean move(final HWND hWnd, final int x, final int y,
 						final int width) {
-		return (hWnd == null) ? false : move(AutoItX.buildTitle(hWnd), x, y, width);
+		return (hWnd == null) ? false : move(TitleBuilder.byHandle(hWnd), x, y, width);
 	}
 
 	/**
@@ -2370,8 +2368,8 @@ public final class WinImpl implements Win {
 	 */
 	public boolean move(final String title, final String text,
 						final int x, final int y, final int width, final int height) {
-		return AutoItX.autoItX.AU3_WinMove(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), x, y, width, height) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinMove(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), x, y, width, height) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2402,7 +2400,7 @@ public final class WinImpl implements Win {
 	 */
 	public boolean move(final HWND hWnd, final int x, final int y,
 						final int width, final int height) {
-		return (hWnd == null) ? false : move(AutoItX.buildTitle(hWnd), x, y, width,
+		return (hWnd == null) ? false : move(TitleBuilder.byHandle(hWnd), x, y, width,
 				height);
 	}
 
@@ -2438,7 +2436,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean setOnTop(final HWND hWnd) {
-		return (hWnd == null) ? false : setOnTop(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : setOnTop(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -2469,8 +2467,8 @@ public final class WinImpl implements Win {
 	 */
 	public boolean setOnTop(final String title, final String text,
 							final boolean on) {
-		return AutoItX.autoItX.AU3_WinSetOnTop(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), on ? 1 : 0) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinSetOnTop(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), on ? 1 : 0) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2484,7 +2482,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean setOnTop(final HWND hWnd, final boolean on) {
-		return (hWnd == null) ? false : setOnTop(AutoItX.buildTitle(hWnd), on);
+		return (hWnd == null) ? false : setOnTop(TitleBuilder.byHandle(hWnd), on);
 	}
 
 	/**
@@ -2528,7 +2526,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean show(final HWND hWnd) {
-		return (hWnd == null) ? false : show(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : show(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -2572,7 +2570,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean hide(final HWND hWnd) {
-		return (hWnd == null) ? false : hide(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : hide(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -2616,7 +2614,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean minimize(final HWND hWnd) {
-		return (hWnd == null) ? false : minimize(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : minimize(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -2660,7 +2658,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean maximize(final HWND hWnd) {
-		return (hWnd == null) ? false : maximize(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : maximize(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -2704,7 +2702,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean restore(final HWND hWnd) {
-		return (hWnd == null) ? false : restore(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : restore(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -2791,7 +2789,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean setState(final HWND hWnd, final WinSetState winState) {
-		return (hWnd == null) ? false : setState(AutoItX.buildTitle(hWnd), winState);
+		return (hWnd == null) ? false : setState(TitleBuilder.byHandle(hWnd), winState);
 	}
 
 	/**
@@ -2823,8 +2821,8 @@ public final class WinImpl implements Win {
 	 */
 	public boolean setState(final String title, final String text,
 							final int flags) {
-		return AutoItX.autoItX.AU3_WinSetState(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), flags) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinSetState(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), flags) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2853,7 +2851,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean setState(final HWND hWnd, final int flags) {
-		return (hWnd == null) ? false : setState(AutoItX.buildTitle(hWnd), flags);
+		return (hWnd == null) ? false : setState(TitleBuilder.byHandle(hWnd), flags);
 	}
 
 	/**
@@ -2889,9 +2887,9 @@ public final class WinImpl implements Win {
 	public boolean setTitle(final String title, final String text,
 							final String newTitle) {
 		return AutoItX.autoItX
-				.AU3_WinSetTitle(AutoItX.stringToWString(AutoItX.defaultString(title)),
-						AutoItX.stringToWString(text),
-						AutoItX.stringToWString(AutoItX.defaultString(newTitle))) == AutoItX.SUCCESS_RETURN_VALUE;
+				.AU3_WinSetTitle(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+						AutoItUtils.stringToWString(text),
+						AutoItUtils.stringToWString(AutoItUtils.defaultString(newTitle))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -2907,7 +2905,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if window is not found.
 	 */
 	public boolean setTitle(final HWND hWnd, final String newTitle) {
-		return (hWnd == null) ? false : setTitle(AutoItX.buildTitle(hWnd), newTitle);
+		return (hWnd == null) ? false : setTitle(TitleBuilder.byHandle(hWnd), newTitle);
 	}
 
 	/**
@@ -2938,8 +2936,8 @@ public final class WinImpl implements Win {
 	 */
 	public boolean setTrans(final String title, final String text,
 							final int transparency) {
-		return AutoItX.autoItX.AU3_WinSetTrans(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), transparency) != AutoItX.FAILED_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinSetTrans(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), transparency) != AutoItX.FAILED_RETURN_VALUE;
 	}
 
 	/**
@@ -2954,7 +2952,7 @@ public final class WinImpl implements Win {
 	 */
 	public boolean setTrans(final HWND hWnd, final int transparency) {
 		return (hWnd == null) ? false
-				: setTrans(AutoItX.buildTitle(hWnd), transparency);
+				: setTrans(TitleBuilder.byHandle(hWnd), transparency);
 	}
 
 	/**
@@ -2995,7 +2993,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
 	public boolean wait(final HWND hWnd) {
-		return (hWnd == null) ? false : wait(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : wait(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -3028,8 +3026,8 @@ public final class WinImpl implements Win {
 	 */
 	public boolean wait(final String title, final String text,
 						final Integer timeout) {
-		return AutoItX.autoItX.AU3_WinWait(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), timeout) != AutoItX.FAILED_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinWait(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), timeout) != AutoItX.FAILED_RETURN_VALUE;
 	}
 
 	/**
@@ -3044,7 +3042,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
 	public boolean wait(final HWND hWnd, final Integer timeout) {
-		return (hWnd == null) ? false : wait(AutoItX.buildTitle(hWnd), timeout);
+		return (hWnd == null) ? false : wait(TitleBuilder.byHandle(hWnd), timeout);
 	}
 
 	/**
@@ -3085,7 +3083,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
 	public boolean waitActive(final HWND hWnd) {
-		return (hWnd == null) ? false : waitActive(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : waitActive(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -3118,8 +3116,8 @@ public final class WinImpl implements Win {
 	 */
 	public boolean waitActive(final String title, final String text,
 							  final Integer timeout) {
-		return AutoItX.autoItX.AU3_WinWaitActive(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), timeout) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinWaitActive(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), timeout) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -3134,7 +3132,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
 	public boolean waitActive(final HWND hWnd, final Integer timeout) {
-		return (hWnd == null) ? false : waitActive(AutoItX.buildTitle(hWnd), timeout);
+		return (hWnd == null) ? false : waitActive(TitleBuilder.byHandle(hWnd), timeout);
 	}
 
 	/**
@@ -3178,7 +3176,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
 	public boolean waitClose(final HWND hWnd) {
-		return (hWnd == null) ? false : waitClose(AutoItX.buildTitle(hWnd));
+		return (hWnd == null) ? false : waitClose(TitleBuilder.byHandle(hWnd));
 	}
 
 	/**
@@ -3213,8 +3211,8 @@ public final class WinImpl implements Win {
 	 */
 	public boolean waitClose(final String title, final String text,
 							 final Integer timeout) {
-		return AutoItX.autoItX.AU3_WinWaitClose(AutoItX.stringToWString(AutoItX.defaultString(title)),
-				AutoItX.stringToWString(text), timeout) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItX.autoItX.AU3_WinWaitClose(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+				AutoItUtils.stringToWString(text), timeout) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -3230,7 +3228,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
 	public boolean waitClose(final HWND hWnd, final Integer timeout) {
-		return (hWnd == null) ? false : waitClose(AutoItX.buildTitle(hWnd), timeout);
+		return (hWnd == null) ? false : waitClose(TitleBuilder.byHandle(hWnd), timeout);
 	}
 
 	/**
@@ -3317,7 +3315,7 @@ public final class WinImpl implements Win {
 	public boolean waitNotActive(final String title, final String text,
 								 final Integer timeout) {
 		return AutoItX.autoItX.AU3_WinWaitNotActive(
-				AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(title)), AutoItUtils.stringToWString(text),
 				timeout) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
@@ -3336,7 +3334,7 @@ public final class WinImpl implements Win {
 	 */
 	public boolean waitNotActive(final HWND hWnd, final Integer timeout) {
 		return (hWnd == null) ? false
-				: waitNotActive(AutoItX.buildTitle(hWnd), timeout);
+				: waitNotActive(TitleBuilder.byHandle(hWnd), timeout);
 	}
 
 }

@@ -1,5 +1,10 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.impl;
 
+import cn.com.jautoitx.AutoItX;
+import cn.com.jautoitx.Keyboard;
+import cn.com.jautoitx.Opt;
+import cn.com.jautoitx.TitleBuilder;
+import cn.com.jautoitx.Win32;
 import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
@@ -28,11 +33,9 @@ public class Win32Impl implements Win32 {
     private static final int WM_GETTEXT = 0x000D;
     private static final int WM_GETTEXTLENGTH = 0x000E;
 
-    private Win32Impl() {
+    Win32Impl() {
         // Do nothing
     }
-
-    static final Win32 instance = new Win32Impl();
 
     public String getClassName(final String title, final String control) {
         return getClassName(title, null, control);
@@ -43,7 +46,7 @@ public class Win32Impl implements Win32 {
         String className = null;
 
         if (StringUtils.isNotBlank(control)) {
-            HWND hWnd = AutoItX.handleToHwnd(getHandle(title, text, control));
+            HWND hWnd = AutoItUtils.handleToHwnd(getHandle(title, text, control));
             if (hWnd != null) {
                 className = getClassName(hWnd);
             }
@@ -53,7 +56,7 @@ public class Win32Impl implements Win32 {
     }
 
     public String getClassName(final String handle) {
-        return getClassName(AutoItX.handleToHwnd(handle));
+        return getClassName(AutoItUtils.handleToHwnd(handle));
     }
 
     public String getClassName(final HWND hWnd) {
@@ -229,7 +232,7 @@ public class Win32Impl implements Win32 {
      */
     public boolean isHWnd(HWND hWnd) {
         String title = TitleBuilder.byHandle(hWnd);
-        return (hWnd != null) && AutoItX.autoItX.AU3_WinExists(AutoItX.stringToWString(AutoItX.defaultString(title)),null) == AutoItX.TRUE;
+        return (hWnd != null) && AutoItX.autoItX.AU3_WinExists(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),null) == AutoItX.TRUE;
     }
 
     public boolean isListBox(final String title, final String control) {
@@ -273,8 +276,8 @@ public class Win32Impl implements Win32 {
                             final String control) {
         final CharBuffer retText = CharBuffer.allocate(AutoItX.HANDLE_BUF_SIZE);
         AutoItX.autoItX.AU3_ControlGetHandleAsText(
-                AutoItX.stringToWString(AutoItX.defaultString(title)), AutoItX.stringToWString(text),
-                AutoItX.stringToWString(AutoItX.defaultString(control)), retText,
+                AutoItUtils.stringToWString(AutoItUtils.defaultString(title)), AutoItUtils.stringToWString(text),
+                AutoItUtils.stringToWString(AutoItUtils.defaultString(control)), retText,
                 AutoItX.HANDLE_BUF_SIZE);
 
         return AutoItX.hasError() ? null : Native.toString(retText.array());

@@ -1,5 +1,6 @@
 package cn.com.jautoitx;
 
+import cn.com.jautoitx.impl.AutoItUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.platform.win32.WinDef.HWND;
@@ -150,11 +151,11 @@ public class TitleBuilder {
 	}
 
 	/**
-	 * Build window title base on the 1-based instance when all given properties
+	 * Build window title base on the 1-based win32 when all given properties
 	 * match.
 	 * 
 	 * @param instance
-	 *            The 1-based instance when all given properties match.
+	 *            The 1-based win32 when all given properties match.
 	 * @return Returns advanced window title.
 	 */
 	public static String byInstance(int instance) {
@@ -304,8 +305,8 @@ public class TitleBuilder {
 
 		/**
 		 * @param instance
-		 *            The 1-based instance when all given properties match.
-		 * @return a By which locates window by the instance when all given
+		 *            The 1-based win32 when all given properties match.
+		 * @return a By which locates window by the win32 when all given
 		 *         properties match.
 		 */
 		public static By instance(int instance) {
@@ -474,7 +475,7 @@ public class TitleBuilder {
 	}
 
 	/**
-	 * The 1-based instance when all given properties match.
+	 * The 1-based win32 when all given properties match.
 	 * 
 	 * @author zhengbo.wang
 	 */
@@ -496,7 +497,7 @@ public class TitleBuilder {
 		}
 
 		public ByHandle(HWND hWnd) {
-			this(AutoItX.hwndToHandle(hWnd));
+			this(AutoItUtils.hwndToHandle(hWnd));
 		}
 	}
 }

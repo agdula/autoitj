@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import cn.com.jautoitx.impl.AutoItUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclipse.swt.widgets.Display;
@@ -32,8 +33,6 @@ import com.sun.jna.win32.W32APIOptions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -231,7 +230,7 @@ public abstract class BaseTest {
 
 	protected String getTooltip(final String handle) {
 		Assert.assertTrue(StringUtils.isNotBlank(handle));
-		HWND hWnd = AutoItX.handleToHwnd(handle);
+		HWND hWnd = AutoItUtils.handleToHwnd(handle);
 		// check className
 		char[] lpClassName = new char[50];
 		int classNameLength = User32.INSTANCE.GetClassName(hWnd, lpClassName,

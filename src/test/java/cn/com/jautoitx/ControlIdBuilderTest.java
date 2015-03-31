@@ -1,5 +1,6 @@
 package cn.com.jautoitx;
 
+import cn.com.jautoitx.impl.AutoItUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -157,7 +158,7 @@ public class ControlIdBuilderTest extends BaseTest {
 		Assert.assertEquals("[]",
 				ControlIdBuilder.byBounds(null, null, null, null));
 
-		// by 1-based instance when all given properties match
+		// by 1-based win32 when all given properties match
 		Assert.assertEquals("[INSTANCE:-1]",
 				ControlIdBuilder.by(By.instance(-1)));
 		Assert.assertEquals("[INSTANCE:0]", ControlIdBuilder.by(By.instance(0)));
@@ -291,7 +292,7 @@ public class ControlIdBuilderTest extends BaseTest {
 				Control.getHandle(NOTEPAD_TITLE,
 						ControlIdBuilder.by(By.handle(Win32,handle))));
 		Assert.assertEquals(handle, Control.getHandle(NOTEPAD_TITLE,
-				ControlIdBuilder.by(By.handle(Win32,AutoItX.handleToHwnd(handle)))));
+				ControlIdBuilder.by(By.handle(Win32, AutoItUtils.handleToHwnd(handle)))));
 
 		// close notepad
 		Process.close(pid);

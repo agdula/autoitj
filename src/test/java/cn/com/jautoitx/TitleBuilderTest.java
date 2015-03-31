@@ -140,7 +140,7 @@ public class TitleBuilderTest extends BaseTest {
 				TitleBuilder.byBounds(10, null, null, null));
 		Assert.assertEquals("[]", TitleBuilder.byBounds(null, null, null, null));
 
-		// by 1-based instance when all given properties match
+		// by 1-based win32 when all given properties match
 		Assert.assertEquals("[INSTANCE:-1]", TitleBuilder.by(By.instance(-1)));
 		Assert.assertEquals("[INSTANCE:0]", TitleBuilder.by(By.instance(0)));
 		Assert.assertEquals("[INSTANCE:1]", TitleBuilder.by(By.instance(1)));

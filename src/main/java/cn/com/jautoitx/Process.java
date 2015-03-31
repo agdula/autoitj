@@ -1,5 +1,6 @@
 package cn.com.jautoitx;
 
+import cn.com.jautoitx.impl.AutoItUtils;
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
@@ -87,7 +88,6 @@ public class Process {
 	 * to be unresponsive.
 	 */
 	private static final int REALTIME_PRIORITY_CLASS = 0x00000100;
-	private final AutoItX autoItX = new AutoItX();
 
 	private Process() {
 		// Do nothing
@@ -128,7 +128,7 @@ public class Process {
 	 *            The title or PID of the process to terminate.
 	 */
 	public static void close(final String process) {
-		AutoItX.autoItX.AU3_ProcessClose(AutoItX.stringToWString(AutoItX.defaultString(process)));
+		AutoItX.autoItX.AU3_ProcessClose(AutoItUtils.stringToWString(AutoItUtils.defaultString(process)));
 	}
 
 	/**
@@ -165,7 +165,7 @@ public class Process {
 	 */
 	public static Integer exists(final String process) {
 		int pid = AutoItX.autoItX
-				.AU3_ProcessExists(AutoItX.stringToWString(AutoItX.defaultString(process)));
+				.AU3_ProcessExists(AutoItUtils.stringToWString(AutoItUtils.defaultString(process)));
 		return (pid > 0) ? pid : null;
 	}
 
@@ -327,8 +327,8 @@ public class Process {
 	public static Integer run(final String fileName, final String workingDir,
 			final Integer showFlag) {
 		final int pid = AutoItX.autoItX.AU3_Run(
-				AutoItX.stringToWString(AutoItX.defaultString(fileName)),
-				AutoItX.stringToWString(workingDir), (showFlag == null) ? AutoItX.SW_SHOWNORMAL
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(fileName)),
+				AutoItUtils.stringToWString(workingDir), (showFlag == null) ? Win.SW_SHOWNORMAL
 						: showFlag);
 		return (pid > 0) ? pid : null;
 	}
@@ -614,12 +614,12 @@ public class Process {
 			final String password, final Integer logonFlag,
 			final String fileName, final String workingDir,
 			final Integer showFlag) {
-		final int pid = AutoItX.autoItX.AU3_RunAs(AutoItX.stringToWString(AutoItX.defaultString(user)),
-				AutoItX.stringToWString(AutoItX.defaultString(domain)),
-				AutoItX.stringToWString(AutoItX.defaultString(password)),
+		final int pid = AutoItX.autoItX.AU3_RunAs(AutoItUtils.stringToWString(AutoItUtils.defaultString(user)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(domain)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(password)),
 				(logonFlag == null) ? RunLogonFlag.DEFAULT.getLogonFlag()
-						: logonFlag, AutoItX.stringToWString(AutoItX.defaultString(fileName)),
-				AutoItX.stringToWString(workingDir), (showFlag == null) ? AutoItX.SW_SHOWNORMAL
+						: logonFlag, AutoItUtils.stringToWString(AutoItUtils.defaultString(fileName)),
+				AutoItUtils.stringToWString(workingDir), (showFlag == null) ? Win.SW_SHOWNORMAL
 						: showFlag);
 		return (pid > 0) ? pid : null;
 	}
@@ -947,12 +947,12 @@ public class Process {
 			final Integer logonFlag, final String fileName,
 			final String workingDir, final Integer showFlag) {
 		final int exitCode = AutoItX.autoItX.AU3_RunAsWait(
-				AutoItX.stringToWString(AutoItX.defaultString(user)),
-				AutoItX.stringToWString(AutoItX.defaultString(domain)),
-				AutoItX.stringToWString(AutoItX.defaultString(password)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(user)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(domain)),
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(password)),
 				(logonFlag == null) ? RunLogonFlag.DEFAULT.getLogonFlag()
-						: logonFlag, AutoItX.stringToWString(AutoItX.defaultString(fileName)),
-				AutoItX.stringToWString(workingDir), (showFlag == null) ? AutoItX.SW_SHOWNORMAL
+						: logonFlag, AutoItUtils.stringToWString(AutoItUtils.defaultString(fileName)),
+				AutoItUtils.stringToWString(workingDir), (showFlag == null) ? Win.SW_SHOWNORMAL
 						: showFlag);
 		return new RunWaitResult(AutoItX.autoItX.AU3_error(), exitCode);
 	}
@@ -1101,8 +1101,8 @@ public class Process {
 	public static RunWaitResult runWait(final String fileName,
 			final String workingDir, final Integer flag) {
 		int exitCode = AutoItX.autoItX.AU3_RunWait(
-				AutoItX.stringToWString(AutoItX.defaultString(fileName)),
-				AutoItX.stringToWString(workingDir), (flag == null) ? AutoItX.SW_SHOWNORMAL
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(fileName)),
+				AutoItUtils.stringToWString(workingDir), (flag == null) ? Win.SW_SHOWNORMAL
 						: flag);
 		return new RunWaitResult(AutoItX.autoItX.AU3_error(), exitCode);
 	}
@@ -1174,7 +1174,7 @@ public class Process {
 	 */
 	public static boolean setPriority(final String process, final int priority) {
 		return AutoItX.autoItX.AU3_ProcessSetPriority(
-				AutoItX.stringToWString(AutoItX.defaultString(process)), priority) == AutoItX.SUCCESS_RETURN_VALUE;
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(process)), priority) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -1261,7 +1261,7 @@ public class Process {
 	 */
 	public static boolean wait(final String process,
 			final Integer timeoutInSeconds) {
-		return AutoItX.autoItX.AU3_ProcessWait(AutoItX.stringToWString(AutoItX.defaultString(process)),
+		return AutoItX.autoItX.AU3_ProcessWait(AutoItUtils.stringToWString(AutoItUtils.defaultString(process)),
 				timeoutInSeconds) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
@@ -1341,7 +1341,7 @@ public class Process {
 	public static boolean waitClose(final String process,
 			final Integer timeoutInSeconds) {
 		return AutoItX.autoItX.AU3_ProcessWaitClose(
-				AutoItX.stringToWString(AutoItX.defaultString(process)), timeoutInSeconds) == AutoItX.SUCCESS_RETURN_VALUE;
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(process)), timeoutInSeconds) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -1442,16 +1442,16 @@ public class Process {
 	 */
 	public static enum RunShowFlag {
 		/* Normal window */
-		NORMAL(AutoItX.SW_SHOWNORMAL),
+		NORMAL(Win.SW_SHOWNORMAL),
 
 		/* Hidden window */
-		HIDE(AutoItX.SW_HIDE),
+		HIDE(Win.SW_HIDE),
 
 		/* Minimized window */
-		MINIMIZE(AutoItX.SW_MINIMIZE),
+		MINIMIZE(Win.SW_MINIMIZE),
 
 		/* Maximized window */
-		MAXIMIZE(AutoItX.SW_MAXIMIZE);
+		MAXIMIZE(Win.SW_MAXIMIZE);
 
 		private int showFlag;
 

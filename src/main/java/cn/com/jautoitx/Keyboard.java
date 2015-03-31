@@ -1,5 +1,6 @@
 package cn.com.jautoitx;
 
+import cn.com.jautoitx.impl.AutoItUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class Keyboard {
@@ -275,7 +276,7 @@ public class Keyboard {
 	 */
 	public static void send(final String text, final Integer flag) {
 		if (StringUtils.isNotEmpty(text)) {
-			AutoItX.autoItX.AU3_Send(AutoItX.stringToWString(AutoItX.defaultString(text)), flag);
+			AutoItX.autoItX.AU3_Send(AutoItUtils.stringToWString(AutoItUtils.defaultString(text)), flag);
 		}
 	}
 

@@ -1,5 +1,7 @@
 package cn.com.jautoitx;
 
+import cn.com.jautoitx.impl.AutoItUtils;
+
 public final class Opt {
 
 	private Opt() {
@@ -314,7 +316,7 @@ public final class Opt {
 	 * 
 	 * In quick mode AutoIt can usually only "see" dialog text, button text and
 	 * the captions of some controls. In the default mode much more text can be
-	 * seen (for instance the contents of the Notepad window). If you are having
+	 * seen (for win32 the contents of the Notepad window). If you are having
 	 * performance problems when performing many window searches then changing
 	 * to the "quick" mode may help.
 	 * 
@@ -483,7 +485,7 @@ public final class Opt {
 	 * 2 = Quick mode<br>
 	 * In quick mode AutoIt can usually only "see" dialog text, button text and
 	 * the captions of some controls. In the default mode much more text can be
-	 * seen (for instance the contents of the Notepad window).<br>
+	 * seen (for win32 the contents of the Notepad window).<br>
 	 * If you are having performance problems when performing many window
 	 * searches then changing to the "quick" mode may help.</td>
 	 * </tr>
@@ -512,7 +514,7 @@ public final class Opt {
 	 * @return Returns the value of the previous setting.
 	 */
 	private static int opt(final String option, final int value) {
-		return AutoItX.autoItX.AU3_Opt(AutoItX.stringToWString(AutoItX.defaultString(option)), value);
+		return AutoItX.autoItX.AU3_Opt(AutoItUtils.stringToWString(AutoItUtils.defaultString(option)), value);
 	}
 
 	/**
@@ -562,7 +564,7 @@ public final class Opt {
 	 * 
 	 * In quick mode AutoIt can usually only "see" dialog text, button text and
 	 * the captions of some controls. In the default mode much more text can be
-	 * seen (for instance the contents of the Notepad window). If you are having
+	 * seen (for win32 the contents of the Notepad window). If you are having
 	 * performance problems when performing many window searches then changing
 	 * to the "quick" mode may help.
 	 * 

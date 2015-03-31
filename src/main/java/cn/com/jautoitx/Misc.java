@@ -1,5 +1,6 @@
 package cn.com.jautoitx;
 
+import cn.com.jautoitx.impl.AutoItUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class Misc {
@@ -94,7 +95,7 @@ public class Misc {
 	 */
 	public static void tooltip(final String text, Integer x, Integer y) {
 		if (StringUtils.isEmpty(text)) {
-			AutoItX.autoItX.AU3_ToolTip(AutoItX.stringToWString(""), null, null);
+			AutoItX.autoItX.AU3_ToolTip(AutoItUtils.stringToWString(""), null, null);
 		} else {
 			// Fix AutoItX's bug
 			if ((x != null) && (x < 0)) {
@@ -103,7 +104,7 @@ public class Misc {
 			if ((y != null) && (y < 0)) {
 				y = 0;
 			}
-			AutoItX.autoItX.AU3_ToolTip(AutoItX.stringToWString(AutoItX.defaultString(text)), x, y);
+			AutoItX.autoItX.AU3_ToolTip(AutoItUtils.stringToWString(AutoItUtils.defaultString(text)), x, y);
 		}
 	}
 

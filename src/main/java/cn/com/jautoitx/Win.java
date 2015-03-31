@@ -23,6 +23,55 @@ public interface Win {
 	int WIN_STATE_MINIMIZED = 16;
 	/* Windows is maximized */
 	int WIN_STATE_MAXIMIZED = 32;
+	/* Hides the window and activates another window. */
+	int SW_HIDE = 0;
+	/* Maximizes the specified window. */
+	int SW_MAXIMIZE = 3;
+	/*
+	 * Minimizes the specified window and activates the next top-level window in
+	 * the Z order.
+	 */
+	int SW_MINIMIZE = 6;
+	/*
+	 * Activates and displays the window. If the window is minimized or
+	 * maximized, the system restores it to its original size and position. An
+	 * application should specify this flag when restoring a minimized window.
+	 */
+	int SW_RESTORE = 9;
+	/*
+	 * Activates the window and displays it in its current size and position.
+	 */
+	int SW_SHOW = 5;
+	/*
+	 * Sets the show state based on the SW_ value specified by the program that
+	 * started the application.
+	 */
+	int SW_SHOWDEFAULT = 10;
+	/* Activates the window and displays it as a maximized window. */
+	int SW_SHOWMAXIMIZED = 3;
+	/* Activates the window and displays it as a minimized window. */
+	int SW_SHOWMINIMIZED = 2;
+	/*
+     * Displays the window as a minimized window. This value is similar to
+     * SW_SHOWMINIMIZED, except the window is not activated.
+     */
+	int SW_SHOWMINNOACTIVE = 7;
+	/*
+     * Displays the window in its current size and position. This value is
+     * similar to SW_SHOW, except the window is not activated.
+     */
+	int SW_SHOWNA = 8;
+	/*
+     * Displays a window in its most recent size and position. This value is
+     * similar to SW_SHOWNORMAL, except the window is not actived.
+     */
+	int SW_SHOWNOACTIVATE = 4;
+	/*
+     * Activates and displays a window. If the window is minimized or maximized,
+     * the system restores it to its original size and position. An application
+     * should specify this flag when displaying the window for the first time.
+     */
+	int SW_SHOWNORMAL = 1;
 
 	/**
 	 * Activates (gives focus to) a window.
@@ -2867,19 +2916,19 @@ public interface Win {
 		// SHOW_DEFAULT(SW_SHOWDEFAULT);
 
 		/* Hide window */
-		HIDE(AutoItX.SW_HIDE),
+		HIDE(SW_HIDE),
 
 		/* Shows a previously hidden window */
-		SHOW(AutoItX.SW_SHOW),
+		SHOW(SW_SHOW),
 
 		/* Minimize window */
-		MINIMIZE(AutoItX.SW_MINIMIZE),
+		MINIMIZE(SW_MINIMIZE),
 
 		/* Maximize window */
-		MAXIMIZE(AutoItX.SW_MAXIMIZE),
+		MAXIMIZE(SW_MAXIMIZE),
 
 		/* Undoes a window minimization or maximization */
-		RESTORE(AutoItX.SW_RESTORE);
+		RESTORE(SW_RESTORE);
 
 		private final int state;
 

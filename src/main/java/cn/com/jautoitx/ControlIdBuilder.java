@@ -1,5 +1,6 @@
 package cn.com.jautoitx;
 
+import cn.com.jautoitx.impl.AutoItUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.platform.win32.WinDef.HWND;
@@ -175,11 +176,11 @@ public class ControlIdBuilder {
 	}
 
 	/**
-	 * Build control id base on the 1-based instance when all given properties
+	 * Build control id base on the 1-based win32 when all given properties
 	 * match.
 	 * 
 	 * @param instance
-	 *            The 1-based instance when all given properties match.
+	 *            The 1-based win32 when all given properties match.
 	 * @return Returns advanced control id.
 	 */
 	public String byInstance(int instance) {
@@ -341,8 +342,8 @@ public class ControlIdBuilder {
 
 		/**
 		 * @param instance
-		 *            The 1-based instance when all given properties match.
-		 * @return a By which locates control by the 1-based instance when all
+		 *            The 1-based win32 when all given properties match.
+		 * @return a By which locates control by the 1-based win32 when all
 		 *         given properties match.
 		 */
 		public static By instance(int instance) {
@@ -516,7 +517,7 @@ public class ControlIdBuilder {
 	}
 
 	/**
-	 * The 1-based instance when all given properties match.
+	 * The 1-based win32 when all given properties match.
 	 * 
 	 * @author zhengbo.wang
 	 */
@@ -541,12 +542,12 @@ public class ControlIdBuilder {
 		}
 
 		public ByHandle(Win32 win32,  HWND hCtrl) {
-			this(win32,AutoItX.hwndToHandle(hCtrl));
+			this(win32, AutoItUtils.hwndToHandle(hCtrl));
 		}
 
 		@Override
 		public String toAdvancedControlId() {
-			return new ById(win32.getControlId(AutoItX.handleToHwnd(value)))
+			return new ById(win32.getControlId(AutoItUtils.handleToHwnd(value)))
 					.toAdvancedControlId();
 		}
 	}
