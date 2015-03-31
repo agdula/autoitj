@@ -18,4 +18,5 @@ public class LocalInstances {
     public static final PixelImpl pixel = new PixelImpl();
     public static final OptImpl opt = new OptImpl();
     public static final MouseImpl mouse = new MouseImpl();
+    public static final ListViewImpl listView = new ListViewImpl();
 }

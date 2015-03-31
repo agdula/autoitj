@@ -27,4 +27,5 @@ public class BaseTestConfiguration {
     @Bean  Pixel getPixel(){ return LocalInstances.pixel; }
     @Bean  Opt getOpt(){ return LocalInstances.opt; }
     @Bean  Mouse getMouse(){ return LocalInstances.mouse; }
+    @Bean  ListView getListView(){ return LocalInstances.listView; }
 }
