@@ -3,7 +3,7 @@ package cn.com.jautoitx.impl;
 import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.Keyboard;
 import cn.com.jautoitx.Opt;
-import cn.com.jautoitx.TitleBuilder;
+import cn.com.jautoitx.util.TitleBuilder;
 import cn.com.jautoitx.Win32;
 import com.sun.jna.Memory;
 import com.sun.jna.Native;

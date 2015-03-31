@@ -4,6 +4,8 @@ import java.nio.CharBuffer;
 
 import cn.com.jautoitx.impl.AutoItUtils;
 import cn.com.jautoitx.impl.LocalInstances;
+import cn.com.jautoitx.util.ControlIdBuilder;
+import cn.com.jautoitx.util.TitleBuilder;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;

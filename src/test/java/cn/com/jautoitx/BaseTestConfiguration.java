@@ -5,6 +5,7 @@ import cn.com.jautoitx.impl.ControlImpl;
 import cn.com.jautoitx.impl.LocalInstances;
 import cn.com.jautoitx.impl.TreeViewImpl;
 import cn.com.jautoitx.impl.WinImpl;
+import cn.com.jautoitx.util.ControlIdBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,6 +20,7 @@ public class BaseTestConfiguration {
     @Bean  Win32 getWin32(){ return LocalInstances.win32; }
     @Bean  Win getWin(){ return LocalInstances.win; }
     @Bean  Control getControl(){ return LocalInstances.control; }
+    @Bean  ControlIdBuilder getControlIdBuilder(Win32 win32){ return ControlIdBuilder.getInstance(win32); }
     @Bean  TreeView getTreeView(){ return LocalInstances.treeView; }
     @Bean  Process getProcess(){ return LocalInstances.process; }
 }

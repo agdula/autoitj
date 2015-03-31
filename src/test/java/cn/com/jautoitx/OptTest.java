@@ -8,6 +8,7 @@ import java.awt.Frame;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
+import cn.com.jautoitx.util.TitleBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 import org.omg.CORBA.LongHolder;

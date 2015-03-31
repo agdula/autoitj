@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import cn.com.jautoitx.AutoItX;
-import cn.com.jautoitx.ControlIdBuilder;
-import cn.com.jautoitx.TitleBuilder;
+import cn.com.jautoitx.util.ControlIdBuilder;
+import cn.com.jautoitx.util.TitleBuilder;
 import cn.com.jautoitx.TreeView;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;

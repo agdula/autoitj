@@ -1,9 +1,10 @@
 package cn.com.jautoitx;
 
+import cn.com.jautoitx.util.TitleBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.com.jautoitx.TitleBuilder.By;
+import cn.com.jautoitx.util.TitleBuilder.By;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TitleBuilderTest extends BaseTest {

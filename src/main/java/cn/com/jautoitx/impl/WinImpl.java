@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import cn.com.jautoitx.AutoItX;
-import cn.com.jautoitx.TitleBuilder;
+import cn.com.jautoitx.util.TitleBuilder;
 import cn.com.jautoitx.Win;
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.WinDef.HWND;

@@ -1,5 +1,6 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.util;
 
+import cn.com.jautoitx.Win32;
 import cn.com.jautoitx.impl.AutoItUtils;
 import org.apache.commons.lang3.StringUtils;
 

@@ -4,14 +4,16 @@ import cn.com.jautoitx.impl.AutoItUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.com.jautoitx.ControlIdBuilder.By;
+import cn.com.jautoitx.util.ControlIdBuilder;
+import cn.com.jautoitx.util.ControlIdBuilder.By;
 
 import com.sun.jna.platform.win32.WinDef.HWND;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ControlIdBuilderTest extends BaseTest {
 
-	@Autowired ControlIdBuilder ControlIdBuilder;
+	@Autowired
+	ControlIdBuilder ControlIdBuilder;
 	@Autowired Win32 Win32;
 	@Autowired Control Control;
 

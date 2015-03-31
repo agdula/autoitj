@@ -3,6 +3,7 @@ package cn.com.jautoitx;
 import java.io.File;
 import java.io.IOException;
 
+import cn.com.jautoitx.util.TitleBuilder;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
