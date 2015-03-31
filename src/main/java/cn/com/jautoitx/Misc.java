@@ -1,45 +1,33 @@
 package cn.com.jautoitx;
 
-import cn.com.jautoitx.impl.AutoItUtils;
-import cn.com.jautoitx.impl.LocalInstances;
-import cn.com.jautoitx.impl.OptImpl;
-import org.apache.commons.lang3.StringUtils;
-
-public class Misc {
-
-	private Misc() {
-		// Do nothing
-	}
-
+/**
+ * @author: Andrzej Gdula
+ * @created: 03/31/2015 14:09
+ * @version: 1.0
+ */
+public interface Misc {
 	/**
 	 * Checks if the current user has administrator privileges.
-	 * 
+	 *
 	 * @return Return 1 if the current user has administrator privileges, return
 	 *         0 if user lacks admin privileges.
 	 */
-	public static boolean isAdmin() {
-		return AutoItX.autoItX.AU3_IsAdmin() == AutoItX.SUCCESS_RETURN_VALUE;
-	}
+	boolean isAdmin();
 
 	/**
 	 * Pause script execution.
-	 * 
+	 *
 	 * Maximum sleep time is 2147483647 milliseconds (24 days).
-	 * 
+	 *
 	 * @param milliSeconds
 	 *            Amount of time to pause (in milliseconds).
 	 */
-	public static void sleep(final int milliSeconds) {
-		AutoItX.autoItX.AU3_Sleep(milliSeconds);
-	}
-
+	void sleep(int milliSeconds);
 
 	/**
 	 * Clears a displaying tooltip
 	 */
-	public static void tooltip() {
-		tooltip(null);
-	}
+	void tooltip();
 
 	/**
 	 * Creates a tooltip anywhere on the screen.
@@ -54,29 +42,7 @@ public class Misc {
 	 *            The text of the tooltip. (An empty string clears a displaying
 	 *            tooltip).
 	 */
-	public static void tooltip(final String text) {
-		if (StringUtils.isEmpty(text)) {
-			// clear tooltip
-			tooltip(text, null, null);
-		} else {
-			// If the x and y coordinates are omitted the, tip is placed near
-			// the mouse cursor
-
-			// Fix AutoItX's bug
-			OptImpl.CoordMode newCoodMode = OptImpl.CoordMode.ABSOLUTE_SCREEN_COORDINATES;
-			OptImpl.CoordMode oldCoodMode = LocalInstances.opt.setMouseCoordMode(newCoodMode);
-
-			int mousePosX = LocalInstances.mouse.getPosX();
-			int mousePosY = LocalInstances.mouse.getPosY();
-
-			// restore MouseCoordMode
-			if (!newCoodMode.equals(oldCoodMode)) {
-				LocalInstances.opt.setMouseCoordMode(oldCoodMode);
-			}
-
-			tooltip(text, mousePosX, mousePosY);
-		}
-	}
+	void tooltip(String text);
 
 	/**
 	 * Creates a tooltip anywhere on the screen.
@@ -95,19 +61,5 @@ public class Misc {
 	 * @param y
 	 *            The y position of the tooltip.
 	 */
-	public static void tooltip(final String text, Integer x, Integer y) {
-		if (StringUtils.isEmpty(text)) {
-			AutoItX.autoItX.AU3_ToolTip(AutoItUtils.stringToWString(""), null, null);
-		} else {
-			// Fix AutoItX's bug
-			if ((x != null) && (x < 0)) {
-				x = 0;
-			}
-			if ((y != null) && (y < 0)) {
-				y = 0;
-			}
-			AutoItX.autoItX.AU3_ToolTip(AutoItUtils.stringToWString(AutoItUtils.defaultString(text)), x, y);
-		}
-	}
-
+	void tooltip(String text, Integer x, Integer y);
 }

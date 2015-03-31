@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class MiscTest extends BaseTest {
 	@Autowired Mouse Mouse;
+	@Autowired Misc Misc;
 	@Test
 	public void isAdmin() {
 		String userHome = System.getProperty("user.home");
