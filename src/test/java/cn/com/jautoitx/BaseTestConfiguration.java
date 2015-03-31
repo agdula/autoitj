@@ -14,4 +14,5 @@ public class BaseTestConfiguration {
     @Bean  Win32 getWin32(){ return Win32Impl.instance; }
     @Bean  Win getWin(Win32 win32){ return new WinImpl(win32); }
     @Bean  Control getControl(Win32 win32){ return new ControlImpl(win32); }
+    @Bean  TreeView getTreeView(Control control){ return new TreeViewImpl(control); }
 }
