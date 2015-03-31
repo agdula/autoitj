@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class KeyboardTest extends BaseTest {
 
 	@Autowired Control Control;
+	@Autowired Keyboard Keyboard;
 
 	@Test
 	public void send() throws IOException {

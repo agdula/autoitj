@@ -21,6 +21,7 @@ public class WinTest extends BaseTest {
 
 	@Autowired Win Win;
 	@Autowired Opt Opt;
+	@Autowired Keyboard Keyboard;
 
 	@Test
 	public void activate() {

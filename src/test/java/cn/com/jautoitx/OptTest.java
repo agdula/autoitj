@@ -26,6 +26,7 @@ public class OptTest extends BaseTest {
 	@Autowired Control Control;
 	@Autowired Pixel Pixel;
 	@Autowired Mouse Mouse;
+	@Autowired Keyboard Keyboard;
 
 	@Test
 	public void setMouseClickDelay() {

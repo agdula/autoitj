@@ -29,4 +29,5 @@ public class BaseTestConfiguration {
     @Bean  Mouse getMouse(){ return LocalInstances.mouse; }
     @Bean  ListView getListView(){ return LocalInstances.listView; }
     @Bean  Misc getMisc(){ return LocalInstances.misc; }
+    @Bean  Keyboard getKeyboard(){ return LocalInstances.keyboard; }
 }

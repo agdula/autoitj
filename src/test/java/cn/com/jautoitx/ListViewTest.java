@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ListViewTest extends BaseTest {
 	@Autowired Control Control;
 	@Autowired ListView ListView;
+	@Autowired Keyboard Keyboard;
 
 	@Test
 	public void deSelect() {

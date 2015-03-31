@@ -29,6 +29,7 @@ public class ControlTest extends BaseTest {
 
 	@Autowired Control Control;
 	@Autowired Win32 Win32;
+	@Autowired Keyboard Keyboard;
 
 
 	@Test

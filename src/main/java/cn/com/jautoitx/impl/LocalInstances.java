@@ -20,4 +20,5 @@ public class LocalInstances {
     public static final MouseImpl mouse = new MouseImpl();
     public static final ListViewImpl listView = new ListViewImpl();
     public static final MiscImpl misc = new MiscImpl();
+    public static final KeyboardImpl keyboard = new KeyboardImpl();
 }

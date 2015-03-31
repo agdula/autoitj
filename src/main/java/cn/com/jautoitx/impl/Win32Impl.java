@@ -256,7 +256,7 @@ public class Win32Impl implements Win32 {
     public void setCapslockState(boolean on) {
         if (isCapslockOn() ^ on) {
             boolean restore = LocalInstances.opt.setSendCapslockMode(false);
-            Keyboard.send("{CAPSLOCK}");
+            LocalInstances.keyboard.send("{CAPSLOCK}");
             if (restore) {
                 LocalInstances.opt.setSendCapslockMode(restore);
             }
