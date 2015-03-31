@@ -1,31 +1,31 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.impl;
 
-/**
- * @author: Andrzej Gdula
- * @created: 03/31/2015 13:56
- * @version: 1.0
- */
-public interface Mouse {
-	/* Mouse wheel direction */
-	String MOUSE_WHEEL_DIRECTION_UP = "up";
-	String MOUSE_WHEEL_DIRECTION_DOWN = "down";
-	int DEFAULT_MOUSE_CLICK_TIMES = 1;
-	int DEFAULT_MOUSE_MOVE_SPEED = 10;
+import cn.com.jautoitx.AutoItX;
+import cn.com.jautoitx.Mouse;
+import cn.com.jautoitx.impl.AutoItUtils;
+import cn.com.jautoitx.impl.LocalInstances;
+import cn.com.jautoitx.impl.OptImpl;
+import org.apache.commons.lang3.StringUtils;
+
+import com.sun.jna.platform.win32.WinDef.POINT;
+
+public final class MouseImpl implements Mouse {
+
 
 	/**
 	 * Perform a mouse click operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
 	 * "primary" or "main" button will be the main click, whether or not the
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not.
-	 *
+	 * 
 	 * <table width="100%" border="1">
 	 * <tr>
 	 * <td><b>Button</b></td>
@@ -73,25 +73,27 @@ public interface Mouse {
 	 * <td>Left</td>
 	 * </tr>
 	 * </table>
-	 *
+	 * 
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean click();
+	public boolean click() {
+		return click((String) null);
+	}
 
 	/**
 	 * Perform a mouse click operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
 	 * "primary" or "main" button will be the main click, whether or not the
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not.
-	 *
+	 * 
 	 * <table width="100%" border="1">
 	 * <tr>
 	 * <td><b>Button</b></td>
@@ -139,27 +141,29 @@ public interface Mouse {
 	 * <td>Left</td>
 	 * </tr>
 	 * </table>
-	 *
+	 * 
 	 * @param button
 	 *            see {@link #click(String)}
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean click(MouseButton button);
+	public boolean click(final MouseButton button) {
+		return click(button.getButton());
+	}
 
 	/**
 	 * Perform a mouse click operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
 	 * "primary" or "main" button will be the main click, whether or not the
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not.
-	 *
+	 * 
 	 * <table width="100%" border="1">
 	 * <tr>
 	 * <td><b>Button</b></td>
@@ -207,28 +211,30 @@ public interface Mouse {
 	 * <td>Left</td>
 	 * </tr>
 	 * </table>
-	 *
+	 * 
 	 * @param button
 	 *            The button to click: "left", "right", "middle", "main",
 	 *            "menu", "primary", "secondary".
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean click(String button);
+	public boolean click(final String button) {
+		return click(button, null, null);
+	}
 
 	/**
 	 * Perform a mouse click operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
 	 * "primary" or "main" button will be the main click, whether or not the
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not.
-	 *
+	 * 
 	 * <table width="100%" border="1">
 	 * <tr>
 	 * <td><b>Button</b></td>
@@ -276,7 +282,7 @@ public interface Mouse {
 	 * <td>Left</td>
 	 * </tr>
 	 * </table>
-	 *
+	 * 
 	 * @param button
 	 *            see {@link #click(String, Integer, Integer, Integer, Integer)}
 	 * @param x
@@ -287,23 +293,25 @@ public interface Mouse {
 	 *            are given, the current position is used.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean click(MouseButton button, Integer x,
-				  Integer y);
+	public boolean click(final MouseButton button, final Integer x,
+			final Integer y) {
+		return click(button.getButton(), x, y);
+	}
 
 	/**
 	 * Perform a mouse click operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
 	 * "primary" or "main" button will be the main click, whether or not the
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not.
-	 *
+	 * 
 	 * <table width="100%" border="1">
 	 * <tr>
 	 * <td><b>Button</b></td>
@@ -351,7 +359,7 @@ public interface Mouse {
 	 * <td>Left</td>
 	 * </tr>
 	 * </table>
-	 *
+	 * 
 	 * @param button
 	 *            The button to click: "left", "right", "middle", "main",
 	 *            "menu", "primary", "secondary".
@@ -363,23 +371,25 @@ public interface Mouse {
 	 *            are given, the current position is used.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean click(String button, Integer x,
-				  Integer y);
+	public boolean click(final String button, final Integer x,
+			final Integer y) {
+		return click(button, x, y, null);
+	}
 
 	/**
 	 * Perform a mouse click operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
 	 * "primary" or "main" button will be the main click, whether or not the
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not.
-	 *
+	 * 
 	 * <table width="100%" border="1">
 	 * <tr>
 	 * <td><b>Button</b></td>
@@ -427,7 +437,7 @@ public interface Mouse {
 	 * <td>Left</td>
 	 * </tr>
 	 * </table>
-	 *
+	 * 
 	 * @param button
 	 *            see {@link #click(String, Integer, Integer, Integer, Integer)}
 	 * @param x
@@ -440,23 +450,25 @@ public interface Mouse {
 	 *            The number of times to click the mouse. Default is 1.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean click(MouseButton button, Integer x,
-				  Integer y, Integer clicks);
+	public boolean click(final MouseButton button, final Integer x,
+			final Integer y, final Integer clicks) {
+		return click(button.getButton(), x, y, clicks);
+	}
 
 	/**
 	 * Perform a mouse click operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
 	 * "primary" or "main" button will be the main click, whether or not the
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not.
-	 *
+	 * 
 	 * <table width="100%" border="1">
 	 * <tr>
 	 * <td><b>Button</b></td>
@@ -504,7 +516,7 @@ public interface Mouse {
 	 * <td>Left</td>
 	 * </tr>
 	 * </table>
-	 *
+	 * 
 	 * @param button
 	 *            The button to click: "left", "right", "middle", "main",
 	 *            "menu", "primary", "secondary".
@@ -518,23 +530,25 @@ public interface Mouse {
 	 *            The number of times to click the mouse. Default is 1.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean click(String button, Integer x,
-				  Integer y, Integer clicks);
+	public boolean click(final String button, final Integer x,
+			final Integer y, final Integer clicks) {
+		return click(button, x, y, clicks, null);
+	}
 
 	/**
 	 * Perform a mouse click operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
 	 * "primary" or "main" button will be the main click, whether or not the
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not.
-	 *
+	 * 
 	 * <table width="100%" border="1">
 	 * <tr>
 	 * <td><b>Button</b></td>
@@ -582,7 +596,7 @@ public interface Mouse {
 	 * <td>Left</td>
 	 * </tr>
 	 * </table>
-	 *
+	 * 
 	 * @param button
 	 *            see {@link #click(String, Integer, Integer, Integer, Integer)}
 	 * @param x
@@ -599,23 +613,25 @@ public interface Mouse {
 	 *            speed is 10.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean click(MouseButton button, Integer x,
-				  Integer y, Integer clicks, Integer speed);
+	public boolean click(final MouseButton button, final Integer x,
+			final Integer y, final Integer clicks, final Integer speed) {
+		return click(button.getButton(), x, y, clicks, speed);
+	}
 
 	/**
 	 * Perform a mouse click operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
 	 * "primary" or "main" button will be the main click, whether or not the
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not.
-	 *
+	 * 
 	 * <table width="100%" border="1">
 	 * <tr>
 	 * <td><b>Button</b></td>
@@ -663,7 +679,7 @@ public interface Mouse {
 	 * <td>Left</td>
 	 * </tr>
 	 * </table>
-	 *
+	 * 
 	 * @param button
 	 *            The button to click: "left", "right", "middle", "main",
 	 *            "menu", "primary", "secondary".
@@ -681,16 +697,31 @@ public interface Mouse {
 	 *            speed is 10.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean click(String button, Integer x, Integer y,
-				  Integer clicks, Integer speed);
+	public boolean click(final String button, Integer x, Integer y,
+			final Integer clicks, final Integer speed) {
+		// button is not in the list
+		if (!checkMouseButton(button)) {
+			return false;
+		}
+
+		if (x == null || y == null) {
+			x = getPosX();
+			y = getPosY();
+		}
+		AutoItX.autoItX.AU3_MouseClick(AutoItUtils.stringToWString(AutoItUtils.defaultString(button)
+						.toLowerCase()), x, y,
+				(clicks == null) ? DEFAULT_MOUSE_CLICK_TIMES : clicks,
+				(speed == null) ? DEFAULT_MOUSE_MOVE_SPEED : speed);
+		return !AutoItX.hasError();
+	}
 
 	/**
 	 * Perform a mouse click and drag operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
@@ -698,7 +729,7 @@ public interface Mouse {
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not. See the
 	 * table in MouseClick for more explaination
-	 *
+	 * 
 	 * @param x1
 	 *            The x coord to start the drag operation from.
 	 * @param y1
@@ -709,16 +740,18 @@ public interface Mouse {
 	 *            The y coord to start the drag operation to.
 	 * @return Returns true if success, return false if failed.
 	 */
-	boolean clickDrag(int x1, int y1, int x2,
-					  int y2);
+	public boolean clickDrag(final int x1, final int y1, final int x2,
+			final int y2) {
+		return clickDrag((String) null, x1, y1, x2, y2);
+	}
 
 	/**
 	 * Perform a mouse click and drag operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
@@ -726,7 +759,7 @@ public interface Mouse {
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not. See the
 	 * table in MouseClick for more explaination
-	 *
+	 * 
 	 * @param button
 	 *            The button to click: "left", "right", "middle", "main",
 	 *            "menu", "primary", "secondary".
@@ -740,16 +773,18 @@ public interface Mouse {
 	 *            The y coord to start the drag operation to.
 	 * @return Returns true if success, return false if failed.
 	 */
-	boolean clickDrag(MouseButton button, int x1,
-					  int y1, int x2, int y2);
+	public boolean clickDrag(final MouseButton button, final int x1,
+			final int y1, final int x2, final int y2) {
+		return clickDrag(button.getButton(), x1, y1, x2, y2);
+	}
 
 	/**
 	 * Perform a mouse click and drag operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
@@ -757,7 +792,7 @@ public interface Mouse {
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not. See the
 	 * table in MouseClick for more explaination
-	 *
+	 * 
 	 * @param button
 	 *            The button to click: "left", "right", "middle", "main",
 	 *            "menu", "primary", "secondary".
@@ -771,16 +806,18 @@ public interface Mouse {
 	 *            The y coord to start the drag operation to.
 	 * @return Returns true if success, return false if failed.
 	 */
-	boolean clickDrag(String button, int x1,
-					  int y1, int x2, int y2);
+	public boolean clickDrag(final String button, final int x1,
+			final int y1, final int x2, final int y2) {
+		return clickDrag(button, x1, y1, x2, y2, null);
+	}
 
 	/**
 	 * Perform a mouse click and drag operation.
-	 *
+	 * 
 	 * If the button is an empty string, the left button will be clicked.
-	 *
+	 * 
 	 * If the button is not in the list, then false will be returned.
-	 *
+	 * 
 	 * If the user has swapped the left and right mouse buttons in the control
 	 * panel, then the behaviour of the buttons is different. "Left" and "right"
 	 * always click those buttons, whether the buttons are swapped or not. The
@@ -788,42 +825,7 @@ public interface Mouse {
 	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
 	 * up the context menu, whether the buttons are swapped or not. See the
 	 * table in MouseClick for more explaination
-	 *
-	 * @param button
-	 *            The button to click: "left", "right", "middle", "main",
-	 *            "menu", "primary", "secondary".
-	 * @param x1
-	 *            The x coord to start the drag operation from.
-	 * @param y1
-	 *            The y coord to start the drag operation from.
-	 * @param x2
-	 *            The x coord to start the drag operation to.
-	 * @param y2
-	 *            The y coord to start the drag operation to.
-	 * @param speed
-	 *            the speed to move the mouse in the range 1 (fastest) to 100
-	 *            (slowest). A speed of 0 will move the mouse instantly. Default
-	 *            speed is 10.
-	 * @return Returns true if success, return false if failed.
-	 */
-	boolean clickDrag(MouseButton button, int x1,
-					  int y1, int x2, int y2, Integer speed);
-
-	/**
-	 * Perform a mouse click and drag operation.
-	 *
-	 * If the button is an empty string, the left button will be clicked.
-	 *
-	 * If the button is not in the list, then false will be returned.
-	 *
-	 * If the user has swapped the left and right mouse buttons in the control
-	 * panel, then the behaviour of the buttons is different. "Left" and "right"
-	 * always click those buttons, whether the buttons are swapped or not. The
-	 * "primary" or "main" button will be the main click, whether or not the
-	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
-	 * up the context menu, whether the buttons are swapped or not. See the
-	 * table in MouseClick for more explaination
-	 *
+	 * 
 	 * @param button
 	 *            The button to click: "left", "right", "middle", "main",
 	 *            "menu", "primary", "secondary".
@@ -841,41 +843,111 @@ public interface Mouse {
 	 *            speed is 10.
 	 * @return Returns true if success, return false if failed.
 	 */
-	boolean clickDrag(String button, int x1,
-					  int y1, int x2, int y2, Integer speed);
+	public boolean clickDrag(final MouseButton button, final int x1,
+			final int y1, final int x2, final int y2, final Integer speed) {
+		return clickDrag(button.getButton(), x1, y1, x2, y2, speed);
+	}
+
+	/**
+	 * Perform a mouse click and drag operation.
+	 * 
+	 * If the button is an empty string, the left button will be clicked.
+	 * 
+	 * If the button is not in the list, then false will be returned.
+	 * 
+	 * If the user has swapped the left and right mouse buttons in the control
+	 * panel, then the behaviour of the buttons is different. "Left" and "right"
+	 * always click those buttons, whether the buttons are swapped or not. The
+	 * "primary" or "main" button will be the main click, whether or not the
+	 * buttons are swapped. The "secondary" or "menu" buttons will usually bring
+	 * up the context menu, whether the buttons are swapped or not. See the
+	 * table in MouseClick for more explaination
+	 * 
+	 * @param button
+	 *            The button to click: "left", "right", "middle", "main",
+	 *            "menu", "primary", "secondary".
+	 * @param x1
+	 *            The x coord to start the drag operation from.
+	 * @param y1
+	 *            The y coord to start the drag operation from.
+	 * @param x2
+	 *            The x coord to start the drag operation to.
+	 * @param y2
+	 *            The y coord to start the drag operation to.
+	 * @param speed
+	 *            the speed to move the mouse in the range 1 (fastest) to 100
+	 *            (slowest). A speed of 0 will move the mouse instantly. Default
+	 *            speed is 10.
+	 * @return Returns true if success, return false if failed.
+	 */
+	public boolean clickDrag(final String button, final int x1,
+			final int y1, final int x2, final int y2, final Integer speed) {
+		// button is not in the list
+		if (!checkMouseButton(button)) {
+			return false;
+		}
+
+		AutoItX.autoItX.AU3_MouseClickDrag(AutoItUtils.stringToWString(AutoItUtils.defaultString(button)), x1,
+				y1, x2, y2, speed);
+		return !AutoItX.hasError();
+	}
 
 	/**
 	 * Perform a mouse down event at the current mouse position.
-	 *
+	 * 
 	 * Use responsibly: For every MouseDown there should eventually be a
 	 * corresponding MouseUp event.
-	 *
+	 * 
 	 * @param button
 	 *            see {@link #down(String)}
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean down(MouseButton button);
+	public boolean down(final MouseButton button) {
+		return down(button.getButton());
+	}
 
 	/**
 	 * Perform a mouse down event at the current mouse position.
-	 *
+	 * 
 	 * Use responsibly: For every MouseDown there should eventually be a
 	 * corresponding MouseUp event.
-	 *
+	 * 
 	 * @param button
 	 *            The button to click: "left", "right", "middle", "main",
 	 *            "menu", "primary", "secondary".
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean down(String button);
+	public boolean down(final String button) {
+		if (!checkMouseButton(button)) {
+			return false;
+		}
+		int currentMouseClickDownDelay = LocalInstances.opt.currentMouseClickDownDelay;
+
+		long start = System.currentTimeMillis();
+		AutoItX.autoItX.AU3_MouseDown(AutoItUtils.stringToWString(button));
+		boolean status = !AutoItX.hasError();
+		long delay = System.currentTimeMillis() - start;
+
+		// Note: fix AutoItX 3.3.10.2's bug
+		while (currentMouseClickDownDelay > delay) {
+			try {
+				Thread.sleep((int) (currentMouseClickDownDelay - delay));
+			} catch (InterruptedException e) {
+				// Ignore exception
+			}
+			delay = System.currentTimeMillis() - start;
+		}
+
+		return status;
+	}
 
 	/**
 	 * Moves the mouse pointer and perform a mouse down event at the mouse
 	 * position.
-	 *
+	 * 
 	 * Use responsibly: For every MouseDown there should eventually be a
 	 * corresponding MouseUp event.
-	 *
+	 * 
 	 * @param button
 	 *            see {@link #down(String)}
 	 * @param x
@@ -884,15 +956,17 @@ public interface Mouse {
 	 *            The y coordinates to move the mouse to.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean down(MouseButton button, int x, int y);
+	public boolean down(final MouseButton button, int x, int y) {
+		return down(button.getButton(), x, y);
+	}
 
 	/**
 	 * Moves the mouse pointer and perform a mouse down event at the mouse
 	 * position.
-	 *
+	 * 
 	 * Use responsibly: For every MouseDown there should eventually be a
 	 * corresponding MouseUp event.
-	 *
+	 * 
 	 * @param button
 	 *            see {@link #down(String)}
 	 * @param x
@@ -905,15 +979,17 @@ public interface Mouse {
 	 *            speed is 10.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean down(MouseButton button, int x, int y, int speed);
+	public boolean down(final MouseButton button, int x, int y, int speed) {
+		return down(button.getButton(), x, y, speed);
+	}
 
 	/**
 	 * Moves the mouse pointer and perform a mouse down event at the mouse
 	 * position.
-	 *
+	 * 
 	 * Use responsibly: For every MouseDown there should eventually be a
 	 * corresponding MouseUp event.
-	 *
+	 * 
 	 * @param button
 	 *            The button to click: "left", "right", "middle", "main",
 	 *            "menu", "primary", "secondary".
@@ -923,15 +999,18 @@ public interface Mouse {
 	 *            The y coordinates to move the mouse to.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean down(String button, int x, int y);
+	public boolean down(final String button, int x, int y) {
+		move(x, y);
+		return down(button);
+	}
 
 	/**
 	 * Moves the mouse pointer and perform a mouse down event at the mouse
 	 * position.
-	 *
+	 * 
 	 * Use responsibly: For every MouseDown there should eventually be a
 	 * corresponding MouseUp event.
-	 *
+	 * 
 	 * @param button
 	 *            The button to click: "left", "right", "middle", "main",
 	 *            "menu", "primary", "secondary".
@@ -945,11 +1024,14 @@ public interface Mouse {
 	 *            speed is 10.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean down(String button, int x, int y, int speed);
+	public boolean down(final String button, int x, int y, int speed) {
+		move(x, y, speed);
+		return down(button);
+	}
 
 	/**
 	 * Returns a cursor ID Number of the current Mouse Cursor.
-	 *
+	 * 
 	 * @return Returns a cursor ID Number:<br>
 	 *         0 = UNKNOWN (this includes pointing and grabbing hand icons)<br>
 	 *         1 = APPSTARTING<br>
@@ -968,41 +1050,60 @@ public interface Mouse {
 	 *         14 = UPARROW<br>
 	 *         15 = WAIT
 	 */
-	MouseCursor getCursor();
+	public MouseCursor getCursor() {
+		MouseCursor mouseCursor = null;
+		final int cursorId = AutoItX.autoItX.AU3_MouseGetCursor();
+		for (MouseCursor cursor : MouseCursor.values()) {
+			if (cursor.getId() == cursorId) {
+				mouseCursor = cursor;
+				break;
+			}
+		}
+
+		return mouseCursor;
+	}
 
 	/**
 	 * Retrieves the current position of the mouse cursor.
-	 *
+	 * 
 	 * See MouseCoordMode for relative/absolute position settings. If relative
 	 * positioning, numbers may be negative.
-	 *
+	 * 
 	 * @return Returns the current position of the mouse cursor.
 	 */
-	int[] getPos();
+	public int[] getPos() {
+		POINT point = new POINT();
+		AutoItX.autoItX.AU3_MouseGetPos(point);
+		return new int[] { point.x, point.y };
+	}
 
 	/**
 	 * Retrieves the current X position of the mouse cursor.
-	 *
+	 * 
 	 * See MouseCoordMode for relative/absolute position settings. If relative
 	 * positioning, numbers may be negative.
-	 *
+	 * 
 	 * @return Returns the current X position of the mouse cursor.
 	 */
-	int getPosX();
+	public int getPosX() {
+		return getPos()[0];
+	}
 
 	/**
 	 * Retrieves the current Y position of the mouse cursor.
-	 *
+	 * 
 	 * See MouseCoordMode for relative/absolute position settings. If relative
 	 * positioning, numbers may be negative.
-	 *
+	 * 
 	 * @return Returns the current Y position of the mouse cursor.
 	 */
-	int getPosY();
+	public int getPosY() {
+		return getPos()[1];
+	}
 
 	/**
 	 * Moves the mouse pointer.
-	 *
+	 * 
 	 * @param x
 	 *            The screen x coordinate to move the mouse to.
 	 * @param y
@@ -1011,11 +1112,13 @@ public interface Mouse {
 	 *         MouseMove operation. If MouseCoordMode is relative positioning,
 	 *         numbers may be negative.
 	 */
-	int move(int x, int y);
+	public int move(final int x, final int y) {
+		return move(x, y, null);
+	}
 
 	/**
 	 * Moves the mouse pointer.
-	 *
+	 * 
 	 * @param x
 	 *            The screen x coordinate to move the mouse to.
 	 * @param y
@@ -1028,73 +1131,89 @@ public interface Mouse {
 	 *         MouseMove operation. If MouseCoordMode is relative positioning,
 	 *         numbers may be negative.
 	 */
-	int move(int x, int y, Integer speed);
+	public int move(final int x, final int y, final Integer speed) {
+		return AutoItX.autoItX.AU3_MouseMove(x, y, speed);
+	}
 
 	/**
 	 * Perform a mouse up event at the current mouse position.
-	 *
+	 * 
 	 * Use responsibly: For every MouseDown there should eventually be a
 	 * corresponding MouseUp event.
-	 *
+	 * 
 	 * @param button
 	 *            see {@link #up(String)}
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean up(MouseButton button);
+	public boolean up(final MouseButton button) {
+		return up(button.getButton());
+	}
 
 	/**
 	 * Perform a mouse up event at the current mouse position.
-	 *
+	 * 
 	 * Use responsibly: For every MouseDown there should eventually be a
 	 * corresponding MouseUp event.
-	 *
+	 * 
 	 * @param button
 	 *            The button to click: "left", "right", "middle", "main",
 	 *            "menu", "primary", "secondary".
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean up(String button);
+	public boolean up(final String button) {
+		if (!checkMouseButton(button)) {
+			return false;
+		}
+		AutoItX.autoItX.AU3_MouseUp(AutoItUtils.stringToWString(button));
+		return !AutoItX.hasError();
+	}
 
 	/**
 	 * Moves the mouse wheel up or down. NT/2000/XP ONLY.
-	 *
+	 * 
 	 * This function only works on NT, 2000, XP and later operating systems.
-	 *
+	 * 
 	 * @param direction
 	 *            "up" or "down"
 	 */
-	void wheel(MouseWheelDirection direction);
+	public void wheel(final MouseWheelDirection direction) {
+		wheel(direction.getDirection());
+	}
 
 	/**
 	 * Moves the mouse wheel up or down. NT/2000/XP ONLY.
-	 *
+	 * 
 	 * This function only works on NT, 2000, XP and later operating systems.
-	 *
+	 * 
 	 * @param direction
 	 *            "up" or "down"
 	 * @return Return false if the direction is not recognized, otherwise return
 	 *         true.
 	 */
-	boolean wheel(String direction);
+	public boolean wheel(final String direction) {
+		return wheel(direction, null);
+	}
 
 	/**
 	 * Moves the mouse wheel up or down. NT/2000/XP ONLY.
-	 *
+	 * 
 	 * This function only works on NT, 2000, XP and later operating systems.
-	 *
+	 * 
 	 * @param direction
 	 *            see {@link #wheel(String, Integer)}
 	 * @param clicks
 	 *            The number of times to move the wheel. Default is 1.
 	 */
-	void wheel(MouseWheelDirection direction,
-			   Integer clicks);
+	public void wheel(final MouseWheelDirection direction,
+			final Integer clicks) {
+		wheel(direction.getDirection(), clicks);
+	}
 
 	/**
 	 * Moves the mouse wheel up or down. NT/2000/XP ONLY.
-	 *
+	 * 
 	 * This function only works on NT, 2000, XP and later operating systems.
-	 *
+	 * 
 	 * @param direction
 	 *            "up" or "down"
 	 * @param clicks
@@ -1102,165 +1221,31 @@ public interface Mouse {
 	 * @return Return false if the direction is not recognized, otherwise return
 	 *         true.
 	 */
-	boolean wheel(String direction, Integer clicks);
-
-	/**
-	 * The mouse button: "left", "right", "middle", "main", "menu", "primary",
-	 * "secondary".
-	 *
-	 * @author zhengbo.wang
-	 */
-	public static enum MouseButton {
-		LEFT("left"),
-
-		RIGHT("right"),
-
-		MIDDLE("middle"),
-
-		MAIN("main"),
-
-		MENU("menu"),
-
-		PRIMARY("primary"),
-
-		SECONDARY("secondary");
-
-		private final String button;
-
-		private MouseButton(final String button) {
-			this.button = button;
+	public boolean wheel(final String direction, final Integer clicks) {
+		if (!MOUSE_WHEEL_DIRECTION_UP.equalsIgnoreCase(direction)
+				&& !MOUSE_WHEEL_DIRECTION_DOWN.equalsIgnoreCase(direction)) {
+			return false;
 		}
 
-		public String getButton() {
-			return button;
-		}
-
-		@Override
-		public String toString() {
-			return button;
-		}
+		AutoItX.autoItX.AU3_MouseWheel(
+				AutoItUtils.stringToWString(AutoItUtils.defaultString(direction.toLowerCase())),
+				(clicks == null) ? 1 : clicks);
+		return !AutoItX.hasError();
 	}
 
-	/**
-	 * A cursor ID Number of the current Mouse Cursor.
-	 *
-	 * @author zhengbo.wang
-	 */
-	public static enum MouseCursor {
-		/* this includes pointing and grabbing hand icons */
-		UNKNOWN(0),
-
-		APPSTARTING(1),
-
-		ARROW(2),
-
-		CROSS(3),
-
-		HELP(4),
-
-		IBEAM(5),
-
-		ICON(6),
-
-		NO(7),
-
-		SIZE(8),
-
-		SIZEALL(9),
-
-		SIZENESW(10),
-
-		SIZENS(11),
-
-		SIZENWSE(12),
-
-		SIZEWE(13),
-
-		UPARROW(14),
-
-		WAIT(15);
-
-		private final int id;
-
-		private MouseCursor(final int id) {
-			this.id = id;
-		}
-
-		public int getId() {
-			return id;
-		}
-
-		@Override
-		public String toString() {
-			switch (this) {
-			case UNKNOWN:
-				return "UNKNOWN";
-			case APPSTARTING:
-				return "APPSTARTING";
-			case ARROW:
-				return "ARROW";
-			case CROSS:
-				return "CROSS";
-			case HELP:
-				return "HELP";
-			case IBEAM:
-				return "IBEAM";
-			case ICON:
-				return "ICON";
-			case NO:
-				return "NO";
-			case SIZE:
-				return "SIZE";
-			case SIZEALL:
-				return "SIZEALL";
-			case SIZENESW:
-				return "SIZENESW";
-			case SIZENS:
-				return "SIZENS";
-			case SIZENWSE:
-				return "SIZENWSE";
-			case SIZEWE:
-				return "SIZEWE";
-			case UPARROW:
-				return "UPARROW";
-			case WAIT:
-				return "WAIT";
-			default:
-				return "UNKNOWN";
+	private static boolean checkMouseButton(String button) {
+		boolean validButton = false;
+		if (StringUtils.isEmpty(button)) {
+			validButton = true;
+		} else {
+			for (MouseButton mouseButton : MouseButton.values()) {
+				if (mouseButton.getButton().equalsIgnoreCase(button)) {
+					validButton = true;
+					break;
+				}
 			}
 		}
+		return validButton;
 	}
 
-	/**
-	 * The mouse wheel direction: up or down.
-	 *
-	 * @author zhengbo.wang
-	 */
-	public static enum MouseWheelDirection {
-		UP(MOUSE_WHEEL_DIRECTION_UP),
-
-		DOWN(MOUSE_WHEEL_DIRECTION_DOWN);
-
-		private final String direction;
-
-		private MouseWheelDirection(final String direction) {
-			this.direction = direction;
-		}
-
-		public String getDirection() {
-			return direction;
-		}
-
-		@Override
-		public String toString() {
-			switch (this) {
-			case UP:
-				return "up";
-			case DOWN:
-				return "down";
-			default:
-				return "Unknown mouse wheel direction";
-			}
-		}
 	}
-}

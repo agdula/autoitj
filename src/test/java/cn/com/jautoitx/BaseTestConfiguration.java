@@ -26,4 +26,5 @@ public class BaseTestConfiguration {
     @Bean  Process getProcess(){ return LocalInstances.process; }
     @Bean  Pixel getPixel(){ return LocalInstances.pixel; }
     @Bean  Opt getOpt(){ return LocalInstances.opt; }
+    @Bean  Mouse getMouse(){ return LocalInstances.mouse; }
 }

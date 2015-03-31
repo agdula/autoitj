@@ -19,8 +19,11 @@ import org.omg.CORBA.IntHolder;
 import cn.com.jautoitx.Mouse.MouseButton;
 import cn.com.jautoitx.Mouse.MouseCursor;
 import cn.com.jautoitx.Mouse.MouseWheelDirection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MouseTest extends BaseTest {
+
+	@Autowired Mouse Mouse;
 
 	@Test
 	public void click() {

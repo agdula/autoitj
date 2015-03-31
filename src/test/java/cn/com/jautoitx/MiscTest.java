@@ -4,8 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class MiscTest extends BaseTest {
+	@Autowired Mouse Mouse;
 	@Test
 	public void isAdmin() {
 		String userHome = System.getProperty("user.home");

@@ -66,8 +66,8 @@ public class Misc {
 			OptImpl.CoordMode newCoodMode = OptImpl.CoordMode.ABSOLUTE_SCREEN_COORDINATES;
 			OptImpl.CoordMode oldCoodMode = LocalInstances.opt.setMouseCoordMode(newCoodMode);
 
-			int mousePosX = Mouse.getPosX();
-			int mousePosY = Mouse.getPosY();
+			int mousePosX = LocalInstances.mouse.getPosX();
+			int mousePosY = LocalInstances.mouse.getPosY();
 
 			// restore MouseCoordMode
 			if (!newCoodMode.equals(oldCoodMode)) {

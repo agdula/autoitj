@@ -17,4 +17,5 @@ public class LocalInstances {
     public static final ProcessImpl process = new ProcessImpl();
     public static final PixelImpl pixel = new PixelImpl();
     public static final OptImpl opt = new OptImpl();
+    public static final MouseImpl mouse = new MouseImpl();
 }

@@ -21,14 +21,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class OptTest extends BaseTest {
 
-	@Autowired
-	Win32 Win32;
-	@Autowired
-	Opt Opt;
-	@Autowired
-	Control Control;
-	@Autowired
-	Pixel Pixel;
+	@Autowired Win32 Win32;
+	@Autowired Opt Opt;
+	@Autowired Control Control;
+	@Autowired Pixel Pixel;
+	@Autowired Mouse Mouse;
 
 	@Test
 	public void setMouseClickDelay() {
