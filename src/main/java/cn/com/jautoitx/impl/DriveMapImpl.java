@@ -3,6 +3,7 @@ package cn.com.jautoitx.impl;
 import java.nio.CharBuffer;
 import java.util.logging.Logger;
 
+import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.DriveMap;
 import org.apache.commons.lang3.StringUtils;
 
@@ -361,12 +362,12 @@ public class DriveMapImpl implements DriveMap {
 		}
 
 		device = StringUtils.isBlank(device) ? "" : device.trim();
-		AutoItX.autoItX.AU3_DriveMapAdd(AutoItUtils.stringToWString(device),
+		AutoItXImpl.autoItX.AU3_DriveMapAdd(AutoItUtils.stringToWString(device),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(share)), flags,
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(user)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(password)), result, bufSize);
 
-		if (AutoItX.hasError()) {
+		if (LocalInstances.autoItX.hasError()) {
 			return null;
 		} else if (StringUtils.isBlank(device)) {
 			// If you pass a blank string for this parameter a connection is
@@ -389,8 +390,8 @@ public class DriveMapImpl implements DriveMap {
 	public DriveMapAddError getAddError() {
 		DriveMapAddError driveMapAddError = null;
 
-		if (AutoItX.hasError()) {
-			int errorCode = AutoItX.error();
+		if (LocalInstances.autoItX.hasError()) {
+			int errorCode = LocalInstances.autoItX.error();
 
 			for (DriveMapAddError error : DriveMapAddError.values()) {
 				if (error.getCode() == errorCode) {
@@ -425,7 +426,7 @@ public class DriveMapImpl implements DriveMap {
 	 *         unsuccessful.
 	 */
 	public boolean del(final String device) {
-		return AutoItX.autoItX.AU3_DriveMapDel(AutoItUtils.stringToWString(AutoItUtils.defaultString(device))) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItXImpl.autoItX.AU3_DriveMapDel(AutoItUtils.stringToWString(AutoItUtils.defaultString(device))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -457,10 +458,10 @@ public class DriveMapImpl implements DriveMap {
 			bufSize = DRIVE_MAP_ADD_BUF_SIZE;
 		}
 		final CharBuffer mapping = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_DriveMapGet(AutoItUtils.stringToWString(AutoItUtils.defaultString(device)),
+		AutoItXImpl.autoItX.AU3_DriveMapGet(AutoItUtils.stringToWString(AutoItUtils.defaultString(device)),
 				mapping, bufSize);
 
-		return AutoItX.hasError() ? null : Native.toString(mapping.array());
+		return LocalInstances.autoItX.hasError() ? null : Native.toString(mapping.array());
 	}
 
 	}

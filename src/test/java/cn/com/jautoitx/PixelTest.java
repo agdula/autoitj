@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Frame;
 import java.awt.Robot;
 
-import cn.com.jautoitx.impl.AutoItX;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

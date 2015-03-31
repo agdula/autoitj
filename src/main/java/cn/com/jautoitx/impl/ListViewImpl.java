@@ -123,7 +123,7 @@ public final class ListViewImpl implements ListView {
 		controlListView(title, text, control, LIST_VIEW_DE_SELECT,
 				String.valueOf(from), (to == null) ? null : String.valueOf(to),
 				CONTROL_LIST_VIEW_BUF_SIZE);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -235,9 +235,9 @@ public final class ListViewImpl implements ListView {
 			final Integer subItem) {
 		final String itemIndex = controlListView(title, text, control,
 				LIST_VIEW_FIND_ITEM, stringToFind, (subItem == null) ? null
-						: subItem.toString(), AutoItX.INT_BUF_SIZE);
+						: subItem.toString(), AutoItXImpl.INT_BUF_SIZE);
 		int index = NumberUtils.toInt(itemIndex, -1);
-		return (AutoItX.hasError() || index < 0) ? null : index;
+		return (LocalInstances.autoItX.hasError() || index < 0) ? null : index;
 	}
 
 	/**
@@ -287,8 +287,8 @@ public final class ListViewImpl implements ListView {
 	public Integer getItemCount(final String title, final String text,
 			final String control) {
 		final String itemCount = controlListView(title, text, control,
-				LIST_VIEW_GET_ITEM_COUNT, null, null, AutoItX.INT_BUF_SIZE);
-		return AutoItX.hasError() ? null : NumberUtils.toInt(itemCount);
+				LIST_VIEW_GET_ITEM_COUNT, null, null, AutoItXImpl.INT_BUF_SIZE);
+		return LocalInstances.autoItX.hasError() ? null : NumberUtils.toInt(itemCount);
 	}
 
 	/**
@@ -402,8 +402,8 @@ public final class ListViewImpl implements ListView {
 		// returned
 		String result = controlListView(title, text, control,
 				LIST_VIEW_GET_SELECTED, getAllSelected ? "1" : "0", null,
-				AutoItX.INT_BUF_SIZE);
-		if (!AutoItX.hasError()) {
+				AutoItXImpl.INT_BUF_SIZE);
+		if (!LocalInstances.autoItX.hasError()) {
 			String[] strItems = StringUtils.split(result, "|");
 			items = new int[strItems.length];
 			for (int i = 0; i < items.length; i++) {
@@ -466,8 +466,8 @@ public final class ListViewImpl implements ListView {
 	public Integer getSelectedCount(final String title,
 			final String text, final String control) {
 		final String selectedCount = controlListView(title, text, control,
-				LIST_VIEW_GET_SELECTED_COUNT, null, null, AutoItX.INT_BUF_SIZE);
-		return AutoItX.hasError() ? null : NumberUtils.toInt(selectedCount);
+				LIST_VIEW_GET_SELECTED_COUNT, null, null, AutoItXImpl.INT_BUF_SIZE);
+		return LocalInstances.autoItX.hasError() ? null : NumberUtils.toInt(selectedCount);
 	}
 
 	/**
@@ -515,8 +515,8 @@ public final class ListViewImpl implements ListView {
 	public Integer getSubItemCount(final String title,
 			final String text, final String control) {
 		final String subItemCount = controlListView(title, text, control,
-				LIST_VIEW_GET_SUB_ITEM_COUNT, null, null, AutoItX.INT_BUF_SIZE);
-		return AutoItX.hasError() ? null : NumberUtils.toInt(subItemCount);
+				LIST_VIEW_GET_SUB_ITEM_COUNT, null, null, AutoItXImpl.INT_BUF_SIZE);
+		return LocalInstances.autoItX.hasError() ? null : NumberUtils.toInt(subItemCount);
 	}
 
 	/**
@@ -661,7 +661,7 @@ public final class ListViewImpl implements ListView {
 					String result = controlListView(title, text, control,
 							LIST_VIEW_GET_TEXT, String.valueOf(item),
 							String.valueOf(subItem), CONTROL_LIST_VIEW_BUF_SIZE);
-					if (!AutoItX.hasError()) {
+					if (!LocalInstances.autoItX.hasError()) {
 						strText = result;
 					}
 				}
@@ -728,7 +728,7 @@ public final class ListViewImpl implements ListView {
 			final String control, final int item) {
 		return "1".equals(controlListView(title, text, control,
 				LIST_VIEW_IS_SELECTED, String.valueOf(item), null,
-				AutoItX.BOOLEAN_BUF_SIZE));
+				AutoItXImpl.BOOLEAN_BUF_SIZE));
 	}
 
 	/**
@@ -842,7 +842,7 @@ public final class ListViewImpl implements ListView {
 		controlListView(title, text, control, LIST_VIEW_SELECT,
 				String.valueOf(from), (to == null) ? null : String.valueOf(to),
 				1);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -893,7 +893,7 @@ public final class ListViewImpl implements ListView {
 			final String control) {
 		controlListView(title, text, control, LIST_VIEW_SELECT_ALL, null, null,
 				0);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -941,7 +941,7 @@ public final class ListViewImpl implements ListView {
 			final String control) {
 		controlListView(title, text, control, LIST_VIEW_SELECT_CLEAR, null,
 				null, 0);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -989,7 +989,7 @@ public final class ListViewImpl implements ListView {
 			final String control) {
 		controlListView(title, text, control, LIST_VIEW_SELECT_INVERT, null,
 				null, 0);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -1107,7 +1107,7 @@ public final class ListViewImpl implements ListView {
 		if (controlListView != null) {
 			controlListView(title, text, control, LIST_VIEW_VIEW_CHANGE, view,
 					null, 0);
-			status = !AutoItX.hasError();
+			status = !LocalInstances.autoItX.hasError();
 		}
 
 		return status;
@@ -1230,12 +1230,12 @@ public final class ListViewImpl implements ListView {
 			bufSize = 1;
 		}
 		final CharBuffer result = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_ControlListView(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		AutoItXImpl.autoItX.AU3_ControlListView(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(command)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(extra1)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(extra2)), result, bufSize);
-		return AutoItX.hasError() ? "" : Native.toString(result.array());
+		return LocalInstances.autoItX.hasError() ? "" : Native.toString(result.array());
 	}
 
 	}

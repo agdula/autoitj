@@ -77,7 +77,7 @@ public class PixelImpl implements Pixel {
 		rect.top = top;
 		rect.right = right;
 		rect.bottom = bottom;
-		return AutoItX.autoItX.AU3_PixelChecksum(rect, step);
+		return AutoItXImpl.autoItX.AU3_PixelChecksum(rect, step);
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class PixelImpl implements Pixel {
 	 *         invalid coordinates.
 	 */
 	public Integer getColor(int x, int y) {
-		Integer color = AutoItX.autoItX.AU3_PixelGetColor(x, y);
+		Integer color = AutoItXImpl.autoItX.AU3_PixelGetColor(x, y);
 		if (color == -1) {
 			color = null;
 		}
@@ -209,8 +209,8 @@ public class PixelImpl implements Pixel {
 		rect.top = top;
 		rect.right = right;
 		rect.bottom = bottom;
-		AutoItX.autoItX.AU3_PixelSearch(rect, color, shadeVariation, step, point);
+		AutoItXImpl.autoItX.AU3_PixelSearch(rect, color, shadeVariation, step, point);
 
-		return AutoItX.hasError() ? null : new int[] { point.x, point.y };
+		return LocalInstances.autoItX.hasError() ? null : new int[] { point.x, point.y };
 	}
 }

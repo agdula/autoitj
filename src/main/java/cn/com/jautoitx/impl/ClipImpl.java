@@ -17,8 +17,8 @@ public class ClipImpl implements Clip {
 	public String get() {
 		final int bufSize = CLIP_GET_BUF_SIZE;
 		final CharBuffer clip = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_ClipGet(clip, bufSize);
-		return AutoItX.hasError() ? null : Native.toString(clip.array());
+		AutoItXImpl.autoItX.AU3_ClipGet(clip, bufSize);
+		return LocalInstances.autoItX.hasError() ? null : Native.toString(clip.array());
 	}
 
 	/**
@@ -30,6 +30,6 @@ public class ClipImpl implements Clip {
 	 *            The text to write to the clipboard.
 	 */
 	public void put(final String clip) {
-		AutoItX.autoItX.AU3_ClipPut(AutoItUtils.stringToWString(AutoItUtils.defaultString(clip)));
+		AutoItXImpl.autoItX.AU3_ClipPut(AutoItUtils.stringToWString(AutoItUtils.defaultString(clip)));
 	}
 }

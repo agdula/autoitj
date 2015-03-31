@@ -186,7 +186,7 @@ public class TreeViewImpl implements TreeView {
 				if (status) {
 					controlTreeView(title, text, control, COMMAND_CHECK, item,
 							null, 0);
-					status = !AutoItX.hasError();
+					status = !LocalInstances.autoItX.hasError();
 				}
 			} else if (isChecked == IsChecked.NOT_A_CHECKBOX) {
 				status = false;
@@ -364,7 +364,7 @@ public class TreeViewImpl implements TreeView {
 				if (isExpanded(title, text, control, item)) {
 					controlTreeView(title, text, control, COMMAND_COLLAPSE,
 							item, null, 0);
-					status = !AutoItX.hasError();
+					status = !LocalInstances.autoItX.hasError();
 				} else {
 					status = true;
 				}
@@ -532,7 +532,7 @@ public class TreeViewImpl implements TreeView {
 	public boolean exists(final String title, final String text,
 						  final String control, final String item) {
 		return "1".equals(controlTreeView(title, text, control, COMMAND_EXISTS,
-				item, null, AutoItX.BOOLEAN_BUF_SIZE));
+				item, null, AutoItXImpl.BOOLEAN_BUF_SIZE));
 	}
 
 	/**
@@ -702,7 +702,7 @@ public class TreeViewImpl implements TreeView {
 				if (isCollapsed(title, text, control, item)) {
 					controlTreeView(title, text, control, COMMAND_EXPAND, item,
 							null, 0);
-					status = !AutoItX.hasError();
+					status = !LocalInstances.autoItX.hasError();
 				} else {
 					status = true;
 				}
@@ -1094,8 +1094,8 @@ public class TreeViewImpl implements TreeView {
 		Integer itemCount = null;
 		if (exists(title, text, control, item)) {
 			final String strItemCount = controlTreeView(title, text, control,
-					COMMAND_GET_ITEM_COUNT, item, null, AutoItX.INT_BUF_SIZE);
-			if (!AutoItX.hasError()) {
+					COMMAND_GET_ITEM_COUNT, item, null, AutoItXImpl.INT_BUF_SIZE);
+			if (!LocalInstances.autoItX.hasError()) {
 				itemCount = NumberUtils.toInt(strItemCount);
 			}
 		}
@@ -1247,8 +1247,8 @@ public class TreeViewImpl implements TreeView {
 							  final String control, final Boolean useIndex) {
 		final String selected = controlTreeView(title, text, control,
 				COMMAND_GET_SELECTED, (useIndex == null) ? null
-						: (useIndex ? "1" : null), null, AutoItX.INT_BUF_SIZE);
-		return AutoItX.hasError() ? null : selected;
+						: (useIndex ? "1" : null), null, AutoItXImpl.INT_BUF_SIZE);
+		return LocalInstances.autoItX.hasError() ? null : selected;
 	}
 
 	/**
@@ -1434,7 +1434,7 @@ public class TreeViewImpl implements TreeView {
 		if (StringUtils.isNotBlank(item)) {
 			itemText = controlTreeView(title, text, control, COMMAND_GET_TEXT,
 					item, null, BUF_SIZE);
-			if (AutoItX.hasError()) {
+			if (LocalInstances.autoItX.hasError()) {
 				itemText = null;
 			}
 		}
@@ -1759,7 +1759,7 @@ public class TreeViewImpl implements TreeView {
 		IsChecked isChecked = IsChecked.NOT_A_CHECKBOX;
 		if (StringUtils.isNotBlank(item)) {
 			String status = controlTreeView(title, text, control,
-					COMMAND_IS_CHECKED, item, null, AutoItX.INT_BUF_SIZE);
+					COMMAND_IS_CHECKED, item, null, AutoItXImpl.INT_BUF_SIZE);
 			if (String.valueOf(IsChecked.CHECKED.getStatus()).equals(status)) {
 				isChecked = IsChecked.CHECKED;
 			} else if (String.valueOf(IsChecked.UNCHECKED.getStatus()).equals(
@@ -2609,7 +2609,7 @@ public class TreeViewImpl implements TreeView {
 		boolean status = false;
 		if (StringUtils.isNotEmpty(item)) {
 			controlTreeView(title, text, control, COMMAND_SELECT, item, null, 0);
-			status = !AutoItX.hasError();
+			status = !LocalInstances.autoItX.hasError();
 		}
 		return status;
 	}
@@ -2799,7 +2799,7 @@ public class TreeViewImpl implements TreeView {
 				if (status) {
 					controlTreeView(title, text, control, COMMAND_UNCHECK,
 							item, null, 0);
-					status = !AutoItX.hasError();
+					status = !LocalInstances.autoItX.hasError();
 				}
 			} else if (isChecked == IsChecked.NOT_A_CHECKBOX) {
 				status = false;
@@ -2944,12 +2944,12 @@ public class TreeViewImpl implements TreeView {
 			bufSize = 1;
 		}
 		final CharBuffer result = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_ControlTreeView(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		AutoItXImpl.autoItX.AU3_ControlTreeView(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(command)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(extra1)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(extra2)), result, bufSize);
-		return AutoItX.hasError() ? "" : Native.toString(result.array());
+		return LocalInstances.autoItX.hasError() ? "" : Native.toString(result.array());
 	}
 
 	private HWND getFirstChildHandle(final String title,

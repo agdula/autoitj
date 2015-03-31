@@ -272,7 +272,7 @@ public class KeyboardImpl implements Keyboard {
 	 */
 	public void send(final String text, final Integer flag) {
 		if (StringUtils.isNotEmpty(text)) {
-			AutoItX.autoItX.AU3_Send(AutoItUtils.stringToWString(AutoItUtils.defaultString(text)), flag);
+			AutoItXImpl.autoItX.AU3_Send(AutoItUtils.stringToWString(AutoItUtils.defaultString(text)), flag);
 		}
 	}
 

@@ -1,5 +1,6 @@
 package cn.com.jautoitx.impl;
 
+import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.util.TitleBuilder;
 import cn.com.jautoitx.Win32;
 import com.sun.jna.Memory;
@@ -229,7 +230,7 @@ public class Win32Impl implements Win32 {
      */
     public boolean isHWnd(HWND hWnd) {
         String title = TitleBuilder.byHandle(hWnd);
-        return (hWnd != null) && AutoItX.autoItX.AU3_WinExists(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),null) == AutoItX.TRUE;
+        return (hWnd != null) && AutoItXImpl.autoItX.AU3_WinExists(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),null) == AutoItX.TRUE;
     }
 
     public boolean isListBox(final String title, final String control) {
@@ -271,13 +272,13 @@ public class Win32Impl implements Win32 {
      */
     public String getHandle(final String title, final String text,
                             final String control) {
-        final CharBuffer retText = CharBuffer.allocate(AutoItX.HANDLE_BUF_SIZE);
-        AutoItX.autoItX.AU3_ControlGetHandleAsText(
+        final CharBuffer retText = CharBuffer.allocate(AutoItXImpl.HANDLE_BUF_SIZE);
+        AutoItXImpl.autoItX.AU3_ControlGetHandleAsText(
                 AutoItUtils.stringToWString(AutoItUtils.defaultString(title)), AutoItUtils.stringToWString(text),
                 AutoItUtils.stringToWString(AutoItUtils.defaultString(control)), retText,
-                AutoItX.HANDLE_BUF_SIZE);
+                AutoItXImpl.HANDLE_BUF_SIZE);
 
-        return AutoItX.hasError() ? null : Native.toString(retText.array());
+        return LocalInstances.autoItX.hasError() ? null : Native.toString(retText.array());
     }
 
     /**

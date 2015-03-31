@@ -95,7 +95,7 @@ public class ProcessImpl implements cn.com.jautoitx.Process {
 	 *            The title or PID of the process to terminate.
 	 */
 	public void close(final String process) {
-		AutoItX.autoItX.AU3_ProcessClose(AutoItUtils.stringToWString(AutoItUtils.defaultString(process)));
+		AutoItXImpl.autoItX.AU3_ProcessClose(AutoItUtils.stringToWString(AutoItUtils.defaultString(process)));
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class ProcessImpl implements cn.com.jautoitx.Process {
 	 *         process does not exist.
 	 */
 	public Integer exists(final String process) {
-		int pid = AutoItX.autoItX
+		int pid = AutoItXImpl.autoItX
 				.AU3_ProcessExists(AutoItUtils.stringToWString(AutoItUtils.defaultString(process)));
 		return (pid > 0) ? pid : null;
 	}
@@ -293,7 +293,7 @@ public class ProcessImpl implements cn.com.jautoitx.Process {
 	 */
 	public Integer run(final String fileName, final String workingDir,
 			final Integer showFlag) {
-		final int pid = AutoItX.autoItX.AU3_Run(
+		final int pid = AutoItXImpl.autoItX.AU3_Run(
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(fileName)),
 				AutoItUtils.stringToWString(workingDir), (showFlag == null) ? Win.SW_SHOWNORMAL
 						: showFlag);
@@ -581,7 +581,7 @@ public class ProcessImpl implements cn.com.jautoitx.Process {
 			final String password, final Integer logonFlag,
 			final String fileName, final String workingDir,
 			final Integer showFlag) {
-		final int pid = AutoItX.autoItX.AU3_RunAs(AutoItUtils.stringToWString(AutoItUtils.defaultString(user)),
+		final int pid = AutoItXImpl.autoItX.AU3_RunAs(AutoItUtils.stringToWString(AutoItUtils.defaultString(user)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(domain)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(password)),
 				(logonFlag == null) ? RunLogonFlag.DEFAULT.getLogonFlag()
@@ -913,7 +913,7 @@ public class ProcessImpl implements cn.com.jautoitx.Process {
 			final String domain, final String password,
 			final Integer logonFlag, final String fileName,
 			final String workingDir, final Integer showFlag) {
-		final int exitCode = AutoItX.autoItX.AU3_RunAsWait(
+		final int exitCode = AutoItXImpl.autoItX.AU3_RunAsWait(
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(user)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(domain)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(password)),
@@ -921,7 +921,7 @@ public class ProcessImpl implements cn.com.jautoitx.Process {
 						: logonFlag, AutoItUtils.stringToWString(AutoItUtils.defaultString(fileName)),
 				AutoItUtils.stringToWString(workingDir), (showFlag == null) ? Win.SW_SHOWNORMAL
 						: showFlag);
-		return new RunWaitResult(AutoItX.autoItX.AU3_error(), exitCode);
+		return new RunWaitResult(AutoItXImpl.autoItX.AU3_error(), exitCode);
 	}
 
 	/**
@@ -1067,11 +1067,11 @@ public class ProcessImpl implements cn.com.jautoitx.Process {
 	 */
 	public RunWaitResult runWait(final String fileName,
 			final String workingDir, final Integer flag) {
-		int exitCode = AutoItX.autoItX.AU3_RunWait(
+		int exitCode = AutoItXImpl.autoItX.AU3_RunWait(
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(fileName)),
 				AutoItUtils.stringToWString(workingDir), (flag == null) ? Win.SW_SHOWNORMAL
 						: flag);
-		return new RunWaitResult(AutoItX.autoItX.AU3_error(), exitCode);
+		return new RunWaitResult(AutoItXImpl.autoItX.AU3_error(), exitCode);
 	}
 
 	/**
@@ -1140,7 +1140,7 @@ public class ProcessImpl implements cn.com.jautoitx.Process {
 	 * @return Return true if success, return false if failed.
 	 */
 	public boolean setPriority(final String process, final int priority) {
-		return AutoItX.autoItX.AU3_ProcessSetPriority(
+		return AutoItXImpl.autoItX.AU3_ProcessSetPriority(
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(process)), priority) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
@@ -1185,7 +1185,7 @@ public class ProcessImpl implements cn.com.jautoitx.Process {
 	 * @return Return true if success, return false if failed.
 	 */
 	public boolean shutdown(final int code) {
-		return AutoItX.autoItX.AU3_Shutdown(code) == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItXImpl.autoItX.AU3_Shutdown(code) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -1228,7 +1228,7 @@ public class ProcessImpl implements cn.com.jautoitx.Process {
 	 */
 	public boolean wait(final String process,
 			final Integer timeoutInSeconds) {
-		return AutoItX.autoItX.AU3_ProcessWait(AutoItUtils.stringToWString(AutoItUtils.defaultString(process)),
+		return AutoItXImpl.autoItX.AU3_ProcessWait(AutoItUtils.stringToWString(AutoItUtils.defaultString(process)),
 				timeoutInSeconds) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
@@ -1307,7 +1307,7 @@ public class ProcessImpl implements cn.com.jautoitx.Process {
 	 */
 	public boolean waitClose(final String process,
 			final Integer timeoutInSeconds) {
-		return AutoItX.autoItX.AU3_ProcessWaitClose(
+		return AutoItXImpl.autoItX.AU3_ProcessWaitClose(
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(process)), timeoutInSeconds) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 

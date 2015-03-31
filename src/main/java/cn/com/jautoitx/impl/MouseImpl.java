@@ -704,11 +704,11 @@ public final class MouseImpl implements Mouse {
 			x = getPosX();
 			y = getPosY();
 		}
-		AutoItX.autoItX.AU3_MouseClick(AutoItUtils.stringToWString(AutoItUtils.defaultString(button)
+		AutoItXImpl.autoItX.AU3_MouseClick(AutoItUtils.stringToWString(AutoItUtils.defaultString(button)
 						.toLowerCase()), x, y,
 				(clicks == null) ? DEFAULT_MOUSE_CLICK_TIMES : clicks,
 				(speed == null) ? DEFAULT_MOUSE_MOVE_SPEED : speed);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -883,9 +883,9 @@ public final class MouseImpl implements Mouse {
 			return false;
 		}
 
-		AutoItX.autoItX.AU3_MouseClickDrag(AutoItUtils.stringToWString(AutoItUtils.defaultString(button)), x1,
+		AutoItXImpl.autoItX.AU3_MouseClickDrag(AutoItUtils.stringToWString(AutoItUtils.defaultString(button)), x1,
 				y1, x2, y2, speed);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -920,8 +920,8 @@ public final class MouseImpl implements Mouse {
 		int currentMouseClickDownDelay = LocalInstances.opt.currentMouseClickDownDelay;
 
 		long start = System.currentTimeMillis();
-		AutoItX.autoItX.AU3_MouseDown(AutoItUtils.stringToWString(button));
-		boolean status = !AutoItX.hasError();
+		AutoItXImpl.autoItX.AU3_MouseDown(AutoItUtils.stringToWString(button));
+		boolean status = !LocalInstances.autoItX.hasError();
 		long delay = System.currentTimeMillis() - start;
 
 		// Note: fix AutoItX 3.3.10.2's bug
@@ -1048,7 +1048,7 @@ public final class MouseImpl implements Mouse {
 	 */
 	public MouseCursor getCursor() {
 		MouseCursor mouseCursor = null;
-		final int cursorId = AutoItX.autoItX.AU3_MouseGetCursor();
+		final int cursorId = AutoItXImpl.autoItX.AU3_MouseGetCursor();
 		for (MouseCursor cursor : MouseCursor.values()) {
 			if (cursor.getId() == cursorId) {
 				mouseCursor = cursor;
@@ -1069,7 +1069,7 @@ public final class MouseImpl implements Mouse {
 	 */
 	public int[] getPos() {
 		POINT point = new POINT();
-		AutoItX.autoItX.AU3_MouseGetPos(point);
+		AutoItXImpl.autoItX.AU3_MouseGetPos(point);
 		return new int[] { point.x, point.y };
 	}
 
@@ -1128,7 +1128,7 @@ public final class MouseImpl implements Mouse {
 	 *         numbers may be negative.
 	 */
 	public int move(final int x, final int y, final Integer speed) {
-		return AutoItX.autoItX.AU3_MouseMove(x, y, speed);
+		return AutoItXImpl.autoItX.AU3_MouseMove(x, y, speed);
 	}
 
 	/**
@@ -1160,8 +1160,8 @@ public final class MouseImpl implements Mouse {
 		if (!checkMouseButton(button)) {
 			return false;
 		}
-		AutoItX.autoItX.AU3_MouseUp(AutoItUtils.stringToWString(button));
-		return !AutoItX.hasError();
+		AutoItXImpl.autoItX.AU3_MouseUp(AutoItUtils.stringToWString(button));
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -1223,10 +1223,10 @@ public final class MouseImpl implements Mouse {
 			return false;
 		}
 
-		AutoItX.autoItX.AU3_MouseWheel(
+		AutoItXImpl.autoItX.AU3_MouseWheel(
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(direction.toLowerCase())),
 				(clicks == null) ? 1 : clicks);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	private static boolean checkMouseButton(String button) {

@@ -42,6 +42,7 @@ public abstract class BaseTest {
 
 	@Autowired Win Win;
 	@Autowired Process Process;
+	@Autowired AutoItX AutoItX;
 
 	protected static final boolean isZhUserLanguage = "zh"
 			.equalsIgnoreCase(System.getProperty("user.language"))

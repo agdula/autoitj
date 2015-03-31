@@ -1,11 +1,6 @@
 package cn.com.jautoitx;
 
-import cn.com.jautoitx.impl.ClipImpl;
-import cn.com.jautoitx.impl.ControlImpl;
 import cn.com.jautoitx.impl.LocalInstances;
-import cn.com.jautoitx.impl.PixelImpl;
-import cn.com.jautoitx.impl.TreeViewImpl;
-import cn.com.jautoitx.impl.WinImpl;
 import cn.com.jautoitx.util.ControlIdBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,4 +26,5 @@ public class BaseTestConfiguration {
     @Bean  Misc getMisc(){ return LocalInstances.misc; }
     @Bean  Keyboard getKeyboard(){ return LocalInstances.keyboard; }
     @Bean  DriveMap getDriveMap(){ return LocalInstances.driveMap; }
+    @Bean AutoItX getAutoItX(){ return LocalInstances.autoItX; }
 }

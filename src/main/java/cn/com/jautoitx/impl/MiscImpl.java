@@ -1,5 +1,6 @@
 package cn.com.jautoitx.impl;
 
+import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.Misc;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,7 +14,7 @@ public class MiscImpl implements Misc {
 	 *         0 if user lacks admin privileges.
 	 */
 	public boolean isAdmin() {
-		return AutoItX.autoItX.AU3_IsAdmin() == AutoItX.SUCCESS_RETURN_VALUE;
+		return AutoItXImpl.autoItX.AU3_IsAdmin() == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
 	/**
@@ -25,7 +26,7 @@ public class MiscImpl implements Misc {
 	 *            Amount of time to pause (in milliseconds).
 	 */
 	public void sleep(final int milliSeconds) {
-		AutoItX.autoItX.AU3_Sleep(milliSeconds);
+		AutoItXImpl.autoItX.AU3_Sleep(milliSeconds);
 	}
 
 
@@ -92,7 +93,7 @@ public class MiscImpl implements Misc {
 	 */
 	public void tooltip(final String text, Integer x, Integer y) {
 		if (StringUtils.isEmpty(text)) {
-			AutoItX.autoItX.AU3_ToolTip(AutoItUtils.stringToWString(""), null, null);
+			AutoItXImpl.autoItX.AU3_ToolTip(AutoItUtils.stringToWString(""), null, null);
 		} else {
 			// Fix AutoItX's bug
 			if ((x != null) && (x < 0)) {
@@ -101,7 +102,7 @@ public class MiscImpl implements Misc {
 			if ((y != null) && (y < 0)) {
 				y = 0;
 			}
-			AutoItX.autoItX.AU3_ToolTip(AutoItUtils.stringToWString(AutoItUtils.defaultString(text)), x, y);
+			AutoItXImpl.autoItX.AU3_ToolTip(AutoItUtils.stringToWString(AutoItUtils.defaultString(text)), x, y);
 		}
 	}
 

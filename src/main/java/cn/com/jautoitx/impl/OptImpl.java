@@ -412,7 +412,7 @@ public final class OptImpl implements Opt {
 	 * @return Returns the value of the previous setting.
 	 */
 	private static int opt(final String option, final int value) {
-		return AutoItX.autoItX.AU3_Opt(AutoItUtils.stringToWString(AutoItUtils.defaultString(option)), value);
+		return AutoItXImpl.autoItX.AU3_Opt(AutoItUtils.stringToWString(AutoItUtils.defaultString(option)), value);
 	}
 
 }

@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.nio.CharBuffer;
 import java.util.logging.Logger;
 
+import cn.com.jautoitx.AutoItX;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Platform;
@@ -22,7 +23,7 @@ import com.sun.jna.platform.win32.WinDef.RECT;
  * 
  * @author zhengbo.wang
  */
-public class AutoItX {
+public class AutoItXImpl implements AutoItX {
 	/* AutoItX's version */
 	private static String AUTOITX_VERSION = null;
 
@@ -38,20 +39,16 @@ public class AutoItX {
 	/* AutoItX library path */
 	private static final String DLL_LIB_RESOURCE_PATH = "/cn/com/jautoitx/lib/";
 
-	private static final Logger logger = Logger.getLogger(AutoItX.class.getName());
+	private static final Logger logger = Logger.getLogger(AutoItXImpl.class.getName());
 
 	public static AutoItXLibrary autoItX;
-
-	public static final int SUCCESS_RETURN_VALUE = 1;
-	public static final int FAILED_RETURN_VALUE = 0;
-	public static final int TRUE = 1;
 
 	static {
 		// Initialize AutoIt
 		initAutoItX();
 	}
 
-	protected AutoItX() {
+	protected AutoItXImpl() {
 		// Do nothing
 	}
 
@@ -66,7 +63,7 @@ public class AutoItX {
 			logger.fine("AutoItX initialized.");
 		} catch (Throwable e) {
 			logger.warning("Unable to initialize "
-					+ AutoItX.class.getSimpleName());
+					+ AutoItXImpl.class.getSimpleName());
 		}
 	}
 
@@ -84,7 +81,7 @@ public class AutoItX {
 			String libNativeSuffix = libNativeName.substring(i);
 
 			// This may return null in some circumstances.
-			InputStream libInputStream = AutoItX.class
+			InputStream libInputStream = AutoItXImpl.class
 					.getResourceAsStream(DLL_LIB_RESOURCE_PATH.toLowerCase()
 							+ libNativeName);
 			if (libInputStream == null) {
@@ -119,7 +116,7 @@ public class AutoItX {
 	 * 
 	 * @return Returns AutoItX's version.
 	 */
-	public static String version() {
+	public String version() {
 		return AUTOITX_VERSION;
 	}
 
@@ -128,7 +125,7 @@ public class AutoItX {
 	 * 
 	 * @return Returns error property.
 	 */
-	public static int error() {
+	public int error() {
 		return autoItX.AU3_error();
 	}
 
@@ -138,7 +135,7 @@ public class AutoItX {
 	 * @return Returns true if last AutoItX method has error, otherwise return
 	 *         false.
 	 */
-	public static boolean hasError() {
+	public boolean hasError() {
 		return error() != 0;
 	}
 

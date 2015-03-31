@@ -22,4 +22,5 @@ public class LocalInstances {
     public static final MiscImpl misc = new MiscImpl();
     public static final KeyboardImpl keyboard = new KeyboardImpl();
     public static final DriveMapImpl driveMap = new DriveMapImpl();
+    public static final AutoItXImpl autoItX = new AutoItXImpl();
 }

@@ -4,6 +4,7 @@ import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.com.jautoitx.AutoItX;
 import cn.com.jautoitx.Control;
 import cn.com.jautoitx.util.ControlIdBuilder;
 import cn.com.jautoitx.util.TitleBuilder;
@@ -382,7 +383,7 @@ public class ControlImpl implements Control {
 			x = null;
 		}
 
-		return AutoItX.autoItX.AU3_ControlClick(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		return AutoItXImpl.autoItX.AU3_ControlClick(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(button)), numClicks, x, y) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
@@ -434,7 +435,7 @@ public class ControlImpl implements Control {
 	public boolean isVisible(final String title, final String text,
 							 final String control) {
 		return "1".equals(controlCommand(title, text, control,
-				CONTROL_COMMAND_IS_VISIBLE, null, AutoItX.BOOLEAN_BUF_SIZE));
+				CONTROL_COMMAND_IS_VISIBLE, null, AutoItXImpl.BOOLEAN_BUF_SIZE));
 	}
 
 	/**
@@ -509,7 +510,7 @@ public class ControlImpl implements Control {
 							 final String control) {
 		return String.valueOf(AutoItX.TRUE).equals(
 				controlCommand(title, text, control,
-						CONTROL_COMMAND_IS_ENABLED, null, AutoItX.BOOLEAN_BUF_SIZE));
+						CONTROL_COMMAND_IS_ENABLED, null, AutoItXImpl.BOOLEAN_BUF_SIZE));
 	}
 
 	/**
@@ -587,7 +588,7 @@ public class ControlImpl implements Control {
 		controlCommand(title, text, control, CONTROL_COMMAND_SHOW_DROP_DOWN,
 				null, 0);
 
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -666,7 +667,7 @@ public class ControlImpl implements Control {
 		controlCommand(title, text, control, CONTROL_COMMAND_HIDE_DROP_DOWN,
 				null, 0);
 
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -752,7 +753,7 @@ public class ControlImpl implements Control {
 		controlCommand(title, text, control, CONTROL_COMMAND_ADD_STRING,
 				string, 0);
 
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -846,7 +847,7 @@ public class ControlImpl implements Control {
 		controlCommand(title, text, control, CONTROL_COMMAND_DEL_STRING,
 				String.valueOf(occurrence), 0);
 
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -1421,7 +1422,7 @@ public class ControlImpl implements Control {
 		controlCommand(title, text, control,
 				CONTROL_COMMAND_SET_CURRENT_SELECTION,
 				String.valueOf(occurrence), 0);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -1599,7 +1600,7 @@ public class ControlImpl implements Control {
 	public boolean isChecked(final String title, final String text,
 							 final String control) {
 		return "1".equals(controlCommand(title, text, control,
-				CONTROL_COMMAND_IS_CHECKED, null, AutoItX.BOOLEAN_BUF_SIZE));
+				CONTROL_COMMAND_IS_CHECKED, null, AutoItXImpl.BOOLEAN_BUF_SIZE));
 	}
 
 	/**
@@ -1675,7 +1676,7 @@ public class ControlImpl implements Control {
 	public boolean check(final String title, final String text,
 						 final String control) {
 		controlCommand(title, text, control, CONTROL_COMMAND_CHECK, null, 0);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -1752,7 +1753,7 @@ public class ControlImpl implements Control {
 	public boolean uncheck(final String title, final String text,
 						   final String control) {
 		controlCommand(title, text, control, CONTROL_COMMAND_UN_CHECK, null, 0);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -1832,8 +1833,8 @@ public class ControlImpl implements Control {
 	public Integer getCurrentLine(final String title, final String text,
 								  final String control) {
 		final String currentLine = controlCommand(title, text, control,
-				CONTROL_COMMAND_GET_CURRENT_LINE, null, AutoItX.INT_BUF_SIZE);
-		if (!AutoItX.hasError() && StringUtils.isNotBlank(currentLine)) {
+				CONTROL_COMMAND_GET_CURRENT_LINE, null, AutoItXImpl.INT_BUF_SIZE);
+		if (!LocalInstances.autoItX.hasError() && StringUtils.isNotBlank(currentLine)) {
 			return NumberUtils.toInt(currentLine);
 		}
 		return null;
@@ -1916,8 +1917,8 @@ public class ControlImpl implements Control {
 	public Integer getCurrentCol(final String title, final String text,
 								 final String control) {
 		final String currentCol = controlCommand(title, text, control,
-				CONTROL_COMMAND_GET_CURRENT_COL, null, AutoItX.INT_BUF_SIZE);
-		if (!AutoItX.hasError() && StringUtils.isNotBlank(currentCol)) {
+				CONTROL_COMMAND_GET_CURRENT_COL, null, AutoItXImpl.INT_BUF_SIZE);
+		if (!LocalInstances.autoItX.hasError() && StringUtils.isNotBlank(currentCol)) {
 			return NumberUtils.toInt(currentCol);
 		}
 		return null;
@@ -2001,7 +2002,7 @@ public class ControlImpl implements Control {
 		String selection = controlCommand(title, text, control,
 				CONTROL_COMMAND_GET_CURRENT_SELECTION, null,
 				CONTROL_COMMAND_GET_CURRENT_SELECTION_BUF_SIZE);
-		return AutoItX.hasError() ? null : selection;
+		return LocalInstances.autoItX.hasError() ? null : selection;
 	}
 
 	/**
@@ -2078,8 +2079,8 @@ public class ControlImpl implements Control {
 	public Integer getLineCount(final String title, final String text,
 								final String control) {
 		final String lineCount = controlCommand(title, text, control,
-				CONTROL_COMMAND_GET_LINE_COUNT, null, AutoItX.INT_BUF_SIZE);
-		if (!AutoItX.hasError() && StringUtils.isNotBlank(lineCount)) {
+				CONTROL_COMMAND_GET_LINE_COUNT, null, AutoItXImpl.INT_BUF_SIZE);
+		if (!LocalInstances.autoItX.hasError() && StringUtils.isNotBlank(lineCount)) {
 			return NumberUtils.toInt(lineCount);
 		}
 		return null;
@@ -2166,7 +2167,7 @@ public class ControlImpl implements Control {
 		String line = controlCommand(title, text, control,
 				CONTROL_COMMAND_GET_LINE, String.valueOf(lineNumber),
 				CONTROL_COMMAND_BUF_SIZE);
-		if (AutoItX.hasError()) {
+		if (LocalInstances.autoItX.hasError()) {
 			if (lineNumber > 0) {
 				Integer lineCount = getLineCount(title, text, control);
 				if ((lineCount != null) && (lineCount == lineNumber)) {
@@ -2263,7 +2264,7 @@ public class ControlImpl implements Control {
 		}
 		String selectedText = controlCommand(title, text, control,
 				CONTROL_COMMAND_GET_SELECTED, null, CONTROL_COMMAND_BUF_SIZE);
-		return AutoItX.hasError() ? ("Edit".equals(className) ? "" : null)
+		return LocalInstances.autoItX.hasError() ? ("Edit".equals(className) ? "" : null)
 				: selectedText;
 	}
 
@@ -2347,7 +2348,7 @@ public class ControlImpl implements Control {
 							 final String control, final String string) {
 		controlCommand(title, text, control, CONTROL_COMMAND_EDIT_PASTE,
 				StringUtils.defaultString(string), 0);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -2427,8 +2428,8 @@ public class ControlImpl implements Control {
 	public Integer currentTab(final String title, final String text,
 							  final String control) {
 		String currentTab = controlCommand(title, text, control,
-				CONTROL_COMMAND_CURRENT_TAB, null, AutoItX.INT_BUF_SIZE);
-		return AutoItX.hasError() ? null : NumberUtils.toInt(currentTab);
+				CONTROL_COMMAND_CURRENT_TAB, null, AutoItXImpl.INT_BUF_SIZE);
+		return LocalInstances.autoItX.hasError() ? null : NumberUtils.toInt(currentTab);
 	}
 
 	/**
@@ -2503,7 +2504,7 @@ public class ControlImpl implements Control {
 	public boolean tabRight(final String title, final String text,
 							final String control) {
 		controlCommand(title, text, control, CONTROL_COMMAND_TAB_RIGHT, null, 0);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -2577,7 +2578,7 @@ public class ControlImpl implements Control {
 	public boolean tabLeft(final String title, final String text,
 						   final String control) {
 		controlCommand(title, text, control, CONTROL_COMMAND_TAB_LEFT, null, 0);
-		return !AutoItX.hasError();
+		return !LocalInstances.autoItX.hasError();
 	}
 
 	/**
@@ -2738,12 +2739,12 @@ public class ControlImpl implements Control {
 		}
 
 		final CharBuffer result = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_ControlCommand(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		AutoItXImpl.autoItX.AU3_ControlCommand(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(command)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(extra)), result, bufSize);
 
-		return AutoItX.hasError() ? "" : Native.toString(result.array());
+		return LocalInstances.autoItX.hasError() ? "" : Native.toString(result.array());
 	}
 
 	/**
@@ -2782,7 +2783,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean disable(final String title, final String text,
 						   final String control) {
-		return AutoItX.autoItX.AU3_ControlDisable(
+		return AutoItXImpl.autoItX.AU3_ControlDisable(
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(title)), AutoItUtils.stringToWString(text),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
@@ -2844,7 +2845,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean enable(final String title, final String text,
 						  final String control) {
-		return AutoItX.autoItX.AU3_ControlEnable(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		return AutoItXImpl.autoItX.AU3_ControlEnable(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
@@ -2904,7 +2905,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean focus(final String title, final String text,
 						 final String control) {
-		return AutoItX.autoItX.AU3_ControlFocus(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		return AutoItXImpl.autoItX.AU3_ControlFocus(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
@@ -2954,10 +2955,10 @@ public class ControlImpl implements Control {
 	public String getFocus(final String title, final String text) {
 		final int bufSize = CONTROL_GET_FOCUS_BUF_ZIZE;
 		final CharBuffer controlWithFocus = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_ControlGetFocus(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		AutoItXImpl.autoItX.AU3_ControlGetFocus(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), controlWithFocus, bufSize);
 
-		return AutoItX.hasError() ? null : Native.toString(controlWithFocus.array());
+		return LocalInstances.autoItX.hasError() ? null : Native.toString(controlWithFocus.array());
 	}
 
 	/**
@@ -3087,11 +3088,11 @@ public class ControlImpl implements Control {
 	public int[] getPos(final String title, final String text,
 						final String control) {
 		RECT rect = new RECT();
-		AutoItX.autoItX.AU3_ControlGetPos(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		AutoItXImpl.autoItX.AU3_ControlGetPos(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
 				rect);
 
-		return AutoItX.hasError() ? null : new int[] { rect.left, rect.top };
+		return LocalInstances.autoItX.hasError() ? null : new int[] { rect.left, rect.top };
 	}
 
 	/**
@@ -3405,11 +3406,11 @@ public class ControlImpl implements Control {
 	public int[] getSize(final String title, final String text,
 						 final String control) {
 		RECT rect = new RECT();
-		AutoItX.autoItX.AU3_ControlGetPos(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		AutoItXImpl.autoItX.AU3_ControlGetPos(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
 				rect);
 
-		return AutoItX.hasError() ? null : new int[] { rect.right - rect.left,
+		return LocalInstances.autoItX.hasError() ? null : new int[] { rect.right - rect.left,
 				rect.bottom - rect.top };
 	}
 
@@ -3471,11 +3472,11 @@ public class ControlImpl implements Control {
 						  final String controlId) {
 		final int bufSize = CONTROL_GET_TEXT_BUF_ZIZE;
 		final CharBuffer controlText = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_ControlGetText(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		AutoItXImpl.autoItX.AU3_ControlGetText(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(controlId)), controlText, bufSize);
 
-		return AutoItX.hasError() ? LocalInstances.win32.getControlText(getHandle_(title,
+		return LocalInstances.autoItX.hasError() ? LocalInstances.win32.getControlText(getHandle_(title,
 				text, controlId)) : Native.toString(controlText.array());
 	}
 
@@ -3536,7 +3537,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean hide(final String title, final String text,
 						final String control) {
-		return AutoItX.autoItX.AU3_ControlHide(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		return AutoItXImpl.autoItX.AU3_ControlHide(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
 
@@ -3697,7 +3698,7 @@ public class ControlImpl implements Control {
 		if ((height == null) || (height < 0)) {
 			height = getHeight(title, text, control);
 		}
-		return AutoItX.autoItX.AU3_ControlMove(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		return AutoItXImpl.autoItX.AU3_ControlMove(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
 				x, y, width, height) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
@@ -3881,7 +3882,7 @@ public class ControlImpl implements Control {
 		// indicate SHIFT and {LEFT} to indicate left arrow.
 		//
 		// flag = 1, keys are sent raw.
-		return AutoItX.autoItX.AU3_ControlSend(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		return AutoItXImpl.autoItX.AU3_ControlSend(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), AutoItUtils.stringToWString(AutoItUtils.defaultString(control)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(sendText)),
 				(sendRawText == null) ? null : (sendRawText ? 1 : 0)) == AutoItX.SUCCESS_RETURN_VALUE;
@@ -3963,7 +3964,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean setText(final String title, final String text,
 						   final String controlId, final String controlText) {
-		return AutoItX.autoItX.AU3_ControlSetText(
+		return AutoItXImpl.autoItX.AU3_ControlSetText(
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(title)), AutoItUtils.stringToWString(text),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(controlId)),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(controlText))) == AutoItX.SUCCESS_RETURN_VALUE;
@@ -4030,7 +4031,7 @@ public class ControlImpl implements Control {
 	 */
 	public boolean show(final String title, final String text,
 						final String controlId) {
-		return AutoItX.autoItX.AU3_ControlShow(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		return AutoItXImpl.autoItX.AU3_ControlShow(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text),
 				AutoItUtils.stringToWString(AutoItUtils.defaultString(controlId))) == AutoItX.SUCCESS_RETURN_VALUE;
 	}
@@ -4167,10 +4168,10 @@ public class ControlImpl implements Control {
 								   final String text, final Integer part) {
 		final int bufSize = STATUSBAR_GET_TEXT_BUF_SIZE;
 		final CharBuffer statusText = CharBuffer.allocate(bufSize);
-		AutoItX.autoItX.AU3_StatusbarGetText(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+		AutoItXImpl.autoItX.AU3_StatusbarGetText(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text), part, statusText, bufSize);
 
-		return AutoItX.hasError() ? null : Native.toString(statusText.array());
+		return LocalInstances.autoItX.hasError() ? null : Native.toString(statusText.array());
 	}
 
 	/**
