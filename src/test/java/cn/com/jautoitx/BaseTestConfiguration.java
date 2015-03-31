@@ -25,4 +25,5 @@ public class BaseTestConfiguration {
     @Bean  TreeView getTreeView(){ return LocalInstances.treeView; }
     @Bean  Process getProcess(){ return LocalInstances.process; }
     @Bean  Pixel getPixel(){ return LocalInstances.pixel; }
+    @Bean  Opt getOpt(){ return LocalInstances.opt; }
 }

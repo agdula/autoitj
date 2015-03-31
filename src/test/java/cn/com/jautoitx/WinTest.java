@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class WinTest extends BaseTest {
 
 	@Autowired Win Win;
+	@Autowired Opt Opt;
 
 	@Test
 	public void activate() {

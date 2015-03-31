@@ -255,10 +255,10 @@ public class Win32Impl implements Win32 {
      */
     public void setCapslockState(boolean on) {
         if (isCapslockOn() ^ on) {
-            boolean restore = Opt.setSendCapslockMode(false);
+            boolean restore = LocalInstances.opt.setSendCapslockMode(false);
             Keyboard.send("{CAPSLOCK}");
             if (restore) {
-                Opt.setSendCapslockMode(restore);
+                LocalInstances.opt.setSendCapslockMode(restore);
             }
         }
     }

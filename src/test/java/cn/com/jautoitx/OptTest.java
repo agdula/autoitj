@@ -24,6 +24,8 @@ public class OptTest extends BaseTest {
 	@Autowired
 	Win32 Win32;
 	@Autowired
+	Opt Opt;
+	@Autowired
 	Control Control;
 	@Autowired
 	Pixel Pixel;

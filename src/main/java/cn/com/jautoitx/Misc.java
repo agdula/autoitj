@@ -1,6 +1,8 @@
 package cn.com.jautoitx;
 
 import cn.com.jautoitx.impl.AutoItUtils;
+import cn.com.jautoitx.impl.LocalInstances;
+import cn.com.jautoitx.impl.OptImpl;
 import org.apache.commons.lang3.StringUtils;
 
 public class Misc {
@@ -61,15 +63,15 @@ public class Misc {
 			// the mouse cursor
 
 			// Fix AutoItX's bug
-			Opt.CoordMode newCoodMode = Opt.CoordMode.ABSOLUTE_SCREEN_COORDINATES;
-			Opt.CoordMode oldCoodMode = Opt.setMouseCoordMode(newCoodMode);
+			OptImpl.CoordMode newCoodMode = OptImpl.CoordMode.ABSOLUTE_SCREEN_COORDINATES;
+			OptImpl.CoordMode oldCoodMode = LocalInstances.opt.setMouseCoordMode(newCoodMode);
 
 			int mousePosX = Mouse.getPosX();
 			int mousePosY = Mouse.getPosY();
 
 			// restore MouseCoordMode
 			if (!newCoodMode.equals(oldCoodMode)) {
-				Opt.setMouseCoordMode(oldCoodMode);
+				LocalInstances.opt.setMouseCoordMode(oldCoodMode);
 			}
 
 			tooltip(text, mousePosX, mousePosY);

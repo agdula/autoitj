@@ -1,6 +1,8 @@
 package cn.com.jautoitx;
 
 import cn.com.jautoitx.impl.AutoItUtils;
+import cn.com.jautoitx.impl.LocalInstances;
+import cn.com.jautoitx.impl.OptImpl;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.platform.win32.WinDef.POINT;
@@ -926,7 +928,7 @@ public final class Mouse {
 		if (!checkMouseButton(button)) {
 			return false;
 		}
-		int currentMouseClickDownDelay = Opt.currentMouseClickDownDelay;
+		int currentMouseClickDownDelay = LocalInstances.opt.currentMouseClickDownDelay;
 
 		long start = System.currentTimeMillis();
 		AutoItX.autoItX.AU3_MouseDown(AutoItUtils.stringToWString(button));
