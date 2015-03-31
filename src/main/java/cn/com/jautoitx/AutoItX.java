@@ -40,7 +40,7 @@ public class AutoItX {
 	/* AutoItX library path */
 	private static final String DLL_LIB_RESOURCE_PATH = "/cn/com/jautoitx/lib/";
 
-	protected static final Logger logger = Logger.getAnonymousLogger();
+	private static final Logger logger = Logger.getLogger(AutoItX.class.getName());
 
 	public static AutoItXLibrary autoItX;
 

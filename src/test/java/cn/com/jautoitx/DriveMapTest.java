@@ -8,8 +8,10 @@ import org.junit.Test;
 
 import cn.com.jautoitx.DriveMap.DriveMapAddError;
 import cn.com.jautoitx.DriveMap.DriveMapAddFlag;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class DriveMapTest extends BaseTest {
+	@Autowired DriveMap DriveMap;
 	@Test
 	public void add() {
 		long currentTimeMillis = System.currentTimeMillis();

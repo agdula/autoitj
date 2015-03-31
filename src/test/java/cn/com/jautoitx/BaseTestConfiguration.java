@@ -30,4 +30,5 @@ public class BaseTestConfiguration {
     @Bean  ListView getListView(){ return LocalInstances.listView; }
     @Bean  Misc getMisc(){ return LocalInstances.misc; }
     @Bean  Keyboard getKeyboard(){ return LocalInstances.keyboard; }
+    @Bean  DriveMap getDriveMap(){ return LocalInstances.driveMap; }
 }
