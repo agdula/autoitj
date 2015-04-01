@@ -1,10 +1,10 @@
 package cn.com.jautoitx.impl;
 
-import java.nio.CharBuffer;
-
-import cn.com.jautoitx.Clip;
+import cn.com.jautoitx.contract.Clip;
 import cn.com.jautoitx.util.AutoItUtils;
 import com.sun.jna.Native;
+
+import java.nio.CharBuffer;
 
 public class ClipImpl implements Clip {
 	public static int CLIP_GET_BUF_SIZE = 8 * 1024;

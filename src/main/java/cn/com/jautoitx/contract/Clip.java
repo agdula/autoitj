@@ -1,4 +1,4 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.contract;
 
 public interface Clip {
 

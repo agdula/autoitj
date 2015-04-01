@@ -1,21 +1,21 @@
 package cn.com.jautoitx.impl;
 
-import java.nio.CharBuffer;
-import java.util.ArrayList;
-import java.util.List;
-
-import cn.com.jautoitx.AutoItX;
-import cn.com.jautoitx.Control;
+import cn.com.jautoitx.contract.AutoItX;
+import cn.com.jautoitx.contract.Control;
+import cn.com.jautoitx.domain.WinRef;
 import cn.com.jautoitx.util.AutoItUtils;
 import cn.com.jautoitx.util.ControlIdBuilder;
 import cn.com.jautoitx.util.TitleBuilder;
+import com.sun.jna.Native;
+import com.sun.jna.platform.win32.WinDef;
+import com.sun.jna.platform.win32.WinDef.RECT;
+import com.sun.jna.platform.win32.WinDef.WPARAM;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import com.sun.jna.Native;
-import com.sun.jna.platform.win32.WinDef.HWND;
-import com.sun.jna.platform.win32.WinDef.RECT;
-import com.sun.jna.platform.win32.WinDef.WPARAM;
+import java.nio.CharBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ControlImpl implements Control {
 	private static int CONTROL_GET_FOCUS_BUF_ZIZE = 512;
@@ -458,7 +458,7 @@ public class ControlImpl implements Control {
 	 *            The handle of the control to interact with.
 	 * @return Return true if control is visible, otherwise return false.
 	 */
-	public boolean isVisible(final HWND hWnd, final HWND hCtrl) {
+	public boolean isVisible(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isVisible(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -533,7 +533,7 @@ public class ControlImpl implements Control {
 	 *            The handle of the control to interact with.
 	 * @return Return true if control is enabled, otherwise return false.
 	 */
-	public boolean isEnabled(final HWND hWnd, final HWND hCtrl) {
+	public boolean isEnabled(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isEnabled(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -612,7 +612,7 @@ public class ControlImpl implements Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	public boolean showDropDown(final HWND hWnd, final HWND hCtrl) {
+	public boolean showDropDown(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : showDropDown(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -691,7 +691,7 @@ public class ControlImpl implements Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	public boolean hideDropDown(final HWND hWnd, final HWND hCtrl) {
+	public boolean hideDropDown(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : hideDropDown(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -780,7 +780,7 @@ public class ControlImpl implements Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	public boolean addString(final HWND hWnd, final HWND hCtrl,
+	public boolean addString(final WinRef hWnd, final WinRef hCtrl,
 							 final String string) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : addString(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), string);
@@ -874,7 +874,7 @@ public class ControlImpl implements Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	public boolean delString(final HWND hWnd, final HWND hCtrl,
+	public boolean delString(final WinRef hWnd, final WinRef hCtrl,
 							 final int occurrence) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : delString(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), occurrence);
@@ -987,7 +987,7 @@ public class ControlImpl implements Control {
 	 * @return Returns occurrence ref of the exact string in a ListBox or
 	 *         ComboBox, returns null if failed.
 	 */
-	public Integer findString(final HWND hWnd, final HWND hCtrl,
+	public Integer findString(final WinRef hWnd, final WinRef hCtrl,
 							  final String string) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : findString(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), string);
@@ -1066,7 +1066,7 @@ public class ControlImpl implements Control {
 	 * @return Returns occurrence ref of the exact string in a ListBox or
 	 *         ComboBox, returns null if failed.
 	 */
-	public Integer findString(final HWND hWnd, final HWND hCtrl,
+	public Integer findString(final WinRef hWnd, final WinRef hCtrl,
 							  final String string, final boolean ignoreCase) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : findString(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), string, ignoreCase);
@@ -1125,10 +1125,10 @@ public class ControlImpl implements Control {
 							final String control, final int index) {
 		String item = null;
 		if (index >= 0) {
-			HWND hWnd = getHandle_(title, text, control);
+			WinDef.HWND hWnd = getHandle_(title, text, control);
 			if (hWnd != null) {
-				boolean isComboBox = LocalInstances.win32.isComboBox(hWnd);
-				boolean isListBox = LocalInstances.win32.isListBox(hWnd);
+				boolean isComboBox = LocalInstances.win32.isComboBox(new WinRef(hWnd));
+				boolean isListBox = LocalInstances.win32.isListBox(new WinRef(hWnd));
 				if (isComboBox || isListBox) {
 					int getItemLengthMessage = LB_GETTEXTLEN;
 					int getItemMessage = LB_GETTEXT;
@@ -1178,7 +1178,7 @@ public class ControlImpl implements Control {
 	 *            The zero-based index of the item to retrieve.
 	 * @return Returns the item according to index in a ListBox or ComboBox.
 	 */
-	public String getString(final HWND hWnd, final HWND hCtrl,
+	public String getString(final WinRef hWnd, final WinRef hCtrl,
 							final int index) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getString(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), index);
@@ -1270,7 +1270,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the items in a ListBox or ComboBox, returns null if
 	 *         failed.
 	 */
-	public List<String> getStringList(final HWND hWnd, final HWND hCtrl) {
+	public List<String> getStringList(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getStringList(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -1325,7 +1325,7 @@ public class ControlImpl implements Control {
 	public Integer getStringCount(final String title, final String text,
 								  final String control) {
 		Integer count = null;
-		HWND hWnd = getHandle_(title, text, control);
+		WinRef hWnd = getHandle_(title, text, control);
 		if (hWnd != null) {
 			if (LocalInstances.win32.isComboBox(hWnd)) {
 				count = Win32Impl.user32.SendMessage(hWnd, CB_GETCOUNT, 0, 0);
@@ -1357,7 +1357,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the number of items in a ListBox or ComboBox, returns
 	 *         null if failed.
 	 */
-	public Integer getStringCount(final HWND hWnd, final HWND hCtrl) {
+	public Integer getStringCount(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getStringCount(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -1449,8 +1449,8 @@ public class ControlImpl implements Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	public boolean setCurrentSelection(final HWND hWnd,
-									   final HWND hCtrl, final int occurrence) {
+	public boolean setCurrentSelection(final WinRef hWnd,
+									   final WinRef hCtrl, final int occurrence) {
 		return ((hWnd == null) || (hCtrl == null)) ? false
 				: setCurrentSelection(TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl),
 						occurrence);
@@ -1548,7 +1548,7 @@ public class ControlImpl implements Control {
 	 * @return Return the index of the selected string if success, otherwise
 	 *         return null.
 	 */
-	public Integer selectString(final HWND hWnd, final HWND hCtrl,
+	public Integer selectString(final WinRef hWnd, final WinRef hCtrl,
 								final String string) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : selectString(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), string);
@@ -1623,7 +1623,7 @@ public class ControlImpl implements Control {
 	 *            The handle of the control to interact with.
 	 * @return Return true if Button is checked, otherwise return false.
 	 */
-	public boolean isChecked(final HWND hWnd, final HWND hCtrl) {
+	public boolean isChecked(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isChecked(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -1700,7 +1700,7 @@ public class ControlImpl implements Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	public boolean check(final HWND hWnd, final HWND hCtrl) {
+	public boolean check(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : check(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -1777,7 +1777,7 @@ public class ControlImpl implements Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	public boolean uncheck(final HWND hWnd, final HWND hCtrl) {
+	public boolean uncheck(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : uncheck(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -1862,7 +1862,7 @@ public class ControlImpl implements Control {
 	 *         window/control), otherwise returns the line # where the caret is
 	 *         in an Edit.
 	 */
-	public Integer getCurrentLine(final HWND hWnd, final HWND hCtrl) {
+	public Integer getCurrentLine(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getCurrentLine(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -1946,7 +1946,7 @@ public class ControlImpl implements Control {
 	 *         window/control), otherwise returns the column # where the caret
 	 *         is in an Edit.
 	 */
-	public Integer getCurrentCol(final HWND hWnd, final HWND hCtrl) {
+	public Integer getCurrentCol(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getCurrentCol(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -2026,7 +2026,7 @@ public class ControlImpl implements Control {
 	 * @return Returns name of the currently selected item in a ListBox or
 	 *         ComboBox if success, returns null if failed.
 	 */
-	public String getCurrentSelection(final HWND hWnd, final HWND hCtrl) {
+	public String getCurrentSelection(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null
 				: getCurrentSelection(TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -2107,7 +2107,7 @@ public class ControlImpl implements Control {
 	 * @return Returns null if there is an error (such as an invalid
 	 *         window/control), otherwise returns # of lines in an Edit.
 	 */
-	public Integer getLineCount(final HWND hWnd, final HWND hCtrl) {
+	public Integer getLineCount(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getLineCount(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -2205,7 +2205,7 @@ public class ControlImpl implements Control {
 	 * @return Returns text at line # passed of an Edit if success, returns null
 	 *         if failed.
 	 */
-	public String getLine(final HWND hWnd, final HWND hCtrl,
+	public String getLine(final WinRef hWnd, final WinRef hCtrl,
 						  final int lineNumber) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getLine(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), lineNumber);
@@ -2289,7 +2289,7 @@ public class ControlImpl implements Control {
 	 * @return Returns selected text of an Edit if success, returns null if
 	 *         failed.
 	 */
-	public String getSelected(final HWND hWnd, final HWND hCtrl) {
+	public String getSelected(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -2374,7 +2374,7 @@ public class ControlImpl implements Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	public boolean editPaste(final HWND hWnd, final HWND hCtrl,
+	public boolean editPaste(final WinRef hWnd, final WinRef hCtrl,
 							 final String string) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : editPaste(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), string);
@@ -2453,7 +2453,7 @@ public class ControlImpl implements Control {
 	 * @return @return Returns the current Tab shown of a SysTabControl32 if
 	 *         success, returns null if failed.
 	 */
-	public Integer currentTab(final HWND hWnd, final HWND hCtrl) {
+	public Integer currentTab(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : currentTab(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -2527,7 +2527,7 @@ public class ControlImpl implements Control {
 	 *            The handle of the control to interact with.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	public boolean tabRight(final HWND hWnd, final HWND hCtrl) {
+	public boolean tabRight(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : tabRight(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -2601,7 +2601,7 @@ public class ControlImpl implements Control {
 	 *            The handle of the control to interact with.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	public boolean tabLeft(final HWND hWnd, final HWND hCtrl) {
+	public boolean tabLeft(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : tabLeft(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -2803,7 +2803,7 @@ public class ControlImpl implements Control {
 	 *            The handle of the control to interact with.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	public boolean disable(final HWND hWnd, final HWND hCtrl) {
+	public boolean disable(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : disable(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -2865,7 +2865,7 @@ public class ControlImpl implements Control {
 	 *            The handle of the control to interact with.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	public boolean enable(final HWND hWnd, final HWND hCtrl) {
+	public boolean enable(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : enable(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -2924,7 +2924,7 @@ public class ControlImpl implements Control {
 	 *            The handle of the control to interact with.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	public boolean focus(final HWND hWnd, final HWND hCtrl) {
+	public boolean focus(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : focus(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -2971,7 +2971,7 @@ public class ControlImpl implements Control {
 	 * @return Returns ControlRef# of the control that has keyboard focus within
 	 *         a specified window, returns null if window is not found.
 	 */
-	public String getFocus(final HWND hWnd) {
+	public String getFocus(final WinRef hWnd) {
 		return (hWnd == null) ? null : getFocus(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -2999,7 +2999,7 @@ public class ControlImpl implements Control {
 	 * @return Returns a string containing the control handle value, returns
 	 *         null if no window matches the criteria.
 	 */
-	public String getHandle(final HWND hWnd, final HWND hCtrl) {
+	public String getHandle(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHandle(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -3014,7 +3014,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the handle of the control if success, returns null if no
 	 *         window matches the criteria.
 	 */
-	public HWND getHandle_(final String title, final String control) {
+	public WinRef getHandle_(final String title, final String control) {
 		return getHandle_(title, null, control);
 	}
 
@@ -3030,7 +3030,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the handle of the control if success, returns null if no
 	 *         window matches the criteria.
 	 */
-	public HWND getHandle_(final String title, final String text,
+	public WinRef getHandle_(final String title, final String text,
 						   final String control) {
 		return AutoItUtils.handleToHwnd(LocalInstances.win32.getHandle(title, text, control));
 	}
@@ -3045,7 +3045,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the handle of the control if success, returns null if no
 	 *         window matches the criteria.
 	 */
-	public HWND getHandle_(final HWND hWnd, final HWND hCtrl) {
+	public WinRef getHandle_(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHandle_(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -3111,7 +3111,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the position of the control if success, returns null if
 	 *         failed.
 	 */
-	public int[] getPos(final HWND hWnd, final HWND hCtrl) {
+	public int[] getPos(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getPos(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -3174,7 +3174,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the X coordinate of the control if success, returns null
 	 *         if failed.
 	 */
-	public Integer getPosX(final HWND hWnd, final HWND hCtrl) {
+	public Integer getPosX(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getPosX(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -3237,7 +3237,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the Y coordinate of the control if success, returns null
 	 *         if failed.
 	 */
-	public Integer getPosY(final HWND hWnd, final HWND hCtrl) {
+	public Integer getPosY(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getPosY(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -3300,7 +3300,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the height of the control if success, return null if
 	 *         failed.
 	 */
-	public Integer getHeight(final HWND hWnd, final HWND hCtrl) {
+	public Integer getHeight(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHeight(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -3363,7 +3363,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the width of the control if success, returns null if
 	 *         failed.
 	 */
-	public Integer getWidth(final HWND hWnd, final HWND hCtrl) {
+	public Integer getWidth(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getWidth(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -3430,7 +3430,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the size of the control if success, returns null if
 	 *         failed.
 	 */
-	public int[] getSize(final HWND hWnd, final HWND hCtrl) {
+	public int[] getSize(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSize(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -3495,7 +3495,7 @@ public class ControlImpl implements Control {
 	 *            The handle of the control to interact with.
 	 * @return Returns text from a control if success, returns null if failed.
 	 */
-	public String getText(final HWND hWnd, final HWND hCtrl) {
+	public String getText(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getText(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -3557,7 +3557,7 @@ public class ControlImpl implements Control {
 	 * @return Returns true if success, returns false if window/control is not
 	 *         found.
 	 */
-	public boolean hide(final HWND hWnd, final HWND hCtrl) {
+	public boolean hide(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : hide(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -3631,7 +3631,7 @@ public class ControlImpl implements Control {
 	 * @return Returns true if success, returns false if window/control is not
 	 *         found.
 	 */
-	public boolean move(final HWND hWnd, final HWND hCtrl, final int x,
+	public boolean move(final WinRef hWnd, final WinRef hCtrl, final int x,
 						final int y) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : move(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), x, y);
@@ -3727,7 +3727,7 @@ public class ControlImpl implements Control {
 	 * @return Returns true if success, returns false if window/control is not
 	 *         found.
 	 */
-	public boolean move(final HWND hWnd, final HWND hCtrl, final int x,
+	public boolean move(final WinRef hWnd, final WinRef hCtrl, final int x,
 						final int y, Integer width, Integer height) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : move(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), x, y, width, height);
@@ -3839,7 +3839,7 @@ public class ControlImpl implements Control {
 	 * @return Returns true if success, returns false if window/control is not
 	 *         found.
 	 */
-	public boolean send(final HWND hWnd, final HWND hCtrl,
+	public boolean send(final WinRef hWnd, final WinRef hCtrl,
 						final String sendText) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : send(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), sendText);
@@ -3916,7 +3916,7 @@ public class ControlImpl implements Control {
 	 * @return Returns true if success, returns false if window/control is not
 	 *         found.
 	 */
-	public boolean send(final HWND hWnd, final HWND hCtrl,
+	public boolean send(final WinRef hWnd, final WinRef hCtrl,
 						final String sendText, final Boolean sendRawText) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : send(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), sendText, sendRawText);
@@ -3988,7 +3988,7 @@ public class ControlImpl implements Control {
 	 * @return Returns true if success, returns false if window/control is not
 	 *         found.
 	 */
-	public boolean setText(final HWND hWnd, final HWND hCtrl,
+	public boolean setText(final WinRef hWnd, final WinRef hCtrl,
 						   final String controlText) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : setText(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), controlText);
@@ -4052,7 +4052,7 @@ public class ControlImpl implements Control {
 	 * @return Returns true is success, returns false if window/control is not
 	 *         found.
 	 */
-	public boolean show(final HWND hWnd, final HWND hCtrl) {
+	public boolean show(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : show(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -4115,7 +4115,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the text read if success, returns null if no text could
 	 *         be read.
 	 */
-	public String statusbarGetText(final HWND hWnd) {
+	public String statusbarGetText(final WinRef hWnd) {
 		return (hWnd == null) ? null : statusbarGetText(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -4195,7 +4195,7 @@ public class ControlImpl implements Control {
 	 * @return Returns the text read if success, returns null if no text could
 	 *         be read.
 	 */
-	public String statusbarGetText(final HWND hWnd, final Integer part) {
+	public String statusbarGetText(final WinRef hWnd, final Integer part) {
 		return (hWnd == null) ? null : statusbarGetText(TitleBuilder.byHandle(hWnd), part);
 	}
 

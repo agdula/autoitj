@@ -1,5 +1,6 @@
 package cn.com.jautoitx.util;
 
+import cn.com.jautoitx.domain.WinRef;
 import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
 import com.sun.jna.WString;
@@ -23,7 +24,23 @@ public class AutoItUtils {
         return (string == null ? null : new WString(string));
     }
 
-    public static WinDef.HWND handleToHwnd(String handle) {
+    public static WinRef handleToHwnd(String handle) {
+        WinRef hWnd = null;
+        try {
+            if (handle != null) {
+                if (handle.startsWith("0x")) {
+                    handle = handle.substring(2);
+                }
+                hWnd = new WinRef(Pointer.createConstant(Long.parseLong(handle,
+                        16)));
+            }
+        } catch (Exception e) {
+            // Ignore exception
+        }
+        return hWnd;
+    }
+
+    public static WinDef.HWND handleToHWND(String handle) {
         WinDef.HWND hWnd = null;
         try {
             if (handle != null) {

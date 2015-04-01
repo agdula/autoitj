@@ -6,13 +6,16 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.com.jautoitx.ListView.ControlListViewView;
+import cn.com.jautoitx.contract.ListView.ControlListViewView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ListViewTest extends BaseTest {
-	@Autowired Control Control;
-	@Autowired ListView ListView;
-	@Autowired Keyboard Keyboard;
+	@Autowired
+	cn.com.jautoitx.contract.Control Control;
+	@Autowired
+	cn.com.jautoitx.contract.ListView ListView;
+	@Autowired
+	cn.com.jautoitx.contract.Keyboard Keyboard;
 
 	@Test
 	public void deSelect() {

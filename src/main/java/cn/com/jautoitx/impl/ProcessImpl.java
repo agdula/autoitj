@@ -1,12 +1,13 @@
 package cn.com.jautoitx.impl;
 
-import cn.com.jautoitx.*;
+import cn.com.jautoitx.contract.AutoItX;
+import cn.com.jautoitx.contract.Win;
 import cn.com.jautoitx.jna.Kernel32Ext;
 import cn.com.jautoitx.util.AutoItUtils;
 import com.sun.jna.platform.win32.Kernel32;
 import com.sun.jna.platform.win32.WinNT.HANDLE;
 
-public class ProcessImpl implements cn.com.jautoitx.Process {
+public class ProcessImpl implements cn.com.jautoitx.contract.Process {
 
 	/*
 	 * process priority: see

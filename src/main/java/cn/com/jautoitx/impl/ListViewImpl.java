@@ -1,17 +1,16 @@
 package cn.com.jautoitx.impl;
 
-import java.nio.CharBuffer;
-
-import cn.com.jautoitx.ListView;
+import cn.com.jautoitx.contract.ListView;
+import cn.com.jautoitx.domain.WinRef;
 import cn.com.jautoitx.util.AutoItUtils;
 import cn.com.jautoitx.util.ControlIdBuilder;
 import cn.com.jautoitx.util.TitleBuilder;
+import com.sun.jna.Native;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 
-import com.sun.jna.Native;
-import com.sun.jna.platform.win32.WinDef.HWND;
+import java.nio.CharBuffer;
 
 public final class ListViewImpl implements ListView {
 	private static int CONTROL_LIST_VIEW_BUF_SIZE = 8 * 1024;
@@ -76,7 +75,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public boolean deSelect(final HWND hWnd, final HWND hCtrl,
+	public boolean deSelect(final WinRef hWnd, final WinRef hCtrl,
 			final int from) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : deSelect(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), from);
@@ -139,7 +138,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public boolean deSelect(final HWND hWnd, final HWND hCtrl,
+	public boolean deSelect(final WinRef hWnd, final WinRef hCtrl,
 			final int from, Integer to) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : deSelect(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), from, to);
@@ -191,7 +190,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns the item index of the string, returns null if the string
 	 *         is not found or window/control could not be found.
 	 */
-	public Integer findItem(final HWND hWnd, final HWND hCtrl,
+	public Integer findItem(final WinRef hWnd, final WinRef hCtrl,
 			final String stringToFind) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : findItem(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), stringToFind);
@@ -255,7 +254,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns the item index of the string, returns null if the string
 	 *         is not found or window/control could not be found.
 	 */
-	public Integer findItem(final HWND hWnd, final HWND hCtrl,
+	public Integer findItem(final WinRef hWnd, final WinRef hCtrl,
 			final String stringToFind, final Integer subItem) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : findItem(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), stringToFind, subItem);
@@ -301,7 +300,7 @@ public final class ListViewImpl implements ListView {
 	 *            The handle of the control to interact with.
 	 * @return Returns the number of list items, returns null if failed.
 	 */
-	public Integer getItemCount(final HWND hWnd, final HWND hCtrl) {
+	public Integer getItemCount(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getItemCount(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -348,7 +347,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns the item index of first selected item. If no items are
 	 *         selected null is returned.
 	 */
-	public Integer getSelected(final HWND hWnd, final HWND hCtrl) {
+	public Integer getSelected(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -431,7 +430,7 @@ public final class ListViewImpl implements ListView {
 	 *         no items are selected a an empty array is returned. Returns null
 	 *         if failed.
 	 */
-	public int[] getSelected(final HWND hWnd, final HWND hCtrl,
+	public int[] getSelected(final WinRef hWnd, final WinRef hCtrl,
 			final boolean getAllSelected) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), getAllSelected);
@@ -481,7 +480,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns the number of items that are selected, returns null if
 	 *         window/control could not be found.
 	 */
-	public Integer getSelectedCount(final HWND hWnd, final HWND hCtrl) {
+	public Integer getSelectedCount(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelectedCount(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -530,7 +529,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns the number of subitems, returns null if window/control
 	 *         could not be found.
 	 */
-	public Integer getSubItemCount(final HWND hWnd, final HWND hCtrl) {
+	public Integer getSubItemCount(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSubItemCount(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -606,7 +605,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns the text of the subitems for item if success, return null
 	 *         if failed.
 	 */
-	public String[] getText(final HWND hWnd, final HWND hCtrl,
+	public String[] getText(final WinRef hWnd, final WinRef hCtrl,
 			final int item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getText(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -688,7 +687,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns the text of a given item/subitem if success, return null
 	 *         if failed.
 	 */
-	public String getText(final HWND hWnd, final HWND hCtrl,
+	public String getText(final WinRef hWnd, final WinRef hCtrl,
 			final int item, final int subItem) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getText(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item, subItem);
@@ -744,7 +743,7 @@ public final class ListViewImpl implements ListView {
 	 *            thought of as the "row" and the "subitem" as the "column".
 	 * @return Returns true if the item is selected, otherwise returns false.
 	 */
-	public boolean isSelected(final HWND hWnd, final HWND hCtrl,
+	public boolean isSelected(final WinRef hWnd, final WinRef hCtrl,
 			final int item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isSelected(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -795,7 +794,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public boolean select(final HWND hWnd, final HWND hCtrl,
+	public boolean select(final WinRef hWnd, final WinRef hCtrl,
 			final int from) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : select(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), from);
@@ -858,7 +857,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public boolean select(final HWND hWnd, final HWND hCtrl,
+	public boolean select(final WinRef hWnd, final WinRef hCtrl,
 			final int from, Integer to) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : select(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), from, to);
@@ -907,7 +906,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public boolean selectAll(final HWND hWnd, final HWND hCtrl) {
+	public boolean selectAll(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : selectAll(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -955,7 +954,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public boolean selectClear(final HWND hWnd, final HWND hCtrl) {
+	public boolean selectClear(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : selectClear(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -1003,7 +1002,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public boolean selectInvert(final HWND hWnd, final HWND hCtrl) {
+	public boolean selectInvert(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : selectInvert(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -1073,7 +1072,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public boolean viewChange(final HWND hWnd, final HWND hCtrl,
+	public boolean viewChange(final WinRef hWnd, final WinRef hCtrl,
 			final ControlListViewView view) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : viewChange(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), view);
@@ -1126,7 +1125,7 @@ public final class ListViewImpl implements ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public boolean viewChange(final HWND hWnd, final HWND hCtrl,
+	public boolean viewChange(final WinRef hWnd, final WinRef hCtrl,
 			final String view) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : viewChange(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), view);

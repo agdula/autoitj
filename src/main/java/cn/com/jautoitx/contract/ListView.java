@@ -1,6 +1,6 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.contract;
 
-import com.sun.jna.platform.win32.WinDef;
+import cn.com.jautoitx.domain.WinRef;
 
 /**
  * @author: Andrzej Gdula
@@ -49,7 +49,7 @@ public interface ListView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	boolean deSelect(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean deSelect(WinRef hWnd, WinRef hCtrl,
 					 int from);
 
 	/**
@@ -96,7 +96,7 @@ public interface ListView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	boolean deSelect(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean deSelect(WinRef hWnd, WinRef hCtrl,
 					 int from, Integer to);
 
 	/**
@@ -141,7 +141,7 @@ public interface ListView {
 	 * @return Returns the item index of the string, returns null if the string
 	 *         is not found or window/control could not be found.
 	 */
-	Integer findItem(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	Integer findItem(WinRef hWnd, WinRef hCtrl,
 					 String stringToFind);
 
 	/**
@@ -194,7 +194,7 @@ public interface ListView {
 	 * @return Returns the item index of the string, returns null if the string
 	 *         is not found or window/control could not be found.
 	 */
-	Integer findItem(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	Integer findItem(WinRef hWnd, WinRef hCtrl,
 					 String stringToFind, Integer subItem);
 
 	/**
@@ -231,7 +231,7 @@ public interface ListView {
 	 *            The handle of the control to interact with.
 	 * @return Returns the number of list items, returns null if failed.
 	 */
-	Integer getItemCount(WinDef.HWND hWnd, WinDef.HWND hCtrl);
+	Integer getItemCount(WinRef hWnd, WinRef hCtrl);
 
 	/**
 	 * Returns the item index of first selected item.
@@ -270,7 +270,7 @@ public interface ListView {
 	 * @return Returns the item index of first selected item. If no items are
 	 *         selected null is returned.
 	 */
-	Integer getSelected(WinDef.HWND hWnd, WinDef.HWND hCtrl);
+	Integer getSelected(WinRef hWnd, WinRef hCtrl);
 
 	/**
 	 * Returns the item index of selected items.
@@ -328,7 +328,7 @@ public interface ListView {
 	 *         no items are selected a an empty array is returned. Returns null
 	 *         if failed.
 	 */
-	int[] getSelected(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	int[] getSelected(WinRef hWnd, WinRef hCtrl,
 					  boolean getAllSelected);
 
 	/**
@@ -369,7 +369,7 @@ public interface ListView {
 	 * @return Returns the number of items that are selected, returns null if
 	 *         window/control could not be found.
 	 */
-	Integer getSelectedCount(WinDef.HWND hWnd, WinDef.HWND hCtrl);
+	Integer getSelectedCount(WinRef hWnd, WinRef hCtrl);
 
 	/**
 	 * Returns the number of subitems.
@@ -409,7 +409,7 @@ public interface ListView {
 	 * @return Returns the number of subitems, returns null if window/control
 	 *         could not be found.
 	 */
-	Integer getSubItemCount(WinDef.HWND hWnd, WinDef.HWND hCtrl);
+	Integer getSubItemCount(WinRef hWnd, WinRef hCtrl);
 
 	/**
 	 * Returns the text of the subitems for item.
@@ -458,7 +458,7 @@ public interface ListView {
 	 * @return Returns the text of the subitems for item if success, return null
 	 *         if failed.
 	 */
-	String[] getText(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	String[] getText(WinRef hWnd, WinRef hCtrl,
 					 int item);
 
 	/**
@@ -517,7 +517,7 @@ public interface ListView {
 	 * @return Returns the text of a given item/subitem if success, return null
 	 *         if failed.
 	 */
-	String getText(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	String getText(WinRef hWnd, WinRef hCtrl,
 				   int item, int subItem);
 
 	/**
@@ -564,7 +564,7 @@ public interface ListView {
 	 *            thought of as the "row" and the "subitem" as the "column".
 	 * @return Returns true if the item is selected, otherwise returns false.
 	 */
-	boolean isSelected(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean isSelected(WinRef hWnd, WinRef hCtrl,
 					   int item);
 
 	/**
@@ -608,7 +608,7 @@ public interface ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	boolean select(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean select(WinRef hWnd, WinRef hCtrl,
 				   int from);
 
 	/**
@@ -655,7 +655,7 @@ public interface ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	boolean select(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean select(WinRef hWnd, WinRef hCtrl,
 				   int from, Integer to);
 
 	/**
@@ -695,7 +695,7 @@ public interface ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	boolean selectAll(WinDef.HWND hWnd, WinDef.HWND hCtrl);
+	boolean selectAll(WinRef hWnd, WinRef hCtrl);
 
 	/**
 	 * Clears the selection of all items.
@@ -734,7 +734,7 @@ public interface ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	boolean selectClear(WinDef.HWND hWnd, WinDef.HWND hCtrl);
+	boolean selectClear(WinRef hWnd, WinRef hCtrl);
 
 	/**
 	 * Inverts the current selection.
@@ -773,7 +773,7 @@ public interface ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	boolean selectInvert(WinDef.HWND hWnd, WinDef.HWND hCtrl);
+	boolean selectInvert(WinRef hWnd, WinRef hCtrl);
 
 	/**
 	 * Changes the current view.
@@ -834,7 +834,7 @@ public interface ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	boolean viewChange(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean viewChange(WinRef hWnd, WinRef hCtrl,
 					   ControlListViewView view);
 
 	/**
@@ -866,7 +866,7 @@ public interface ListView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	boolean viewChange(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean viewChange(WinRef hWnd, WinRef hCtrl,
 					   String view);
 
 	/**

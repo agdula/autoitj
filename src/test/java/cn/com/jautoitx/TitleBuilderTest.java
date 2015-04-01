@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class TitleBuilderTest extends BaseTest {
 
 	@Autowired
-	private Win Win;
+	private cn.com.jautoitx.contract.Win Win;
 
 	@Test
 	public void by() {

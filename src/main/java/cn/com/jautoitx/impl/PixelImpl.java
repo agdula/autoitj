@@ -1,12 +1,11 @@
 package cn.com.jautoitx.impl;
 
-import java.awt.Color;
-
-import cn.com.jautoitx.Pixel;
-import org.apache.commons.lang3.StringUtils;
-
+import cn.com.jautoitx.contract.Pixel;
+import cn.com.jautoitx.domain.Color;
 import com.sun.jna.platform.win32.WinDef.POINT;
 import com.sun.jna.platform.win32.WinDef.RECT;
+import org.apache.commons.lang3.StringUtils;
+
 
 public class PixelImpl implements Pixel {
 
@@ -116,9 +115,7 @@ public class PixelImpl implements Pixel {
 
 		final String strColor = StringUtils.leftPad(Integer.toHexString(color),
 				6, '0');
-		return new Color(Integer.parseInt(strColor.substring(0, 2), 16),
-				Integer.parseInt(strColor.substring(2, 4), 16),
-				Integer.parseInt(strColor.substring(4, 6), 16));
+		return new Color(strColor);
 	}
 
 	/**

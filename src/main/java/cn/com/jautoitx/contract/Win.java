@@ -1,6 +1,6 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.contract;
 
-import com.sun.jna.platform.win32.WinDef;
+import cn.com.jautoitx.domain.WinRef;
 
 import java.util.List;
 
@@ -118,7 +118,7 @@ public interface Win {
 	 *            The handle of the window to activate.
 	 * @return Returns true if window is activated, otherwise returns false.
 	 */
-	boolean activate(WinDef.HWND hWnd);
+	boolean activate(WinRef hWnd);
 
 	/**
 	 * Checks to see if a specified window exists and is currently active.
@@ -147,7 +147,7 @@ public interface Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if window is active, otherwise returns false.
 	 */
-	boolean active(WinDef.HWND hWnd);
+	boolean active(WinRef hWnd);
 
 	/**
 	 * Closes a window.
@@ -191,7 +191,7 @@ public interface Win {
 	 *            The handle of the window to close.
 	 * @return Returns 1 if success, returns 0 if window is not found.
 	 */
-	boolean close(WinDef.HWND hWnd);
+	boolean close(WinRef hWnd);
 
 	/**
 	 * Checks to see if a specified window exists.
@@ -223,7 +223,7 @@ public interface Win {
 	 * @return Returns true if the window exists, otherwise returns false.
 	 *         WinExist will return true even if a window is hidden.
 	 */
-	boolean exists(WinDef.HWND hWnd);
+	boolean exists(WinRef hWnd);
 
 	/**
 	 * Retrieve the title of the current active window.
@@ -317,7 +317,7 @@ public interface Win {
 	 * @return Returns a string containing the window classes read if success,
 	 *         returns null if no window matches the criteria.
 	 */
-	String getClassList(WinDef.HWND hWnd);
+	String getClassList(WinRef hWnd);
 
 	/**
 	 * Retrieves the classes from a window.
@@ -365,7 +365,7 @@ public interface Win {
 	 * @return Returns a list containing the window classes read if success,
 	 *         returns null if no window matches the criteria.
 	 */
-	List<String> getClassList_(WinDef.HWND hWnd);
+	List<String> getClassList_(WinRef hWnd);
 
 	/**
 	 * Retrieves the classname from the window.
@@ -397,7 +397,7 @@ public interface Win {
 	 * @return Returns the classname from the window if success, returns null if
 	 *         no window matches the criteria.
 	 */
-	String getClassName(WinDef.HWND hWnd);
+	String getClassName(WinRef hWnd);
 
 	/**
 	 * Retrieves the height of a given window's client area.
@@ -450,7 +450,7 @@ public interface Win {
 	 * @return Returns the height of the window's client area if success,
 	 *         returns null if windows is not found or window is minimized.
 	 */
-	Integer getClientHeight(WinDef.HWND hWnd);
+	Integer getClientHeight(WinRef hWnd);
 
 	/**
 	 * Retrieves the size of a given window's client area.
@@ -500,7 +500,7 @@ public interface Win {
 	 * @return Returns the size of the window's client area if success, returns
 	 *         null if windows is not found or window is minimized.
 	 */
-	int[] getClientSize(WinDef.HWND hWnd);
+	int[] getClientSize(WinRef hWnd);
 
 	/**
 	 * Retrieves the width of a given window's client area.
@@ -553,7 +553,7 @@ public interface Win {
 	 * @return Returns the width of the window's client area if success, returns
 	 *         null if windows is not found or window is minimized.
 	 */
-	Integer getClientWidth(WinDef.HWND hWnd);
+	Integer getClientWidth(WinRef hWnd);
 
 	/**
 	 * Return the height of the desktop.
@@ -614,7 +614,7 @@ public interface Win {
 	 * @return Returns a string containing the window handle value if success,
 	 *         returns null if no window matches the criteria.
 	 */
-	String getHandle(WinDef.HWND hWnd);
+	String getHandle(WinRef hWnd);
 
 	/**
 	 * Retrieves the handle of a window.
@@ -629,7 +629,7 @@ public interface Win {
 	 * @return Returns the handle of the window if success, returns null if no
 	 *         window matches the criteria.
 	 */
-	WinDef.HWND getHandle_(String title);
+	WinRef getHandle_(String title);
 
 	/**
 	 * Retrieves the handle of a window.
@@ -646,7 +646,7 @@ public interface Win {
 	 * @return Returns the handle of the window if success, returns null if no
 	 *         window matches the criteria.
 	 */
-	WinDef.HWND getHandle_(String title, String text);
+	WinRef getHandle_(String title, String text);
 
 	/**
 	 * Retrieves the position of a given window.
@@ -693,7 +693,7 @@ public interface Win {
 	 * @return Returns the position of the window if success, return null if
 	 *         windows is not found or window is minimized.
 	 */
-	int[] getPos(WinDef.HWND hWnd);
+	int[] getPos(WinRef hWnd);
 
 	/**
 	 * Retrieves the X coordinate of a given window.
@@ -740,7 +740,7 @@ public interface Win {
 	 * @return Returns the X coordinate of the window if success, return null if
 	 *         windows is not found or window is minimized.
 	 */
-	Integer getPosX(WinDef.HWND hWnd);
+	Integer getPosX(WinRef hWnd);
 
 	/**
 	 * Retrieves the Y coordinate of a given window.
@@ -787,7 +787,7 @@ public interface Win {
 	 * @return Returns the Y coordinate of the window if success, return null if
 	 *         windows is not found or window is minimize.
 	 */
-	Integer getPosY(WinDef.HWND hWnd);
+	Integer getPosY(WinRef hWnd);
 
 	/**
 	 * Retrieves the height of a given window.
@@ -834,7 +834,7 @@ public interface Win {
 	 * @return Returns the height of the window if success, returns null if
 	 *         windows is not found or window is minimized.
 	 */
-	Integer getHeight(WinDef.HWND hWnd);
+	Integer getHeight(WinRef hWnd);
 
 	/**
 	 * Retrieves the width of a given window.
@@ -881,7 +881,7 @@ public interface Win {
 	 * @return Returns the width of the window if success, returns null if
 	 *         windows is not found or window is minimized.
 	 */
-	Integer getWidth(WinDef.HWND hWnd);
+	Integer getWidth(WinRef hWnd);
 
 	/**
 	 * Retrieves the Process ID (PID) associated with a window.
@@ -910,7 +910,7 @@ public interface Win {
 	 *            The handle of the window to read.
 	 * @return Returns the Process ID (PID) if success, return null if failed.
 	 */
-	Integer getProcess(WinDef.HWND hWnd);
+	Integer getProcess(WinRef hWnd);
 
 	/**
 	 * Retrieves the size of a given window.
@@ -957,7 +957,7 @@ public interface Win {
 	 * @return Returns the size of the window if success, returns null if
 	 *         windows is not found or window is minimized.
 	 */
-	int[] getSize(WinDef.HWND hWnd);
+	int[] getSize(WinRef hWnd);
 
 	/**
 	 * Checks to see if a specified window is visible.
@@ -986,7 +986,7 @@ public interface Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if the window is visible, otherwise returns false.
 	 */
-	boolean visible(WinDef.HWND hWnd);
+	boolean visible(WinRef hWnd);
 
 	/**
 	 * Checks to see if a specified window is enabled.
@@ -1015,7 +1015,7 @@ public interface Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if the window is enabled, otherwise returns false.
 	 */
-	boolean enabled(WinDef.HWND hWnd);
+	boolean enabled(WinRef hWnd);
 
 	/**
 	 * Checks to see if a specified window is minimized.
@@ -1044,7 +1044,7 @@ public interface Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if the window is minimized, otherwise returns false.
 	 */
-	boolean minimized(WinDef.HWND hWnd);
+	boolean minimized(WinRef hWnd);
 
 	/**
 	 * Checks to see if a specified window is maximized.
@@ -1073,7 +1073,7 @@ public interface Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if the window is maximized, otherwise returns false.
 	 */
-	boolean maximized(WinDef.HWND hWnd);
+	boolean maximized(WinRef hWnd);
 
 	/**
 	 * Retrieves the state of a given window.
@@ -1126,7 +1126,7 @@ public interface Win {
 	 *         32 = Windows is maximized<br/>
 	 *         Returns null if the window is not found.
 	 */
-	Integer getState(WinDef.HWND hWnd);
+	Integer getState(WinRef hWnd);
 
 	/**
 	 * Retrieves the state of a given window.
@@ -1158,7 +1158,7 @@ public interface Win {
 	 * @return If success, returns a list of state indicating the state of the
 	 *         window. Returns null if the window is not found.
 	 */
-	List<WinState> getState_(WinDef.HWND hWnd);
+	List<WinState> getState_(WinRef hWnd);
 
 	/**
 	 * Retrieves the text from a window.
@@ -1208,7 +1208,7 @@ public interface Win {
 	 *            The handle of the window to read.
 	 * @return Returns a string containing the window text read.
 	 */
-	String getText(WinDef.HWND hWnd);
+	String getText(WinRef hWnd);
 
 	/**
 	 * Retrieves the full title from a window.
@@ -1252,7 +1252,7 @@ public interface Win {
 	 * @return Returns a string containing the complete window title if success,
 	 *         returns null if no title match.
 	 */
-	String getTitle(WinDef.HWND hWnd);
+	String getTitle(WinRef hWnd);
 
 	/**
 	 * Forces a window to close.
@@ -1301,7 +1301,7 @@ public interface Win {
 	 *            The handle of the window to close.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean kill(WinDef.HWND hWnd);
+	boolean kill(WinRef hWnd);
 
 	/**
 	 * Invokes a menu item of a window.
@@ -1370,7 +1370,7 @@ public interface Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	boolean menuSelectItem(WinDef.HWND hWnd, String item1);
+	boolean menuSelectItem(WinRef hWnd, String item1);
 
 	/**
 	 * Invokes a menu item of a window.
@@ -1421,7 +1421,7 @@ public interface Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	boolean menuSelectItem(WinDef.HWND hWnd, String item1,
+	boolean menuSelectItem(WinRef hWnd, String item1,
 						   String item2);
 
 	/**
@@ -1477,7 +1477,7 @@ public interface Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	boolean menuSelectItem(WinDef.HWND hWnd, String item1,
+	boolean menuSelectItem(WinRef hWnd, String item1,
 						   String item2, String item3);
 
 	/**
@@ -1538,7 +1538,7 @@ public interface Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	boolean menuSelectItem(WinDef.HWND hWnd, String item1,
+	boolean menuSelectItem(WinRef hWnd, String item1,
 						   String item2, String item3, String item4);
 
 	/**
@@ -1603,7 +1603,7 @@ public interface Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	boolean menuSelectItem(WinDef.HWND hWnd, String item1,
+	boolean menuSelectItem(WinRef hWnd, String item1,
 						   String item2, String item3, String item4,
 						   String item5);
 
@@ -1673,7 +1673,7 @@ public interface Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	boolean menuSelectItem(WinDef.HWND hWnd, String item1,
+	boolean menuSelectItem(WinRef hWnd, String item1,
 						   String item2, String item3, String item4,
 						   String item5, String item6);
 
@@ -1748,7 +1748,7 @@ public interface Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	boolean menuSelectItem(WinDef.HWND hWnd, String item1,
+	boolean menuSelectItem(WinRef hWnd, String item1,
 						   String item2, String item3, String item4,
 						   String item5, String item6, String item7);
 
@@ -1827,7 +1827,7 @@ public interface Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	boolean menuSelectItem(WinDef.HWND hWnd, String item1,
+	boolean menuSelectItem(WinRef hWnd, String item1,
 						   String item2, String item3, String item4,
 						   String item5, String item6, String item7,
 						   String item8);
@@ -1917,7 +1917,7 @@ public interface Win {
 	 *            Y coordinate to move to.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean move(WinDef.HWND hWnd, int x, int y);
+	boolean move(WinRef hWnd, int x, int y);
 
 	/**
 	 * Moves and/or resizes a window.
@@ -1999,7 +1999,7 @@ public interface Win {
 	 *            New width of the window.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean move(WinDef.HWND hWnd, int x, int y,
+	boolean move(WinRef hWnd, int x, int y,
 				 int width);
 
 	/**
@@ -2088,7 +2088,7 @@ public interface Win {
 	 *            New height of the window.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean move(WinDef.HWND hWnd, int x, int y,
+	boolean move(WinRef hWnd, int x, int y,
 				 int width, int height);
 
 	/**
@@ -2118,7 +2118,7 @@ public interface Win {
 	 *            The handle of the window to affect.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean setOnTop(WinDef.HWND hWnd);
+	boolean setOnTop(WinRef hWnd);
 
 	/**
 	 * Change a window's "Always On Top" attribute.
@@ -2157,7 +2157,7 @@ public interface Win {
 	 *            set. true=set on top flag, false = remove on top flag
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean setOnTop(WinDef.HWND hWnd, boolean on);
+	boolean setOnTop(WinRef hWnd, boolean on);
 
 	/**
 	 * Shows a window.
@@ -2195,7 +2195,7 @@ public interface Win {
 	 *            The handle of the window to show.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean show(WinDef.HWND hWnd);
+	boolean show(WinRef hWnd);
 
 	/**
 	 * Hides a window.
@@ -2233,7 +2233,7 @@ public interface Win {
 	 *            The handle of the window to hide.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean hide(WinDef.HWND hWnd);
+	boolean hide(WinRef hWnd);
 
 	/**
 	 * Minimizes a window.
@@ -2271,7 +2271,7 @@ public interface Win {
 	 *            The handle of the window to minimize.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean minimize(WinDef.HWND hWnd);
+	boolean minimize(WinRef hWnd);
 
 	/**
 	 * Maximizes a window.
@@ -2309,7 +2309,7 @@ public interface Win {
 	 *            The handle of the window to maximize.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean maximize(WinDef.HWND hWnd);
+	boolean maximize(WinRef hWnd);
 
 	/**
 	 * Restores a window.
@@ -2347,7 +2347,7 @@ public interface Win {
 	 *            The handle of the window to restore.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean restore(WinDef.HWND hWnd);
+	boolean restore(WinRef hWnd);
 
 	/**
 	 * Shows, hides, minimizes, maximizes, or restores a window.
@@ -2426,7 +2426,7 @@ public interface Win {
 	 * @param winState
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean setState(WinDef.HWND hWnd, WinSetState winState);
+	boolean setState(WinRef hWnd, WinSetState winState);
 
 	/**
 	 * Shows, hides, minimizes, maximizes, or restores a window.
@@ -2483,7 +2483,7 @@ public interface Win {
 	 *            SW_RESTORE = Undoes a window minimization or maximization
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean setState(WinDef.HWND hWnd, int flags);
+	boolean setState(WinRef hWnd, int flags);
 
 	/**
 	 * Changes the title of a window.
@@ -2528,7 +2528,7 @@ public interface Win {
 	 *            The new title to give to the window.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	boolean setTitle(WinDef.HWND hWnd, String newTitle);
+	boolean setTitle(WinRef hWnd, String newTitle);
 
 	/**
 	 * Sets the transparency of a window. (Requires Windows 2000/XP or later)
@@ -2567,7 +2567,7 @@ public interface Win {
 	 *            transparent the window will become.
 	 * @return Returns true if success, returns false if failure.
 	 */
-	boolean setTrans(WinDef.HWND hWnd, int transparency);
+	boolean setTrans(WinRef hWnd, int transparency);
 
 	/**
 	 * Pauses execution of the script until the requested window exists.
@@ -2602,7 +2602,7 @@ public interface Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
-	boolean wait(WinDef.HWND hWnd);
+	boolean wait(WinRef hWnd);
 
 	/**
 	 * Pauses execution of the script until the requested window exists.
@@ -2644,7 +2644,7 @@ public interface Win {
 	 *            Timeout in seconds
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
-	boolean wait(WinDef.HWND hWnd, Integer timeout);
+	boolean wait(WinRef hWnd, Integer timeout);
 
 	/**
 	 * Pauses execution of the script until the requested window is active.
@@ -2679,7 +2679,7 @@ public interface Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
-	boolean waitActive(WinDef.HWND hWnd);
+	boolean waitActive(WinRef hWnd);
 
 	/**
 	 * Pauses execution of the script until the requested window is active.
@@ -2721,7 +2721,7 @@ public interface Win {
 	 *            Timeout in seconds
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
-	boolean waitActive(WinDef.HWND hWnd, Integer timeout);
+	boolean waitActive(WinRef hWnd, Integer timeout);
 
 	/**
 	 * Pauses execution of the script until the requested window does not exist.
@@ -2759,7 +2759,7 @@ public interface Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
-	boolean waitClose(WinDef.HWND hWnd);
+	boolean waitClose(WinRef hWnd);
 
 	/**
 	 * Pauses execution of the script until the requested window does not exist.
@@ -2804,7 +2804,7 @@ public interface Win {
 	 *            Timeout in seconds
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
-	boolean waitClose(WinDef.HWND hWnd, Integer timeout);
+	boolean waitClose(WinRef hWnd, Integer timeout);
 
 	/**
 	 * Pauses execution of the script until the requested window is not active.
@@ -2845,7 +2845,7 @@ public interface Win {
 	 *            The handle of the window to check.
 	 * @return Returns false if the timeout occurred, otherwise returns true.
 	 */
-	boolean waitNotActive(WinDef.HWND hWnd);
+	boolean waitNotActive(WinRef hWnd);
 
 	/**
 	 * Pauses execution of the script until the requested window is not active.
@@ -2894,7 +2894,7 @@ public interface Win {
 	 *            Timeout in seconds
 	 * @return Returns false if the timeout occurred, otherwise returns true.
 	 */
-	boolean waitNotActive(WinDef.HWND hWnd, Integer timeout);
+	boolean waitNotActive(WinRef hWnd, Integer timeout);
 
 	public static enum WinSetState {
 		// HIDE(SW_HIDE), SHOW_NORMAL(SW_SHOWNORMAL),

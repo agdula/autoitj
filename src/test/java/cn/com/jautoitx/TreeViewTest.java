@@ -9,12 +9,14 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.com.jautoitx.TreeView.IsChecked;
+import cn.com.jautoitx.contract.TreeView.IsChecked;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class TreeViewTest extends BaseTest {
-	@Autowired TreeView TreeView;
-	@Autowired Control Control;
+	@Autowired
+	cn.com.jautoitx.contract.TreeView TreeView;
+	@Autowired
+	cn.com.jautoitx.contract.Control Control;
 	@Test
 	public void check() {
 		String title = "TreeView.check - " + System.currentTimeMillis();

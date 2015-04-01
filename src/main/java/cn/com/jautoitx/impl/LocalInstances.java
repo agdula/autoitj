@@ -1,7 +1,5 @@
 package cn.com.jautoitx.impl;
 
-import cn.com.jautoitx.Win32;
-
 /**
  * @author: Andrzej Gdula
  * @created: 03/31/2015 13:07

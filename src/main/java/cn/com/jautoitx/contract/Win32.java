@@ -1,8 +1,6 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.contract;
 
-import com.sun.jna.platform.win32.WinDef;
-
-import java.io.File;
+import cn.com.jautoitx.domain.WinRef;
 
 /**
  * @author: Andrzej Gdula
@@ -17,7 +15,7 @@ public interface Win32 {
 
 	String getClassName(String handle);
 
-	String getClassName(WinDef.HWND hWnd);
+	String getClassName(WinRef hWnd);
 
 	/**
 	 * Retrieves the identifier of the specified control.
@@ -29,9 +27,9 @@ public interface Win32 {
 	 *         invalid value for the hwndCtl parameter, for example, will cause
 	 *         the function to fail.
 	 */
-	int getControlId(WinDef.HWND controlHwnd);
+	int getControlId(WinRef controlHwnd);
 
-	String getControlText(WinDef.HWND hCtrl);
+	String getControlText(WinRef hCtrl);
 
 	/**
 	 * Retrieves version information for the specified file.
@@ -47,21 +45,21 @@ public interface Win32 {
 	 */
 	String getFileVersion(String filename);
 
-	/**
-	 * Retrieves version information for the specified file.
-	 *
-	 * @param file
-	 *            The file to get version information.
-	 * @return Return version information for the specified file if success,
-	 *         return null if failed.
-	 * @see <a href="http://msdn.microsoft.com/en-us/library/ms647005(v=vs.85).aspx">ms647005</a>
-	 * @see <a href="http://msdn.microsoft.com/en-us/library/ms647003(v=vs.85).aspx">ms647003</a>
-	 * @see <a href="http://msdn.microsoft.com/en-us/library/ms647464(v=vs.85).aspx">ms647464</a>
-	 * @see <a href="http://stackoverflow.com/questions/6918022/get-version-info-for-exe">et-version-info-for-exe</a>
-	 */
-	String getFileVersion(File file);
+//	/**
+//	 * Retrieves version information for the specified file.
+//	 *
+//	 * @param file
+//	 *            The file to get version information.
+//	 * @return Return version information for the specified file if success,
+//	 *         return null if failed.
+//	 * @see <a href="http://msdn.microsoft.com/en-us/library/ms647005(v=vs.85).aspx">ms647005</a>
+//	 * @see <a href="http://msdn.microsoft.com/en-us/library/ms647003(v=vs.85).aspx">ms647003</a>
+//	 * @see <a href="http://msdn.microsoft.com/en-us/library/ms647464(v=vs.85).aspx">ms647464</a>
+//	 * @see <a href="http://stackoverflow.com/questions/6918022/get-version-info-for-exe">et-version-info-for-exe</a>
+//	 */
+//	String getFileVersion(File file);
 
-	String getWindowText(WinDef.HWND hWnd);
+	String getWindowText(WinRef hWnd);
 
 	/**
 	 * Check whether the capslock is on or not.
@@ -75,9 +73,9 @@ public interface Win32 {
 	boolean isComboBox(String title, String text,
 					   String control);
 
-	boolean isComboBox(WinDef.HWND hWnd);
+	boolean isComboBox(WinRef hWnd);
 
-	boolean isClassName(WinDef.HWND hWnd, String className);
+	boolean isClassName(WinRef hWnd, String className);
 
 	/**
 	 * Checks if the handle is a valid window handle.
@@ -87,14 +85,14 @@ public interface Win32 {
 	 * @return Returns true if the handle is a valid window handle, otherwise
 	 *         returns false.
 	 */
-	boolean isHWnd(WinDef.HWND hWnd);
+	boolean isHWnd(WinRef hWnd);
 
 	boolean isListBox(String title, String control);
 
 	boolean isListBox(String title, String text,
 					  String control);
 
-	boolean isListBox(WinDef.HWND hWnd);
+	boolean isListBox(WinRef hWnd);
 
 	/**
 	 * Set the status of the capslock.
@@ -152,5 +150,5 @@ public interface Win32 {
 	 *      href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms645505(v=vs.85).aspx">MessageBox
 	 *      function (Windows)</a>
 	 */
-	int MessageBox(WinDef.HWND hWnd, String text, String caption, int type);
+	int MessageBox(WinRef hWnd, String text, String caption, int type);
 }

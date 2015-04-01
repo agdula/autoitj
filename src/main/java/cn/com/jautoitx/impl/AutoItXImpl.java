@@ -1,5 +1,10 @@
 package cn.com.jautoitx.impl;
 
+import cn.com.jautoitx.contract.AutoItX;
+import cn.com.jautoitx.jna.AutoItXLibrary;
+import com.sun.jna.Native;
+import com.sun.jna.Platform;
+
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -7,11 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.logging.Logger;
-
-import cn.com.jautoitx.AutoItX;
-import cn.com.jautoitx.jna.AutoItXLibrary;
-import com.sun.jna.Native;
-import com.sun.jna.Platform;
 
 /**
  * 

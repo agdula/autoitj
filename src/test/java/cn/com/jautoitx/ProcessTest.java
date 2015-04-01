@@ -16,11 +16,11 @@ import org.junit.Test;
 import org.omg.CORBA.BooleanHolder;
 import org.omg.CORBA.IntHolder;
 
-import cn.com.jautoitx.Process.ProcPriority;
-import cn.com.jautoitx.Process.RunLogonFlag;
-import cn.com.jautoitx.Process.RunShowFlag;
-import cn.com.jautoitx.Process.RunWaitResult;
-import cn.com.jautoitx.Process.ShutdownCode;
+import cn.com.jautoitx.contract.Process.ProcPriority;
+import cn.com.jautoitx.contract.Process.RunLogonFlag;
+import cn.com.jautoitx.contract.Process.RunShowFlag;
+import cn.com.jautoitx.contract.Process.RunWaitResult;
+import cn.com.jautoitx.contract.Process.ShutdownCode;
 
 public class ProcessTest extends BaseTest {
 	private static final String USER_NAME;

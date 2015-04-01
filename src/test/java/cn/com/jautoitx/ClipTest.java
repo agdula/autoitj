@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class ClipTest extends BaseTest {
 	@Autowired
-	Clip Clip;
+	cn.com.jautoitx.contract.Clip Clip;
 
 	@Test
 	public void get() {

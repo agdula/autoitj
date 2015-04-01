@@ -13,20 +13,26 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.omg.CORBA.LongHolder;
 
-import cn.com.jautoitx.Mouse.MouseButton;
-import cn.com.jautoitx.Opt.CoordMode;
-import cn.com.jautoitx.Opt.WinTextMatchMode;
-import cn.com.jautoitx.Opt.WinTitleMatchMode;
+import cn.com.jautoitx.contract.Mouse.MouseButton;
+import cn.com.jautoitx.contract.Opt.CoordMode;
+import cn.com.jautoitx.contract.Opt.WinTextMatchMode;
+import cn.com.jautoitx.contract.Opt.WinTitleMatchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class OptTest extends BaseTest {
 
-	@Autowired Win32 Win32;
-	@Autowired Opt Opt;
-	@Autowired Control Control;
-	@Autowired Pixel Pixel;
-	@Autowired Mouse Mouse;
-	@Autowired Keyboard Keyboard;
+	@Autowired
+	cn.com.jautoitx.contract.Win32 Win32;
+	@Autowired
+	cn.com.jautoitx.contract.Opt Opt;
+	@Autowired
+	cn.com.jautoitx.contract.Control Control;
+	@Autowired
+	cn.com.jautoitx.contract.Pixel Pixel;
+	@Autowired
+	cn.com.jautoitx.contract.Mouse Mouse;
+	@Autowired
+	cn.com.jautoitx.contract.Keyboard Keyboard;
 
 	@Test
 	public void setMouseClickDelay() {

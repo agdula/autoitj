@@ -1,26 +1,26 @@
 package cn.com.jautoitx.impl;
 
-import java.nio.CharBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
+import cn.com.jautoitx.contract.TreeView;
+import cn.com.jautoitx.domain.WinRef;
 import cn.com.jautoitx.util.AutoItUtils;
 import cn.com.jautoitx.util.ControlIdBuilder;
 import cn.com.jautoitx.util.TitleBuilder;
-import cn.com.jautoitx.TreeView;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
-
 import com.sun.jna.Memory;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
-import com.sun.jna.platform.win32.WinDef.HWND;
+import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinDef.LPARAM;
 import com.sun.jna.platform.win32.WinDef.UINT;
 import com.sun.jna.platform.win32.WinDef.WPARAM;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
+
+import java.nio.CharBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class TreeViewImpl implements TreeView {
 	/* Command used in method ControlTreeView */
@@ -245,7 +245,7 @@ public class TreeViewImpl implements TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	public boolean check(final HWND hWnd, final HWND hCtrl,
+	public boolean check(final WinRef hWnd, final WinRef hCtrl,
 						 final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : check(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -423,7 +423,7 @@ public class TreeViewImpl implements TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	public boolean collapse(final HWND hWnd, final HWND hCtrl,
+	public boolean collapse(final WinRef hWnd, final WinRef hCtrl,
 							final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : collapse(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -583,7 +583,7 @@ public class TreeViewImpl implements TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if an item exists, otherwise returns false.
 	 */
-	public boolean exists(final HWND hWnd, final HWND hCtrl,
+	public boolean exists(final WinRef hWnd, final WinRef hCtrl,
 						  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : exists(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -761,7 +761,7 @@ public class TreeViewImpl implements TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	public boolean expand(final HWND hWnd, final HWND hCtrl,
+	public boolean expand(final WinRef hWnd, final WinRef hCtrl,
 						  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : expand(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -815,7 +815,7 @@ public class TreeViewImpl implements TreeView {
 	 * @return Returns the handle of the item if success, returns null if
 	 *         failed.
 	 */
-	public HWND getHandle(final String title, final String control,
+	public WinRef getHandle(final String title, final String control,
 						  final String item) {
 		return getHandle(title, null, control, item);
 	}
@@ -870,9 +870,9 @@ public class TreeViewImpl implements TreeView {
 	 * @return Returns the handle of the item if success, returns null if
 	 *         failed.
 	 */
-	public HWND getHandle(final String title, final String text,
+	public WinRef getHandle(final String title, final String text,
 						  final String control, final String item) {
-		HWND itemHWND = null;
+		WinDef.HWND itemHWND = null;
 		if (StringUtils.isNotEmpty(item) && exists(title, text, control, item)) {
 			String[] textIndexReferences = StringUtils.split(item, '|');
 			List<String> indexList = new ArrayList<String>();
@@ -881,7 +881,7 @@ public class TreeViewImpl implements TreeView {
 					itemHWND = getFirstItemHandle(title, text, control);
 				} else {
 					itemHWND = getFirstChildHandle(title, text, control,
-							itemHWND);
+							new WinRef(itemHWND));
 				}
 
 				// break for loop
@@ -917,7 +917,7 @@ public class TreeViewImpl implements TreeView {
 					indexList.add("#" + index);
 					while (index > 0) {
 						itemHWND = getNextSiblingHandle(title, text, control,
-								itemHWND);
+								new WinRef(itemHWND));
 						// break while loop
 						if (itemHWND == null) {
 							break;
@@ -932,7 +932,7 @@ public class TreeViewImpl implements TreeView {
 				}
 			}
 		}
-		return itemHWND;
+		return new WinRef(itemHWND);
 	}
 
 	/**
@@ -983,7 +983,7 @@ public class TreeViewImpl implements TreeView {
 	 * @return Returns the handle of the item if success, returns null if
 	 *         failed.
 	 */
-	public HWND getHandle(final HWND hWnd, final HWND hCtrl,
+	public WinRef getHandle(final WinRef hWnd, final WinRef hCtrl,
 						  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getHandle(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -1150,7 +1150,7 @@ public class TreeViewImpl implements TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the number of children for a selected item.
 	 */
-	public Integer getItemCount(final HWND hWnd, final HWND hCtrl,
+	public Integer getItemCount(final WinRef hWnd, final WinRef hCtrl,
 								final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getItemCount(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -1200,7 +1200,7 @@ public class TreeViewImpl implements TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the item reference of the current selection.
 	 */
-	public String getSelected(final HWND hWnd, final HWND hCtrl) {
+	public String getSelected(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -1268,7 +1268,7 @@ public class TreeViewImpl implements TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the item reference of the current selection.
 	 */
-	public String getSelected(final HWND hWnd, final HWND hCtrl,
+	public String getSelected(final WinRef hWnd, final WinRef hCtrl,
 							  final Boolean useIndex) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelected(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), useIndex);
@@ -1321,7 +1321,7 @@ public class TreeViewImpl implements TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the text of the current selected item.
 	 */
-	public String getSelectedText(final HWND hWnd, final HWND hCtrl) {
+	public String getSelectedText(final WinRef hWnd, final WinRef hCtrl) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getSelectedText(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl));
 	}
@@ -1490,7 +1490,7 @@ public class TreeViewImpl implements TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns the text of an item.
 	 */
-	public String getText(final HWND hWnd, final HWND hCtrl,
+	public String getText(final WinRef hWnd, final WinRef hCtrl,
 						  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? null : getText(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -1646,7 +1646,7 @@ public class TreeViewImpl implements TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is checked, otherwise return false.
 	 */
-	public boolean isChecked(final HWND hWnd, final HWND hCtrl,
+	public boolean isChecked(final WinRef hWnd, final WinRef hCtrl,
 							 final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isChecked(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -1825,7 +1825,7 @@ public class TreeViewImpl implements TreeView {
 	 *         IsChecked.UNCHECKED if item is not checked, otherwise return
 	 *         IsChecked.NOT_A_CHECKBOX.
 	 */
-	public IsChecked isChecked_(final HWND hWnd, final HWND hCtrl,
+	public IsChecked isChecked_(final WinRef hWnd, final WinRef hCtrl,
 								final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? IsChecked.NOT_A_CHECKBOX
 				: isChecked_(TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -1983,7 +1983,7 @@ public class TreeViewImpl implements TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is collapsed, otherwise return false.
 	 */
-	public boolean isCollapsed(final HWND hWnd, final HWND hCtrl,
+	public boolean isCollapsed(final WinRef hWnd, final WinRef hCtrl,
 							   final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isCollapsed(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -2091,9 +2091,9 @@ public class TreeViewImpl implements TreeView {
 	public boolean isExpanded(final String title, final String text,
 							  final String control, final String item) {
 		boolean expanded = false;
-		HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
+		WinDef.HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
 		if (hWnd != null) {
-			HWND itemHWND = getHandle(title, text, control, item);
+			WinDef.HWND itemHWND = getHandle(title, text, control, item);
 			if (itemHWND != null) {
 				TVITEM treeViewItem = new TVITEM();
 				treeViewItem.mask = new UINT(TVIF_STATE);
@@ -2153,7 +2153,7 @@ public class TreeViewImpl implements TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is expanded, otherwise return false.
 	 */
-	public boolean isExpanded(final HWND hWnd, final HWND hCtrl,
+	public boolean isExpanded(final WinRef hWnd, final WinRef hCtrl,
 							  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isExpanded(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -2337,7 +2337,7 @@ public class TreeViewImpl implements TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is selected, otherwise return false.
 	 */
-	public boolean isSelected(final HWND hWnd, final HWND hCtrl,
+	public boolean isSelected(final WinRef hWnd, final WinRef hCtrl,
 							  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isSelected(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -2494,7 +2494,7 @@ public class TreeViewImpl implements TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is a leaf node, otherwise return false.
 	 */
-	public boolean isLeaf(final HWND hWnd, final HWND hCtrl,
+	public boolean isLeaf(final WinRef hWnd, final WinRef hCtrl,
 						  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : isLeaf(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -2664,7 +2664,7 @@ public class TreeViewImpl implements TreeView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public boolean select(final HWND hWnd, final HWND hCtrl,
+	public boolean select(final WinRef hWnd, final WinRef hCtrl,
 						  final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : select(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -2858,7 +2858,7 @@ public class TreeViewImpl implements TreeView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	public boolean uncheck(final HWND hWnd, final HWND hCtrl,
+	public boolean uncheck(final WinRef hWnd, final WinRef hCtrl,
 						   final String item) {
 		return ((hWnd == null) || (hCtrl == null)) ? false : uncheck(
 				TitleBuilder.byHandle(hWnd), ControlIdBuilder.getInstance(LocalInstances.win32).byHandle(hCtrl), item);
@@ -2953,15 +2953,15 @@ public class TreeViewImpl implements TreeView {
 		return LocalInstances.autoItX.hasError() ? "" : Native.toString(result.array());
 	}
 
-	private HWND getFirstChildHandle(final String title,
-			final String text, final String control, final HWND itemHWND) {
-		HWND firstChildHWND = null;
-		HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
+	private WinRef getFirstChildHandle(final String title,
+			final String text, final String control, final WinRef itemHWND) {
+		WinDef.HWND firstChildHWND = null;
+		WinRef hWnd = LocalInstances.control.getHandle_(title, text, control);
 		if (hWnd != null) {
-			firstChildHWND = Win32Impl.user32.SendMessage(hWnd, TVM_GETNEXTITEM,
-					new WPARAM(TVGN_CHILD), itemHWND);
+			firstChildHWND = new WinRef(Win32Impl.user32.SendMessage(new WinDef.HWND(hWnd.getPointer()), TVM_GETNEXTITEM,
+					new WPARAM(TVGN_CHILD), itemHWND));
 		}
-		return firstChildHWND;
+		return new WinRef(firstChildHWND);
 	}
 
 	// private static HWND getFirstChildHandle(final String title,
@@ -2970,28 +2970,28 @@ public class TreeViewImpl implements TreeView {
 	// getHandle(title, text, control, item));
 	// }
 
-	private HWND getFirstItemHandle(final String title,
+	private WinRef getFirstItemHandle(final String title,
 			final String text, final String control) {
-		HWND firstItemHWND = null;
-		HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
+		WinDef.HWND firstItemHWND = null;
+		WinDef.HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
 		if (hWnd != null) {
 			firstItemHWND = Win32Impl.user32.SendMessage(hWnd, TVM_GETNEXTITEM,
 					new WPARAM(TVGN_ROOT), new LPARAM(0));
 		}
-		return firstItemHWND;
+		return new WinRef(firstItemHWND);
 	}
 
-	private HWND getNextSiblingHandle(final String title,
-			final String text, final String control, final HWND itemHWND) {
-		HWND nextSiblingHWND = null;
+	private WinRef getNextSiblingHandle(final String title,
+			final String text, final String control, final WinRef itemHWND) {
+		WinDef.HWND nextSiblingHWND = null;
 		if (itemHWND != null) {
-			HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
+			WinDef.HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
 			if (hWnd != null) {
 				nextSiblingHWND = Win32Impl.user32.SendMessage(hWnd,
 						TVM_GETNEXTITEM, new WPARAM(TVGN_NEXT), itemHWND);
 			}
 		}
-		return nextSiblingHWND;
+		return new WinRef(nextSiblingHWND);
 	}
 
 	// private static HWND getParentHandle(final String title, final String

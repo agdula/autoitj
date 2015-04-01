@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import cn.com.jautoitx.contract.*;
 import cn.com.jautoitx.util.AutoItUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,8 +42,10 @@ public abstract class BaseTest {
 
 
 	@Autowired Win Win;
-	@Autowired Process Process;
-	@Autowired AutoItX AutoItX;
+	@Autowired
+	cn.com.jautoitx.contract.Process Process;
+	@Autowired
+	cn.com.jautoitx.contract.AutoItX AutoItX;
 
 	protected static final boolean isZhUserLanguage = "zh"
 			.equalsIgnoreCase(System.getProperty("user.language"))

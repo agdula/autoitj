@@ -8,13 +8,15 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.com.jautoitx.Keyboard.SendFlag;
+import cn.com.jautoitx.contract.Keyboard.SendFlag;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class KeyboardTest extends BaseTest {
 
-	@Autowired Control Control;
-	@Autowired Keyboard Keyboard;
+	@Autowired
+	cn.com.jautoitx.contract.Control Control;
+	@Autowired
+	cn.com.jautoitx.contract.Keyboard Keyboard;
 
 	@Test
 	public void send() throws IOException {

@@ -1,5 +1,7 @@
 package cn.com.jautoitx;
 
+import cn.com.jautoitx.contract.*;
+import cn.com.jautoitx.contract.Process;
 import cn.com.jautoitx.impl.LocalInstances;
 import cn.com.jautoitx.util.ControlIdBuilder;
 import org.springframework.context.annotation.Bean;

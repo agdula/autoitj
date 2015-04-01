@@ -5,12 +5,13 @@ import java.awt.Frame;
 import java.awt.Toolkit;
 import java.util.List;
 
+import cn.com.jautoitx.domain.WinRef;
 import cn.com.jautoitx.util.AutoItUtils;
 import cn.com.jautoitx.util.TitleBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.com.jautoitx.Win.WinState;
+import cn.com.jautoitx.contract.Win.WinState;
 
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef.HWND;
@@ -19,18 +20,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class WinTest extends BaseTest {
 
-	@Autowired Win Win;
-	@Autowired Opt Opt;
-	@Autowired Keyboard Keyboard;
+	@Autowired
+	cn.com.jautoitx.contract.Win Win;
+	@Autowired
+	cn.com.jautoitx.contract.Opt Opt;
+	@Autowired
+	cn.com.jautoitx.contract.Keyboard Keyboard;
 
 	@Test
 	public void activate() {
-		Assert.assertFalse(Win.activate((HWND) null));
+		Assert.assertFalse(Win.activate((WinRef) null));
 
 		// run notepad
 		int pid = runNotepad();
 
-		HWND hWnd = Win.getHandle_(NOTEPAD_TITLE);
+		WinRef hWnd = Win.getHandle_(NOTEPAD_TITLE);
 		Assert.assertNotNull(hWnd);
 
 		// minimize notepad
@@ -63,12 +67,12 @@ public class WinTest extends BaseTest {
 	@Test
 	public void active() {
 		Assert.assertFalse(Win.active(NOTEPAD_TITLE));
-		Assert.assertFalse(Win.active((HWND) null));
+		Assert.assertFalse(Win.active((WinRef) null));
 
 		// run notepad
 		int pid = runNotepad();
 
-		HWND hWnd = Win.getHandle_(NOTEPAD_TITLE);
+		WinRef hWnd = Win.getHandle_(NOTEPAD_TITLE);
 		Assert.assertNotNull(hWnd);
 
 		// maximize notepad
@@ -111,7 +115,7 @@ public class WinTest extends BaseTest {
 	@Test
 	public void close() {
 		Assert.assertFalse(Win.close(NOTEPAD_TITLE));
-		Assert.assertFalse(Win.close((HWND) null));
+		Assert.assertFalse(Win.close((WinRef) null));
 
 		// run notepad
 		runNotepad();
@@ -124,7 +128,7 @@ public class WinTest extends BaseTest {
 		runNotepad();
 
 		// close notepad
-		HWND hWnd = Win.getHandle_(NOTEPAD_TITLE);
+		WinRef hWnd = Win.getHandle_(NOTEPAD_TITLE);
 		Assert.assertNotNull(hWnd);
 		Assert.assertTrue(Win.close(hWnd));
 		Assert.assertFalse(Win.exists(NOTEPAD_TITLE));
@@ -164,11 +168,11 @@ public class WinTest extends BaseTest {
 	@Test
 	public void exists() {
 		Assert.assertFalse(Win.exists(NOTEPAD_TITLE));
-		Assert.assertFalse(Win.exists((HWND) null));
+		Assert.assertFalse(Win.exists((WinRef) null));
 
 		// run notepad
 		int pid = runNotepad();
-		HWND hWnd = Win.getHandle_(NOTEPAD_TITLE);
+		WinRef hWnd = Win.getHandle_(NOTEPAD_TITLE);
 		Assert.assertNotNull(hWnd);
 		Assert.assertTrue(Win.exists(NOTEPAD_TITLE));
 		Assert.assertTrue(Win.exists(hWnd));
@@ -275,12 +279,12 @@ public class WinTest extends BaseTest {
 	@Test
 	public void getClassList() {
 		Assert.assertNull(Win.getClassList(NOTEPAD_TITLE));
-		Assert.assertNull(Win.getClassList((HWND) null));
+		Assert.assertNull(Win.getClassList((WinRef) null));
 
 		// run notepad
 		int pid = runNotepad();
 
-		HWND hWnd = Win.getHandle_(NOTEPAD_TITLE);
+		WinRef hWnd = Win.getHandle_(NOTEPAD_TITLE);
 		Assert.assertNotNull(hWnd);
 
 		assertEquals(NOTEPAAD_CLASS_LIST, Win.getClassList(NOTEPAD_TITLE));
@@ -311,12 +315,12 @@ public class WinTest extends BaseTest {
 	@Test
 	public void getClassList_() {
 		Assert.assertNull(Win.getClassList_(NOTEPAD_TITLE));
-		Assert.assertNull(Win.getClassList_((HWND) null));
+		Assert.assertNull(Win.getClassList_((WinRef) null));
 
 		// run notepad
 		int pid = runNotepad();
 
-		HWND hWnd = Win.getHandle_(NOTEPAD_TITLE);
+		WinRef hWnd = Win.getHandle_(NOTEPAD_TITLE);
 		Assert.assertNotNull(hWnd);
 
 		List<String> classList = Win.getClassList_(NOTEPAD_TITLE);
@@ -375,12 +379,12 @@ public class WinTest extends BaseTest {
 	@Test
 	public void getClassName() {
 		Assert.assertNull(Win.getClassName(NOTEPAD_TITLE));
-		Assert.assertNull(Win.getClassName((HWND) null));
+		Assert.assertNull(Win.getClassName((WinRef) null));
 
 		// run notepad
 		int pid = runNotepad();
 
-		HWND hWnd = Win.getHandle_(NOTEPAD_TITLE);
+		WinRef hWnd = Win.getHandle_(NOTEPAD_TITLE);
 		Assert.assertNotNull(hWnd);
 
 		Assert.assertEquals(NOTEPAAD_CLASS_NAME,
@@ -573,12 +577,12 @@ public class WinTest extends BaseTest {
 	@Test
 	public void getHandle() {
 		Assert.assertNull(Win.getHandle(NOTEPAD_TITLE));
-		Assert.assertNull(Win.getHandle((HWND) null));
+		Assert.assertNull(Win.getHandle((WinRef) null));
 
 		// run notepad
 		int pid = runNotepad();
 
-		HWND hWnd = Win.getHandle_(NOTEPAD_TITLE);
+		WinRef hWnd = Win.getHandle_(NOTEPAD_TITLE);
 		Assert.assertNotNull(hWnd);
 
 		assertEquals(

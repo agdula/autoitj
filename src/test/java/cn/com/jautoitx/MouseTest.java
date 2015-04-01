@@ -16,14 +16,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.omg.CORBA.IntHolder;
 
-import cn.com.jautoitx.Mouse.MouseButton;
-import cn.com.jautoitx.Mouse.MouseCursor;
-import cn.com.jautoitx.Mouse.MouseWheelDirection;
+import cn.com.jautoitx.contract.Mouse.MouseButton;
+import cn.com.jautoitx.contract.Mouse.MouseCursor;
+import cn.com.jautoitx.contract.Mouse.MouseWheelDirection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class MouseTest extends BaseTest {
 
-	@Autowired Mouse Mouse;
+	@Autowired
+	cn.com.jautoitx.contract.Mouse Mouse;
 
 	@Test
 	public void click() {

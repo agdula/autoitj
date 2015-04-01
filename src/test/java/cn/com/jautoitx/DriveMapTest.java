@@ -6,12 +6,13 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-import cn.com.jautoitx.DriveMap.DriveMapAddError;
-import cn.com.jautoitx.DriveMap.DriveMapAddFlag;
+import cn.com.jautoitx.contract.DriveMap.DriveMapAddError;
+import cn.com.jautoitx.contract.DriveMap.DriveMapAddFlag;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class DriveMapTest extends BaseTest {
-	@Autowired DriveMap DriveMap;
+	@Autowired
+	cn.com.jautoitx.contract.DriveMap DriveMap;
 	@Test
 	public void add() {
 		long currentTimeMillis = System.currentTimeMillis();

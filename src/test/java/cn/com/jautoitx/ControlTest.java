@@ -21,15 +21,18 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.omg.CORBA.IntHolder;
 
-import cn.com.jautoitx.Control.ControlClickMouseButton;
-import cn.com.jautoitx.Process.RunShowFlag;
+import cn.com.jautoitx.contract.Control.ControlClickMouseButton;
+import cn.com.jautoitx.contract.Process.RunShowFlag;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ControlTest extends BaseTest {
 
-	@Autowired Control Control;
-	@Autowired Win32 Win32;
-	@Autowired Keyboard Keyboard;
+	@Autowired
+	cn.com.jautoitx.contract.Control Control;
+	@Autowired
+	cn.com.jautoitx.contract.Win32 Win32;
+	@Autowired
+	cn.com.jautoitx.contract.Keyboard Keyboard;
 
 
 	@Test

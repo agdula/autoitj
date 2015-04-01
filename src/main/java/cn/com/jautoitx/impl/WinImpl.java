@@ -1,18 +1,19 @@
 package cn.com.jautoitx.impl;
 
+import cn.com.jautoitx.contract.AutoItX;
+import cn.com.jautoitx.contract.Win;
+import cn.com.jautoitx.domain.WinRef;
+import cn.com.jautoitx.util.AutoItUtils;
+import cn.com.jautoitx.util.TitleBuilder;
+import com.sun.jna.Native;
+import com.sun.jna.platform.win32.WinDef;
+import com.sun.jna.platform.win32.WinDef.POINT;
+import com.sun.jna.platform.win32.WinDef.RECT;
+
 import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import cn.com.jautoitx.AutoItX;
-import cn.com.jautoitx.util.AutoItUtils;
-import cn.com.jautoitx.util.TitleBuilder;
-import cn.com.jautoitx.Win;
-import com.sun.jna.Native;
-import com.sun.jna.platform.win32.WinDef.HWND;
-import com.sun.jna.platform.win32.WinDef.POINT;
-import com.sun.jna.platform.win32.WinDef.RECT;
 
 public final class WinImpl implements Win {
 
@@ -76,7 +77,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to activate.
 	 * @return Returns true if window is activated, otherwise returns false.
 	 */
-	public boolean activate(final HWND hWnd) {
+	public boolean activate(final WinRef hWnd) {
 		return (hWnd == null) ? false : activate(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -112,7 +113,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if window is active, otherwise returns false.
 	 */
-	public boolean active(final HWND hWnd) {
+	public boolean active(final WinRef hWnd) {
 		return (hWnd == null) ? false : active(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -163,7 +164,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to close.
 	 * @return Returns 1 if success, returns 0 if window is not found.
 	 */
-	public boolean close(final HWND hWnd) {
+	public boolean close(final WinRef hWnd) {
 		return (hWnd == null) ? false : close(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -202,7 +203,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if the window exists, otherwise returns false.
 	 *         WinExist will return true even if a window is hidden.
 	 */
-	public boolean exists(final HWND hWnd) {
+	public boolean exists(final WinRef hWnd) {
 		return (hWnd == null) ? false : exists(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -319,7 +320,7 @@ public final class WinImpl implements Win {
 	 * @return Returns a string containing the window classes read if success,
 	 *         returns null if no window matches the criteria.
 	 */
-	public String getClassList(final HWND hWnd) {
+	public String getClassList(final WinRef hWnd) {
 		return (hWnd == null) ? null : getClassList(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -381,7 +382,7 @@ public final class WinImpl implements Win {
 	 * @return Returns a list containing the window classes read if success,
 	 *         returns null if no window matches the criteria.
 	 */
-	public List<String> getClassList_(final HWND hWnd) {
+	public List<String> getClassList_(final WinRef hWnd) {
 		return (hWnd == null) ? null : getClassList_(TitleBuilder
 				.byHandle(hWnd));
 	}
@@ -420,7 +421,7 @@ public final class WinImpl implements Win {
 	 * @return Returns the classname from the window if success, returns null if
 	 *         no window matches the criteria.
 	 */
-	public String getClassName(final HWND hWnd) {
+	public String getClassName(final WinRef hWnd) {
 		return (hWnd == null) ? null : getClassName(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -480,7 +481,7 @@ public final class WinImpl implements Win {
 	 * @return Returns the height of the window's client area if success,
 	 *         returns null if windows is not found or window is minimized.
 	 */
-	public Integer getClientHeight(final HWND hWnd) {
+	public Integer getClientHeight(final WinRef hWnd) {
 		return (hWnd == null) ? null : getClientHeight(TitleBuilder
 				.byHandle(hWnd));
 	}
@@ -547,7 +548,7 @@ public final class WinImpl implements Win {
 	 * @return Returns the size of the window's client area if success, returns
 	 *         null if windows is not found or window is minimized.
 	 */
-	public int[] getClientSize(final HWND hWnd) {
+	public int[] getClientSize(final WinRef hWnd) {
 		return (hWnd == null) ? null : getClientSize(TitleBuilder
 				.byHandle(hWnd));
 	}
@@ -608,7 +609,7 @@ public final class WinImpl implements Win {
 	 * @return Returns the width of the window's client area if success, returns
 	 *         null if windows is not found or window is minimized.
 	 */
-	public Integer getClientWidth(final HWND hWnd) {
+	public Integer getClientWidth(final WinRef hWnd) {
 		return (hWnd == null) ? null : getClientWidth(TitleBuilder
 				.byHandle(hWnd));
 	}
@@ -680,7 +681,7 @@ public final class WinImpl implements Win {
 	 * @return Returns a string containing the window handle value if success,
 	 *         returns null if no window matches the criteria.
 	 */
-	public String getHandle(final HWND hWnd) {
+	public String getHandle(final WinRef hWnd) {
 		return (hWnd == null) ? null : getHandle(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -697,7 +698,7 @@ public final class WinImpl implements Win {
 	 * @return Returns the handle of the window if success, returns null if no
 	 *         window matches the criteria.
 	 */
-	public HWND getHandle_(final String title) {
+	public WinRef getHandle_(final String title) {
 		return getHandle_(title, null);
 	}
 
@@ -716,9 +717,10 @@ public final class WinImpl implements Win {
 	 * @return Returns the handle of the window if success, returns null if no
 	 *         window matches the criteria.
 	 */
-	public HWND getHandle_(final String title, final String text) {
-		return AutoItXImpl.autoItX.AU3_WinGetHandle(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
+	public WinRef getHandle_(final String title, final String text) {
+		WinDef.HWND hwnd = AutoItXImpl.autoItX.AU3_WinGetHandle(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text));
+		return new WinRef(hwnd);
 	}
 
 	/**
@@ -780,7 +782,7 @@ public final class WinImpl implements Win {
 	 * @return Returns the position of the window if success, return null if
 	 *         windows is not found or window is minimized.
 	 */
-	public int[] getPos(final HWND hWnd) {
+	public int[] getPos(final WinRef hWnd) {
 		return (hWnd == null) ? null : getPos(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -834,7 +836,7 @@ public final class WinImpl implements Win {
 	 * @return Returns the X coordinate of the window if success, return null if
 	 *         windows is not found or window is minimized.
 	 */
-	public Integer getPosX(final HWND hWnd) {
+	public Integer getPosX(final WinRef hWnd) {
 		return (hWnd == null) ? null : getPosX(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -888,7 +890,7 @@ public final class WinImpl implements Win {
 	 * @return Returns the Y coordinate of the window if success, return null if
 	 *         windows is not found or window is minimize.
 	 */
-	public Integer getPosY(final HWND hWnd) {
+	public Integer getPosY(final WinRef hWnd) {
 		return (hWnd == null) ? null : getPosY(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -946,7 +948,7 @@ public final class WinImpl implements Win {
 	 * @return Returns the height of the window if success, returns null if
 	 *         windows is not found or window is minimized.
 	 */
-	public Integer getHeight(final HWND hWnd) {
+	public Integer getHeight(final WinRef hWnd) {
 		return (hWnd == null) ? null : getHeight(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1004,7 +1006,7 @@ public final class WinImpl implements Win {
 	 * @return Returns the width of the window if success, returns null if
 	 *         windows is not found or window is minimized.
 	 */
-	public Integer getWidth(final HWND hWnd) {
+	public Integer getWidth(final WinRef hWnd) {
 		return (hWnd == null) ? null : getWidth(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1041,7 +1043,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to read.
 	 * @return Returns the Process ID (PID) if success, return null if failed.
 	 */
-	public Integer getProcess(final HWND hWnd) {
+	public Integer getProcess(final WinRef hWnd) {
 		return (hWnd == null) ? null : getProcess(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1104,7 +1106,7 @@ public final class WinImpl implements Win {
 	 * @return Returns the size of the window if success, returns null if
 	 *         windows is not found or window is minimized.
 	 */
-	public int[] getSize(final HWND hWnd) {
+	public int[] getSize(final WinRef hWnd) {
 		return (hWnd == null) ? null : getSize(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1140,7 +1142,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if the window is visible, otherwise returns false.
 	 */
-	public boolean visible(final HWND hWnd) {
+	public boolean visible(final WinRef hWnd) {
 		return (hWnd == null) ? false : visible(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1176,7 +1178,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if the window is enabled, otherwise returns false.
 	 */
-	public boolean enabled(final HWND hWnd) {
+	public boolean enabled(final WinRef hWnd) {
 		return (hWnd == null) ? false : enabled(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1212,7 +1214,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if the window is minimized, otherwise returns false.
 	 */
-	public boolean minimized(final HWND hWnd) {
+	public boolean minimized(final WinRef hWnd) {
 		return (hWnd == null) ? false : minimized(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1248,7 +1250,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if the window is maximized, otherwise returns false.
 	 */
-	public boolean maximized(final HWND hWnd) {
+	public boolean maximized(final WinRef hWnd) {
 		return (hWnd == null) ? false : maximized(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1309,7 +1311,7 @@ public final class WinImpl implements Win {
 	 *         32 = Windows is maximized<br/>
 	 *         Returns null if the window is not found.
 	 */
-	public Integer getState(final HWND hWnd) {
+	public Integer getState(final WinRef hWnd) {
 		return (hWnd == null) ? null : getState(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1359,7 +1361,7 @@ public final class WinImpl implements Win {
 	 * @return If success, returns a list of state indicating the state of the
 	 *         window. Returns null if the window is not found.
 	 */
-	public List<WinState> getState_(final HWND hWnd) {
+	public List<WinState> getState_(final WinRef hWnd) {
 		return (hWnd == null) ? null : getState_(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1419,7 +1421,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to read.
 	 * @return Returns a string containing the window text read.
 	 */
-	public String getText(final HWND hWnd) {
+	public String getText(final WinRef hWnd) {
 		return (hWnd == null) ? null : getText(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1478,7 +1480,7 @@ public final class WinImpl implements Win {
 	 * @return Returns a string containing the complete window title if success,
 	 *         returns null if no title match.
 	 */
-	public String getTitle(final HWND hWnd) {
+	public String getTitle(final WinRef hWnd) {
 		return (hWnd == null) ? null : getTitle(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1534,7 +1536,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to close.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean kill(final HWND hWnd) {
+	public boolean kill(final WinRef hWnd) {
 		return (hWnd == null) ? false : kill(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -1609,7 +1611,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	public boolean menuSelectItem(final HWND hWnd, final String item1) {
+	public boolean menuSelectItem(final WinRef hWnd, final String item1) {
 		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), item1);
 	}
 
@@ -1664,7 +1666,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	public boolean menuSelectItem(final HWND hWnd, final String item1,
+	public boolean menuSelectItem(final WinRef hWnd, final String item1,
 								  final String item2) {
 		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
 				item1, item2);
@@ -1725,7 +1727,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	public boolean menuSelectItem(final HWND hWnd, final String item1,
+	public boolean menuSelectItem(final WinRef hWnd, final String item1,
 								  final String item2, final String item3) {
 		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
 				item1, item2, item3);
@@ -1791,7 +1793,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	public boolean menuSelectItem(final HWND hWnd, final String item1,
+	public boolean menuSelectItem(final WinRef hWnd, final String item1,
 								  final String item2, final String item3, final String item4) {
 		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
 				item1, item2, item3, item4);
@@ -1862,7 +1864,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	public boolean menuSelectItem(final HWND hWnd, final String item1,
+	public boolean menuSelectItem(final WinRef hWnd, final String item1,
 								  final String item2, final String item3, final String item4,
 								  final String item5) {
 		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
@@ -1938,7 +1940,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	public boolean menuSelectItem(final HWND hWnd, final String item1,
+	public boolean menuSelectItem(final WinRef hWnd, final String item1,
 								  final String item2, final String item3, final String item4,
 								  final String item5, final String item6) {
 		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
@@ -2019,7 +2021,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	public boolean menuSelectItem(final HWND hWnd, final String item1,
+	public boolean menuSelectItem(final WinRef hWnd, final String item1,
 								  final String item2, final String item3, final String item4,
 								  final String item5, final String item6, final String item7) {
 		return (hWnd == null) ? false : menuSelectItem(TitleBuilder.byHandle(hWnd), null,
@@ -2112,7 +2114,7 @@ public final class WinImpl implements Win {
 	 * @return Returns true if success, return false if the menu could not be
 	 *         found.
 	 */
-	public boolean menuSelectItem(final HWND hWnd, final String item1,
+	public boolean menuSelectItem(final WinRef hWnd, final String item1,
 								  final String item2, final String item3, final String item4,
 								  final String item5, final String item6, final String item7,
 								  final String item8) {
@@ -2214,7 +2216,7 @@ public final class WinImpl implements Win {
 	 *            Y coordinate to move to.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean move(final HWND hWnd, final int x, final int y) {
+	public boolean move(final WinRef hWnd, final int x, final int y) {
 		return (hWnd == null) ? false : move(TitleBuilder.byHandle(hWnd), x, y);
 	}
 
@@ -2303,7 +2305,7 @@ public final class WinImpl implements Win {
 	 *            New width of the window.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean move(final HWND hWnd, final int x, final int y,
+	public boolean move(final WinRef hWnd, final int x, final int y,
 						final int width) {
 		return (hWnd == null) ? false : move(TitleBuilder.byHandle(hWnd), x, y, width);
 	}
@@ -2399,7 +2401,7 @@ public final class WinImpl implements Win {
 	 *            New height of the window.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean move(final HWND hWnd, final int x, final int y,
+	public boolean move(final WinRef hWnd, final int x, final int y,
 						final int width, final int height) {
 		return (hWnd == null) ? false : move(TitleBuilder.byHandle(hWnd), x, y, width,
 				height);
@@ -2436,7 +2438,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to affect.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean setOnTop(final HWND hWnd) {
+	public boolean setOnTop(final WinRef hWnd) {
 		return (hWnd == null) ? false : setOnTop(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -2482,7 +2484,7 @@ public final class WinImpl implements Win {
 	 *            set. true=set on top flag, false = remove on top flag
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean setOnTop(final HWND hWnd, final boolean on) {
+	public boolean setOnTop(final WinRef hWnd, final boolean on) {
 		return (hWnd == null) ? false : setOnTop(TitleBuilder.byHandle(hWnd), on);
 	}
 
@@ -2526,7 +2528,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to show.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean show(final HWND hWnd) {
+	public boolean show(final WinRef hWnd) {
 		return (hWnd == null) ? false : show(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -2570,7 +2572,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to hide.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean hide(final HWND hWnd) {
+	public boolean hide(final WinRef hWnd) {
 		return (hWnd == null) ? false : hide(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -2614,7 +2616,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to minimize.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean minimize(final HWND hWnd) {
+	public boolean minimize(final WinRef hWnd) {
 		return (hWnd == null) ? false : minimize(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -2658,7 +2660,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to maximize.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean maximize(final HWND hWnd) {
+	public boolean maximize(final WinRef hWnd) {
 		return (hWnd == null) ? false : maximize(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -2702,7 +2704,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to restore.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean restore(final HWND hWnd) {
+	public boolean restore(final WinRef hWnd) {
 		return (hWnd == null) ? false : restore(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -2789,7 +2791,7 @@ public final class WinImpl implements Win {
 	 * @param winState
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean setState(final HWND hWnd, final WinSetState winState) {
+	public boolean setState(final WinRef hWnd, final WinSetState winState) {
 		return (hWnd == null) ? false : setState(TitleBuilder.byHandle(hWnd), winState);
 	}
 
@@ -2851,7 +2853,7 @@ public final class WinImpl implements Win {
 	 *            SW_RESTORE = Undoes a window minimization or maximization
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean setState(final HWND hWnd, final int flags) {
+	public boolean setState(final WinRef hWnd, final int flags) {
 		return (hWnd == null) ? false : setState(TitleBuilder.byHandle(hWnd), flags);
 	}
 
@@ -2905,7 +2907,7 @@ public final class WinImpl implements Win {
 	 *            The new title to give to the window.
 	 * @return Returns true if success, returns false if window is not found.
 	 */
-	public boolean setTitle(final HWND hWnd, final String newTitle) {
+	public boolean setTitle(final WinRef hWnd, final String newTitle) {
 		return (hWnd == null) ? false : setTitle(TitleBuilder.byHandle(hWnd), newTitle);
 	}
 
@@ -2951,7 +2953,7 @@ public final class WinImpl implements Win {
 	 *            transparent the window will become.
 	 * @return Returns true if success, returns false if failure.
 	 */
-	public boolean setTrans(final HWND hWnd, final int transparency) {
+	public boolean setTrans(final WinRef hWnd, final int transparency) {
 		return (hWnd == null) ? false
 				: setTrans(TitleBuilder.byHandle(hWnd), transparency);
 	}
@@ -2993,7 +2995,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
-	public boolean wait(final HWND hWnd) {
+	public boolean wait(final WinRef hWnd) {
 		return (hWnd == null) ? false : wait(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -3042,7 +3044,7 @@ public final class WinImpl implements Win {
 	 *            Timeout in seconds
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
-	public boolean wait(final HWND hWnd, final Integer timeout) {
+	public boolean wait(final WinRef hWnd, final Integer timeout) {
 		return (hWnd == null) ? false : wait(TitleBuilder.byHandle(hWnd), timeout);
 	}
 
@@ -3083,7 +3085,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
-	public boolean waitActive(final HWND hWnd) {
+	public boolean waitActive(final WinRef hWnd) {
 		return (hWnd == null) ? false : waitActive(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -3132,7 +3134,7 @@ public final class WinImpl implements Win {
 	 *            Timeout in seconds
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
-	public boolean waitActive(final HWND hWnd, final Integer timeout) {
+	public boolean waitActive(final WinRef hWnd, final Integer timeout) {
 		return (hWnd == null) ? false : waitActive(TitleBuilder.byHandle(hWnd), timeout);
 	}
 
@@ -3176,7 +3178,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to check.
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
-	public boolean waitClose(final HWND hWnd) {
+	public boolean waitClose(final WinRef hWnd) {
 		return (hWnd == null) ? false : waitClose(TitleBuilder.byHandle(hWnd));
 	}
 
@@ -3228,7 +3230,7 @@ public final class WinImpl implements Win {
 	 *            Timeout in seconds
 	 * @return Returns true if success, returns false if timeout occurred.
 	 */
-	public boolean waitClose(final HWND hWnd, final Integer timeout) {
+	public boolean waitClose(final WinRef hWnd, final Integer timeout) {
 		return (hWnd == null) ? false : waitClose(TitleBuilder.byHandle(hWnd), timeout);
 	}
 
@@ -3275,7 +3277,7 @@ public final class WinImpl implements Win {
 	 *            The handle of the window to check.
 	 * @return Returns false if the timeout occurred, otherwise returns true.
 	 */
-	public boolean waitNotActive(final HWND hWnd) {
+	public boolean waitNotActive(final WinRef hWnd) {
 		return (hWnd == null) ? false : waitNotActive(TitleBuilder
 				.byHandle(hWnd));
 	}
@@ -3333,7 +3335,7 @@ public final class WinImpl implements Win {
 	 *            Timeout in seconds
 	 * @return Returns false if the timeout occurred, otherwise returns true.
 	 */
-	public boolean waitNotActive(final HWND hWnd, final Integer timeout) {
+	public boolean waitNotActive(final WinRef hWnd, final Integer timeout) {
 		return (hWnd == null) ? false
 				: waitNotActive(TitleBuilder.byHandle(hWnd), timeout);
 	}

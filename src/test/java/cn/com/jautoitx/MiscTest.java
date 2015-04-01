@@ -2,13 +2,14 @@ package cn.com.jautoitx;
 
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class MiscTest extends BaseTest {
-	@Autowired Mouse Mouse;
-	@Autowired Misc Misc;
+	@Autowired
+	cn.com.jautoitx.contract.Mouse Mouse;
+	@Autowired
+	cn.com.jautoitx.contract.Misc Misc;
 	@Test
 	public void isAdmin() {
 		String userHome = System.getProperty("user.home");

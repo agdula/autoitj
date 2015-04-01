@@ -14,8 +14,10 @@ public class ControlIdBuilderTest extends BaseTest {
 
 	@Autowired
 	ControlIdBuilder ControlIdBuilder;
-	@Autowired Win32 Win32;
-	@Autowired Control Control;
+	@Autowired
+	cn.com.jautoitx.contract.Win32 Win32;
+	@Autowired
+	cn.com.jautoitx.contract.Control Control;
 
 	@Test
 	public void by() {

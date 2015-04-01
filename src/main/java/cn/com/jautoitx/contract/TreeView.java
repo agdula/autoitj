@@ -1,6 +1,6 @@
-package cn.com.jautoitx;
+package cn.com.jautoitx.contract;
 
-import com.sun.jna.platform.win32.WinDef;
+import cn.com.jautoitx.domain.WinRef;
 
 /**
  * @author: Andrzej Gdula
@@ -160,7 +160,7 @@ public interface TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	boolean check(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean check(WinRef hWnd, WinRef hCtrl,
 				  String item);
 
 	/**
@@ -318,7 +318,7 @@ public interface TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	boolean collapse(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean collapse(WinRef hWnd, WinRef hCtrl,
 					 String item);
 
 	/**
@@ -470,7 +470,7 @@ public interface TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if an item exists, otherwise returns false.
 	 */
-	boolean exists(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean exists(WinRef hWnd, WinRef hCtrl,
 				   String item);
 
 	/**
@@ -628,7 +628,7 @@ public interface TreeView {
 	 * @return Returns false if window/control could not be found, otherwise
 	 *         returns false.
 	 */
-	boolean expand(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean expand(WinRef hWnd, WinRef hCtrl,
 				   String item);
 
 	/**
@@ -679,7 +679,7 @@ public interface TreeView {
 	 * @return Returns the handle of the item if success, returns null if
 	 *         failed.
 	 */
-	WinDef.HWND getHandle(String title, String control,
+	WinRef getHandle(String title, String control,
 						  String item);
 
 	/**
@@ -732,7 +732,7 @@ public interface TreeView {
 	 * @return Returns the handle of the item if success, returns null if
 	 *         failed.
 	 */
-	WinDef.HWND getHandle(String title, String text,
+	WinRef getHandle(String title, String text,
 						  String control, String item);
 
 	/**
@@ -783,7 +783,7 @@ public interface TreeView {
 	 * @return Returns the handle of the item if success, returns null if
 	 *         failed.
 	 */
-	WinDef.HWND getHandle(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	WinRef getHandle(WinRef hWnd, WinRef hCtrl,
 						  String item);
 
 	/**
@@ -935,7 +935,7 @@ public interface TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the number of children for a selected item.
 	 */
-	Integer getItemCount(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	Integer getItemCount(WinRef hWnd, WinRef hCtrl,
 						 String item);
 
 	/**
@@ -978,7 +978,7 @@ public interface TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the item reference of the current selection.
 	 */
-	String getSelected(WinDef.HWND hWnd, WinDef.HWND hCtrl);
+	String getSelected(WinRef hWnd, WinRef hCtrl);
 
 	/**
 	 * Returns the item reference of the current selection using the text
@@ -1036,7 +1036,7 @@ public interface TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the item reference of the current selection.
 	 */
-	String getSelected(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	String getSelected(WinRef hWnd, WinRef hCtrl,
 					   Boolean useIndex);
 
 	/**
@@ -1077,7 +1077,7 @@ public interface TreeView {
 	 * @return Return null if window/control could not be found, otherwise
 	 *         returns the text of the current selected item.
 	 */
-	String getSelectedText(WinDef.HWND hWnd, WinDef.HWND hCtrl);
+	String getSelectedText(WinRef hWnd, WinRef hCtrl);
 
 	/**
 	 * Returns the text of an item.
@@ -1231,7 +1231,7 @@ public interface TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns the text of an item.
 	 */
-	String getText(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	String getText(WinRef hWnd, WinRef hCtrl,
 				   String item);
 
 	/**
@@ -1380,7 +1380,7 @@ public interface TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is checked, otherwise return false.
 	 */
-	boolean isChecked(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean isChecked(WinRef hWnd, WinRef hCtrl,
 					  String item);
 
 	/**
@@ -1535,7 +1535,7 @@ public interface TreeView {
 	 *         IsChecked.UNCHECKED if item is not checked, otherwise return
 	 *         IsChecked.NOT_A_CHECKBOX.
 	 */
-	IsChecked isChecked_(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	IsChecked isChecked_(WinRef hWnd, WinRef hCtrl,
 						 String item);
 
 	/**
@@ -1684,7 +1684,7 @@ public interface TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is collapsed, otherwise return false.
 	 */
-	boolean isCollapsed(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean isCollapsed(WinRef hWnd, WinRef hCtrl,
 						String item);
 
 	/**
@@ -1833,7 +1833,7 @@ public interface TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is expanded, otherwise return false.
 	 */
-	boolean isExpanded(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean isExpanded(WinRef hWnd, WinRef hCtrl,
 					   String item);
 
 	/**
@@ -1982,7 +1982,7 @@ public interface TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is selected, otherwise return false.
 	 */
-	boolean isSelected(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean isSelected(WinRef hWnd, WinRef hCtrl,
 					   String item);
 
 	/**
@@ -2131,7 +2131,7 @@ public interface TreeView {
 	 *            References can also be mixed like "Heading1|#1".
 	 * @return Returns true if item is a leaf node, otherwise return false.
 	 */
-	boolean isLeaf(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean isLeaf(WinRef hWnd, WinRef hCtrl,
 				   String item);
 
 	/**
@@ -2289,7 +2289,7 @@ public interface TreeView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	boolean select(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean select(WinRef hWnd, WinRef hCtrl,
 				   String item);
 
 	/**
@@ -2444,7 +2444,7 @@ public interface TreeView {
 	 * @return Return false if window/control could not be found, otherwise
 	 *         return true.
 	 */
-	boolean uncheck(WinDef.HWND hWnd, WinDef.HWND hCtrl,
+	boolean uncheck(WinRef hWnd, WinRef hCtrl,
 					String item);
 
 	/**

@@ -1,14 +1,13 @@
 package cn.com.jautoitx.impl;
 
-import java.nio.CharBuffer;
-import java.util.logging.Logger;
-
-import cn.com.jautoitx.AutoItX;
-import cn.com.jautoitx.DriveMap;
+import cn.com.jautoitx.contract.AutoItX;
+import cn.com.jautoitx.contract.DriveMap;
 import cn.com.jautoitx.util.AutoItUtils;
+import com.sun.jna.Native;
 import org.apache.commons.lang3.StringUtils;
 
-import com.sun.jna.Native;
+import java.nio.CharBuffer;
+import java.util.logging.Logger;
 
 public class DriveMapImpl implements DriveMap {
 	public static int DRIVE_MAP_ADD_BUF_SIZE = 1024;

@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class Win32Test extends BaseTest {
 
-	@Autowired Win32 Win32;
+	@Autowired
+	cn.com.jautoitx.contract.Win32 Win32;
 	@Test
 	public void getFileVersion() {
 		Assert.assertNull(Win32.getFileVersion("cn/com/jautoitx/lib"));
