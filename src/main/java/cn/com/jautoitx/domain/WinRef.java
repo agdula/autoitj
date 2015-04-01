@@ -2,23 +2,44 @@ package cn.com.jautoitx.domain;
 
 import com.sun.jna.Pointer;
 import com.sun.jna.platform.win32.WinDef;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author: Andrzej Gdula
  * @created: 03/31/2015 23:53
  * @version: 1.0
  */
-public class WinRef extends WinDef.HWND {
+public class WinRef {
 
-    public WinRef(final WinDef.HWND p) {
-        this(p == null ? null : p.getPointer());
-    }
-    public WinRef(final Pointer p) {
-        super(p);
+    private String handle;
+    private Pointer pointer;
+    private WinDef.HWND hwnd;
+
+    public WinRef(final String handle) {
+        this.handle = handle;
     }
 
-    @Override
+    public WinDef.HWND getHwnd() {
+        if(hwnd == null){
+            hwnd = new WinDef.HWND(getPointer());
+        }
+        return hwnd;
+    }
+
     public Pointer getPointer() {
-        return super.getPointer();
+        if(pointer == null && !StringUtils.isEmpty(handle)){
+            String hTemp = handle;
+            if (hTemp.startsWith("0x")) {
+                hTemp = hTemp.substring(2);
+            }
+            pointer = Pointer.createConstant(Long.parseLong(hTemp, 16));
+        }
+        return pointer;
+    }
+
+    public String getHandle() {
+        return handle;
     }
 }
+
+

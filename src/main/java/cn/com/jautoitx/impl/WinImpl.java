@@ -720,7 +720,7 @@ public final class WinImpl implements Win {
 	public WinRef getHandle_(final String title, final String text) {
 		WinDef.HWND hwnd = AutoItXImpl.autoItX.AU3_WinGetHandle(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),
 				AutoItUtils.stringToWString(text));
-		return new WinRef(hwnd);
+		return new WinRef(AutoItUtils.hwndToHandle(hwnd));
 	}
 
 	/**

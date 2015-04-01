@@ -1,6 +1,7 @@
 package cn.com.jautoitx.util;
 
 import cn.com.jautoitx.contract.Win32;
+import cn.com.jautoitx.domain.WinRef;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.platform.win32.WinDef.HWND;
@@ -209,7 +210,7 @@ public class ControlIdBuilder {
 	 *            Control.getHandle_.
 	 * @return Returns advanced control id.
 	 */
-	public String byHandle(HWND hCtrl) {
+	public String byHandle(WinRef hCtrl) {
 		return by(By.handle(win32,hCtrl));
 	}
 
@@ -368,7 +369,7 @@ public class ControlIdBuilder {
 		 * @return a By which locates control by the handle address as returned
 		 *         by a method like Control.getHandle.
 		 */
-		public static By handle(Win32 win32,HWND hCtrl) {
+		public static By handle(Win32 win32,WinRef hCtrl) {
 			return new ByHandle(win32,hCtrl);
 		}
 
@@ -541,7 +542,7 @@ public class ControlIdBuilder {
 			this.win32 = win32;
 		}
 
-		public ByHandle(Win32 win32,  HWND hCtrl) {
+		public ByHandle(Win32 win32, WinRef hCtrl) {
 			this(win32, AutoItUtils.hwndToHandle(hCtrl));
 		}
 

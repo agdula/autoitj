@@ -28,11 +28,7 @@ public class AutoItUtils {
         WinRef hWnd = null;
         try {
             if (handle != null) {
-                if (handle.startsWith("0x")) {
-                    handle = handle.substring(2);
-                }
-                hWnd = new WinRef(Pointer.createConstant(Long.parseLong(handle,
-                        16)));
+                hWnd = new WinRef(handle);
             }
         } catch (Exception e) {
             // Ignore exception
@@ -40,20 +36,15 @@ public class AutoItUtils {
         return hWnd;
     }
 
-    public static WinDef.HWND handleToHWND(String handle) {
-        WinDef.HWND hWnd = null;
-        try {
-            if (handle != null) {
-                if (handle.startsWith("0x")) {
-                    handle = handle.substring(2);
-                }
-                hWnd = new WinDef.HWND(Pointer.createConstant(Long.parseLong(handle,
-                        16)));
-            }
-        } catch (Exception e) {
-            // Ignore exception
-        }
-        return hWnd;
+
+    public static String hwndToHandle(final WinRef hWnd) {
+        return (hWnd == null) ? null : hWnd.getHandle();
+    }
+    public static WinDef.HWND toHWND(final WinRef hWnd) {
+        return (hWnd == null) ? null : hWnd.getHwnd();
+    }
+    public static Pointer toPointer(final WinRef hWnd) {
+        return (hWnd == null) ? null : hWnd.getPointer();
     }
 
     public static String hwndToHandle(final WinDef.HWND hWnd) {

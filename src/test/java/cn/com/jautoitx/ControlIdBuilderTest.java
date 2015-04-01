@@ -1,5 +1,6 @@
 package cn.com.jautoitx;
 
+import cn.com.jautoitx.domain.WinRef;
 import cn.com.jautoitx.util.AutoItUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -177,11 +178,11 @@ public class ControlIdBuilderTest extends BaseTest {
 		Assert.assertEquals("[ID:-1]",
 				ControlIdBuilder.by(By.handle(Win32,(String) null)));
 		Assert.assertEquals("[ID:-1]",
-				ControlIdBuilder.by(By.handle(Win32,(HWND) null)));
+				ControlIdBuilder.by(By.handle(Win32,(WinRef) null)));
 		Assert.assertEquals("[ID:-1]", ControlIdBuilder.by(By.handle(Win32,"")));
 		Assert.assertEquals("[ID:-1]", ControlIdBuilder.by(By.handle(Win32,"0")));
 		Assert.assertEquals("[ID:-1]", ControlIdBuilder.byHandle((String) null));
-		Assert.assertEquals("[ID:-1]", ControlIdBuilder.byHandle((HWND) null));
+		Assert.assertEquals("[ID:-1]", ControlIdBuilder.byHandle((WinRef) null));
 		Assert.assertEquals("[ID:-1]", ControlIdBuilder.byHandle(""));
 		Assert.assertEquals("[ID:-1]", ControlIdBuilder.byHandle("0"));
 

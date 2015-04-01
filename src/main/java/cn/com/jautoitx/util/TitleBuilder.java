@@ -1,5 +1,6 @@
 package cn.com.jautoitx.util;
 
+import cn.com.jautoitx.domain.WinRef;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sun.jna.platform.win32.WinDef.HWND;
@@ -182,8 +183,8 @@ public class TitleBuilder {
 	 *            Win.getHandle_.
 	 * @return Returns advanced window title.
 	 */
-	public static String byHandle(HWND hWnd) {
-		return by(By.handle(hWnd));
+	public static String byHandle(WinRef hWnd) {
+		return by(By.handle(AutoItUtils.hwndToHandle(hWnd)));
 	}
 
 	/**
@@ -330,8 +331,8 @@ public class TitleBuilder {
 		 * @return a By which locates window by the handle address as returned
 		 *         by a method like Win.getHandle.
 		 */
-		public static By handle(HWND hWnd) {
-			return new ByHandle(hWnd);
+		public static By handle(WinRef hWnd) {
+			return new ByHandle(AutoItUtils.hwndToHandle(hWnd));
 		}
 
 		public String toAdvancedTitle() {
@@ -495,8 +496,5 @@ public class TitleBuilder {
 			super("HANDLE", handle);
 		}
 
-		public ByHandle(HWND hWnd) {
-			this(AutoItUtils.hwndToHandle(hWnd));
-		}
 	}
 }
