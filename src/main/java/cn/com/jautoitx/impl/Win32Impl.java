@@ -22,6 +22,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.nio.CharBuffer;
 
+import static cn.com.jautoitx.util.AutoItUtils.toHWND;
+
 public class Win32Impl implements Win32 {
     public static final GDI32Ext gdi32 = GDI32Ext.INSTANCE;
     public static final User32Ext user32 = User32Ext.INSTANCE;
@@ -62,7 +64,7 @@ public class Win32Impl implements Win32 {
 
         if (hWnd != null) {
             char[] lpClassName = new char[256];
-            int classNameLength = user32.GetClassName(hWnd, lpClassName,
+            int classNameLength = user32.GetClassName(toHWND(hWnd), lpClassName,
                     lpClassName.length);
             if (classNameLength >= 0) {
                 className = new String(lpClassName, 0, classNameLength);
@@ -84,7 +86,7 @@ public class Win32Impl implements Win32 {
     public int getControlId(WinRef controlHwnd) {
         int controlId = 0;
         if (controlHwnd != null) {
-            controlId = user32.GetDlgCtrlID(controlHwnd);
+            controlId = user32.GetDlgCtrlID(toHWND(controlHwnd));
         }
         if (controlId <= 0) {
             controlId = INVALID_CONTROL_ID;
@@ -95,12 +97,12 @@ public class Win32Impl implements Win32 {
     public String getControlText(WinRef hCtrl) {
         String text = null;
         if (isHWnd(hCtrl)) {
-            int textLength = user32.SendMessage(hCtrl, WM_GETTEXTLENGTH, 0, 0);
+            int textLength = user32.SendMessage(toHWND(hCtrl), WM_GETTEXTLENGTH, 0, 0);
             if (textLength == 0) {
                 text = "";
             } else {
                 char[] lpText = new char[textLength + 1];
-                if (textLength == user32.SendMessage(hCtrl, WM_GETTEXT,
+                if (textLength == user32.SendMessage(toHWND(hCtrl), WM_GETTEXT,
                         lpText.length, lpText)) {
                     text = new String(lpText, 0, textLength);
                 }
@@ -182,12 +184,12 @@ public class Win32Impl implements Win32 {
     public String getWindowText(WinRef hWnd) {
         String text = null;
         if (isHWnd(hWnd)) {
-            int textLength = user32.GetWindowTextLength(hWnd);
+            int textLength = user32.GetWindowTextLength(toHWND(hWnd));
             if (textLength == 0) {
                 text = "";
             } else {
                 char[] lpText = new char[textLength + 1];
-                user32.GetWindowText(hWnd, lpText, lpText.length);
+                user32.GetWindowText(toHWND(hWnd), lpText, lpText.length);
                 text = new String(lpText, 0, textLength);
             }
         }
@@ -311,7 +313,7 @@ public class Win32Impl implements Win32 {
      * function (Windows)</a>
      */
     public int MessageBox(WinRef hWnd, String text, String caption, int type) {
-        return User32Ext.INSTANCE.MessageBox(hWnd, text, caption, type);
+        return User32Ext.INSTANCE.MessageBox(toHWND(hWnd), text, caption, type);
     }
 
     public interface GDI32Ext extends GDI32 {

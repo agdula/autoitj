@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import cn.com.jautoitx.contract.*;
+import cn.com.jautoitx.domain.WinRef;
 import cn.com.jautoitx.util.AutoItUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +36,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import static cn.com.jautoitx.util.AutoItUtils.toHWND;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = BaseTestConfiguration.class)
@@ -235,10 +238,10 @@ public abstract class BaseTest {
 
 	protected String getTooltip(final String handle) {
 		Assert.assertTrue(StringUtils.isNotBlank(handle));
-		HWND hWnd = AutoItUtils.handleToHwnd(handle);
+		WinRef hWnd = AutoItUtils.handleToHwnd(handle);
 		// check className
 		char[] lpClassName = new char[50];
-		int classNameLength = User32.INSTANCE.GetClassName(hWnd, lpClassName,
+		int classNameLength = User32.INSTANCE.GetClassName(toHWND(hWnd), lpClassName,
 				lpClassName.length);
 		String className = (classNameLength > 0) ? new String(lpClassName, 0,
 				classNameLength) : "";
@@ -246,8 +249,8 @@ public abstract class BaseTest {
 			return "";
 		}
 
-		char[] tooltip = new char[User32.INSTANCE.GetWindowTextLength(hWnd) + 1];
-		int length = User32.INSTANCE.GetWindowText(hWnd, tooltip,
+		char[] tooltip = new char[User32.INSTANCE.GetWindowTextLength(toHWND(hWnd)) + 1];
+		int length = User32.INSTANCE.GetWindowText(toHWND(hWnd), tooltip,
 				tooltip.length);
 		return new String(tooltip, 0, length);
 	}

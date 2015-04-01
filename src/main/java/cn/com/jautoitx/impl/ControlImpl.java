@@ -17,6 +17,8 @@ import java.nio.CharBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cn.com.jautoitx.util.AutoItUtils.toHWND;
+
 public class ControlImpl implements Control {
 	private static int CONTROL_GET_FOCUS_BUF_ZIZE = 512;
 	private static int CONTROL_GET_TEXT_BUF_ZIZE = 8 * 1024;
@@ -1125,10 +1127,10 @@ public class ControlImpl implements Control {
 							final String control, final int index) {
 		String item = null;
 		if (index >= 0) {
-			WinDef.HWND hWnd = getHandle_(title, text, control);
+			WinRef hWnd = getHandle_(title, text, control);
 			if (hWnd != null) {
-				boolean isComboBox = LocalInstances.win32.isComboBox(new WinRef(hWnd));
-				boolean isListBox = LocalInstances.win32.isListBox(new WinRef(hWnd));
+				boolean isComboBox = LocalInstances.win32.isComboBox(hWnd);
+				boolean isListBox = LocalInstances.win32.isListBox(hWnd);
 				if (isComboBox || isListBox) {
 					int getItemLengthMessage = LB_GETTEXTLEN;
 					int getItemMessage = LB_GETTEXT;
@@ -1138,7 +1140,7 @@ public class ControlImpl implements Control {
 					}
 
 					// get item length
-					int itemLength = Win32Impl.user32.SendMessage(hWnd,
+					int itemLength = Win32Impl.user32.SendMessage(toHWND(hWnd),
 							getItemLengthMessage, index, 0);
 					if (itemLength == 0) {
 						item = "";
@@ -1146,7 +1148,7 @@ public class ControlImpl implements Control {
 						// get item
 						final CharBuffer buffer = CharBuffer
 								.allocate(itemLength + 1);
-						Win32Impl.user32.SendMessage(hWnd, getItemMessage,
+						Win32Impl.user32.SendMessage(toHWND(hWnd), getItemMessage,
 								new WPARAM(index), buffer);
 						item = Native.toString(buffer.array());
 					}
@@ -1328,9 +1330,9 @@ public class ControlImpl implements Control {
 		WinRef hWnd = getHandle_(title, text, control);
 		if (hWnd != null) {
 			if (LocalInstances.win32.isComboBox(hWnd)) {
-				count = Win32Impl.user32.SendMessage(hWnd, CB_GETCOUNT, 0, 0);
+				count = Win32Impl.user32.SendMessage(toHWND(hWnd), CB_GETCOUNT, 0, 0);
 			} else if (LocalInstances.win32.isListBox(hWnd)) {
-				count = Win32Impl.user32.SendMessage(hWnd, LB_GETCOUNT, 0, 0);
+				count = Win32Impl.user32.SendMessage(toHWND(hWnd), LB_GETCOUNT, 0, 0);
 			}
 		}
 
