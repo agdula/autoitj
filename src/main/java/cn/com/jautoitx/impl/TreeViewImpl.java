@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static cn.com.jautoitx.util.AutoItUtils.toHWND;
+
 public class TreeViewImpl implements TreeView {
 	/* Command used in method ControlTreeView */
 	private static final String COMMAND_CHECK = "Check";
@@ -872,7 +874,7 @@ public class TreeViewImpl implements TreeView {
 	 */
 	public WinRef getHandle(final String title, final String text,
 						  final String control, final String item) {
-		WinDef.HWND itemHWND = null;
+		WinRef itemHWND = null;
 		if (StringUtils.isNotEmpty(item) && exists(title, text, control, item)) {
 			String[] textIndexReferences = StringUtils.split(item, '|');
 			List<String> indexList = new ArrayList<String>();
@@ -881,7 +883,7 @@ public class TreeViewImpl implements TreeView {
 					itemHWND = getFirstItemHandle(title, text, control);
 				} else {
 					itemHWND = getFirstChildHandle(title, text, control,
-							new WinRef(itemHWND));
+							itemHWND);
 				}
 
 				// break for loop
@@ -917,7 +919,7 @@ public class TreeViewImpl implements TreeView {
 					indexList.add("#" + index);
 					while (index > 0) {
 						itemHWND = getNextSiblingHandle(title, text, control,
-								new WinRef(itemHWND));
+								itemHWND);
 						// break while loop
 						if (itemHWND == null) {
 							break;
@@ -932,7 +934,7 @@ public class TreeViewImpl implements TreeView {
 				}
 			}
 		}
-		return new WinRef(itemHWND);
+		return itemHWND;
 	}
 
 	/**
@@ -2091,15 +2093,15 @@ public class TreeViewImpl implements TreeView {
 	public boolean isExpanded(final String title, final String text,
 							  final String control, final String item) {
 		boolean expanded = false;
-		WinDef.HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
+		WinRef hWnd = LocalInstances.control.getHandle_(title, text, control);
 		if (hWnd != null) {
-			WinDef.HWND itemHWND = getHandle(title, text, control, item);
+			WinRef itemHWND = getHandle(title, text, control, item);
 			if (itemHWND != null) {
 				TVITEM treeViewItem = new TVITEM();
 				treeViewItem.mask = new UINT(TVIF_STATE);
 				treeViewItem.hItem = (int) Pointer.nativeValue(itemHWND
 						.getPointer());
-				Win32Impl.user32.SendMessage(hWnd, TVM_GETITEMW, new WPARAM(0),
+				Win32Impl.user32.SendMessage(toHWND(hWnd), TVM_GETITEMW, new WPARAM(0),
 						treeViewItem);
 				expanded = ((treeViewItem.state.intValue() & TVIS_EXPANDED) != 0);
 			}
@@ -2955,13 +2957,14 @@ public class TreeViewImpl implements TreeView {
 
 	private WinRef getFirstChildHandle(final String title,
 			final String text, final String control, final WinRef itemHWND) {
-		WinDef.HWND firstChildHWND = null;
+		WinRef firstChildHWND = null;
 		WinRef hWnd = LocalInstances.control.getHandle_(title, text, control);
 		if (hWnd != null) {
-			firstChildHWND = new WinRef(Win32Impl.user32.SendMessage(new WinDef.HWND(hWnd.getPointer()), TVM_GETNEXTITEM,
-					new WPARAM(TVGN_CHILD), itemHWND));
+			WinDef.HWND hwnd = Win32Impl.user32.SendMessage(toHWND(hWnd), TVM_GETNEXTITEM,
+					new WPARAM(TVGN_CHILD), toHWND(itemHWND));
+			firstChildHWND = new WinRef(AutoItUtils.hwndToHandle(hwnd));
 		}
-		return new WinRef(firstChildHWND);
+		return (firstChildHWND);
 	}
 
 	// private static HWND getFirstChildHandle(final String title,
@@ -2972,26 +2975,26 @@ public class TreeViewImpl implements TreeView {
 
 	private WinRef getFirstItemHandle(final String title,
 			final String text, final String control) {
-		WinDef.HWND firstItemHWND = null;
-		WinDef.HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
+		WinRef firstItemHWND = null;
+		WinRef hWnd = LocalInstances.control.getHandle_(title, text, control);
 		if (hWnd != null) {
-			firstItemHWND = Win32Impl.user32.SendMessage(hWnd, TVM_GETNEXTITEM,
-					new WPARAM(TVGN_ROOT), new LPARAM(0));
+			firstItemHWND = new WinRef(AutoItUtils.hwndToHandle(Win32Impl.user32.SendMessage(toHWND(hWnd), TVM_GETNEXTITEM,
+					new WPARAM(TVGN_ROOT), new LPARAM(0))));
 		}
-		return new WinRef(firstItemHWND);
+		return firstItemHWND;
 	}
 
 	private WinRef getNextSiblingHandle(final String title,
 			final String text, final String control, final WinRef itemHWND) {
-		WinDef.HWND nextSiblingHWND = null;
+		WinRef nextSiblingHWND = null;
 		if (itemHWND != null) {
-			WinDef.HWND hWnd = LocalInstances.control.getHandle_(title, text, control);
+			WinRef hWnd = LocalInstances.control.getHandle_(title, text, control);
 			if (hWnd != null) {
-				nextSiblingHWND = Win32Impl.user32.SendMessage(hWnd,
-						TVM_GETNEXTITEM, new WPARAM(TVGN_NEXT), itemHWND);
+				nextSiblingHWND = new WinRef(AutoItUtils.hwndToHandle(Win32Impl.user32.SendMessage(toHWND(hWnd),
+						TVM_GETNEXTITEM, new WPARAM(TVGN_NEXT), toHWND(itemHWND))));
 			}
 		}
-		return new WinRef(nextSiblingHWND);
+		return nextSiblingHWND;
 	}
 
 	// private static HWND getParentHandle(final String title, final String
