@@ -1,7 +1,7 @@
 package cn.com.jautoitx.impl;
 
 import cn.com.jautoitx.contract.Pixel;
-import cn.com.jautoitx.domain.Color;
+import cn.com.jautoitx.domain.HexColor;
 import com.sun.jna.platform.win32.WinDef.POINT;
 import com.sun.jna.platform.win32.WinDef.RECT;
 import org.apache.commons.lang3.StringUtils;
@@ -107,7 +107,7 @@ public class PixelImpl implements Pixel {
 	 * @return Return java.awt.Color object for pixel's color if success, return
 	 *         null if invalid coordinates.
 	 */
-	public Color getColor_(int x, int y) {
+	public HexColor getColor_(int x, int y) {
 		final int color = getColor(x, y);
 		if (color == INVALID_COLOR) {
 			return null;
@@ -115,7 +115,7 @@ public class PixelImpl implements Pixel {
 
 		final String strColor = StringUtils.leftPad(Integer.toHexString(color),
 				6, '0');
-		return new Color(strColor);
+		return new HexColor(strColor);
 	}
 
 	/**

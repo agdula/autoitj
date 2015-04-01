@@ -52,4 +52,10 @@ public class AutoItUtils {
                 .toHexString(Pointer.nativeValue(hWnd.getPointer()))
                 .toUpperCase(), Platform.is64Bit() ? 16 : 8, '0'));
     }
+
+    static java.awt.Color toAwtColor(final String hexColor){
+        return new java.awt.Color(Integer.parseInt(hexColor.substring(0, 2), 16),
+                Integer.parseInt(hexColor.substring(2, 4), 16),
+                Integer.parseInt(hexColor.substring(4, 6), 16));
+    }
 }

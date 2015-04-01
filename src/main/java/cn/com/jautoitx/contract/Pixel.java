@@ -1,7 +1,7 @@
 package cn.com.jautoitx.contract;
 
 
-import cn.com.jautoitx.domain.Color;
+import cn.com.jautoitx.domain.HexColor;
 
 /**
  * @author: Andrzej Gdula
@@ -92,7 +92,7 @@ public interface Pixel {
 	 * @return Return java.awt.Color object for pixel's color if success, return
 	 *         null if invalid coordinates.
 	 */
-	Color getColor_(int x, int y); //TODO: get rid of awt
+	HexColor getColor_(int x, int y); //TODO: get rid of awt
 
 	/**
 	 * Searches a rectangle of pixels for the pixel color provided.
