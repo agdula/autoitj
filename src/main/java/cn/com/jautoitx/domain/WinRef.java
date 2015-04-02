@@ -12,8 +12,9 @@ import org.apache.commons.lang3.StringUtils;
 public class WinRef {
 
     private String handle;
-    private Pointer pointer;
-    private WinDef.HWND hwnd;
+
+    transient private Pointer pointer;
+    transient private WinDef.HWND hwnd;
 
     public WinRef(final String handle) {
         this.handle = handle;
