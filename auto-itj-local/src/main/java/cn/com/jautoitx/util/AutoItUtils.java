@@ -1,6 +1,7 @@
 package cn.com.jautoitx.util;
 
 import cn.com.jautoitx.domain.WinRef;
+import cn.com.jautoitx.domain.WinRefEx;
 import com.sun.jna.Platform;
 import com.sun.jna.Pointer;
 import com.sun.jna.WString;
@@ -24,11 +25,11 @@ public class AutoItUtils {
         return (string == null ? null : new WString(string));
     }
 
-    public static WinRef handleToHwnd(String handle) {
-        WinRef hWnd = null;
+    public static WinRefEx handleToHwnd(String handle) {
+        WinRefEx hWnd = null;
         try {
             if (handle != null) {
-                hWnd = new WinRef(handle);
+                hWnd = new WinRefEx(handle);
             }
         } catch (Exception e) {
             // Ignore exception
@@ -40,11 +41,15 @@ public class AutoItUtils {
     public static String hwndToHandle(final WinRef hWnd) {
         return (hWnd == null) ? null : hWnd.getHandle();
     }
+
     public static WinDef.HWND toHWND(final WinRef hWnd) {
-        return (hWnd == null) ? null : hWnd.getHwnd();
+        if(hWnd instanceof WinRefEx) return ((WinRefEx) hWnd).getHwnd();
+        return (hWnd == null) ? null : (new WinRefEx(hWnd.getHandle()).getHwnd());
     }
+
     public static Pointer toPointer(final WinRef hWnd) {
-        return (hWnd == null) ? null : hWnd.getPointer();
+        if(hWnd instanceof WinRefEx) return ((WinRefEx) hWnd).getPointer();
+        return (hWnd == null) ? null : (new WinRefEx(hWnd.getHandle()).getPointer());
     }
 
     public static String hwndToHandle(final WinDef.HWND hWnd) {

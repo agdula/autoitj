@@ -5,6 +5,13 @@
 
 
     <artifactId>auto-itj</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>auto-itj-common</module>
+        <module>auto-itj-local</module>
+        <module>auto-itj-remote-client</module>
+        <module>auto-itj-remote-server</module>
+    </modules>
     <groupId>pl.agdula.autoitj</groupId>
     <version>1.0-SNAPSHOT</version>
 
@@ -25,23 +32,6 @@
 
     <dependencies>
 
-        <!-- Runtime Dependencies-->
-
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <version>3.5.2</version>
-        </dependency>
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>platform</artifactId>
-            <version>3.5.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.3.2</version>
-        </dependency>
 
         <!-- Test Dependencies-->
 
@@ -91,56 +81,6 @@
         </repository>
     </repositories>
 
-	<build>
 
-		<plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <forkMode>once</forkMode>
-                    <!-- Point to a directory with sigar dll's -->
-                    <argLine>-Djava.library.path=${project.basedir}/src/test/resources</argLine>
-                    <environmentVariables>
-                        <PATH>${env.PATH};${project.basedir}/src/test/resources</PATH>
-                    </environmentVariables>
-                </configuration>
-            </plugin>
-            <!-- put dependencies in dest directory -->
-            <plugin>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <includeScope>runtime</includeScope>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Crate a ZIP package with all files needed to distribute program -->
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <descriptor>src/main/assembly/bin.xml</descriptor>
-                    <finalName>${artifactId}-${project.version}</finalName>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

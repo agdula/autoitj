@@ -9,7 +9,7 @@ import java.util.List;
  * @created: 03/30/2015 23:32
  * @version: 1.0
  */
-public interface Control {
+public interface Control<T extends WinRef> {
 	/* Command used in method ControlCommand */
 	String CONTROL_COMMAND_IS_VISIBLE = "IsVisible";
 	String CONTROL_COMMAND_IS_ENABLED = "IsEnabled";
@@ -414,7 +414,7 @@ public interface Control {
 	 *            The handle of the control to interact with.
 	 * @return Return true if control is visible, otherwise return false.
 	 */
-	boolean isVisible(WinRef hWnd, WinRef hCtrl);
+	boolean isVisible(T hWnd, T hCtrl);
 
 	/**
 	 * Sends a command to a control.
@@ -480,7 +480,7 @@ public interface Control {
 	 *            The handle of the control to interact with.
 	 * @return Return true if control is enabled, otherwise return false.
 	 */
-	boolean isEnabled(WinRef hWnd, WinRef hCtrl);
+	boolean isEnabled(T hWnd, T hCtrl);
 
 	/**
 	 * Drops a ComboBox.
@@ -549,7 +549,7 @@ public interface Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	boolean showDropDown(WinRef hWnd, WinRef hCtrl);
+	boolean showDropDown(T hWnd, T hCtrl);
 
 	/**
 	 * UNdrops a ComboBox.
@@ -618,7 +618,7 @@ public interface Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	boolean hideDropDown(WinRef hWnd, WinRef hCtrl);
+	boolean hideDropDown(T hWnd, T hCtrl);
 
 	/**
 	 * Adds a string to the end in a ListBox or ComboBox.
@@ -697,7 +697,7 @@ public interface Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	boolean addString(WinRef hWnd, WinRef hCtrl,
+	boolean addString(T hWnd, T hCtrl,
 					  String string);
 
 	/**
@@ -777,7 +777,7 @@ public interface Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	boolean delString(WinRef hWnd, WinRef hCtrl,
+	boolean delString(T hWnd, T hCtrl,
 					  int occurrence);
 
 	/**
@@ -881,7 +881,7 @@ public interface Control {
 	 * @return Returns occurrence ref of the exact string in a ListBox or
 	 *         ComboBox, returns null if failed.
 	 */
-	Integer findString(WinRef hWnd, WinRef hCtrl,
+	Integer findString(T hWnd, T hCtrl,
 					   String string);
 
 	/**
@@ -937,7 +937,7 @@ public interface Control {
 	 * @return Returns occurrence ref of the exact string in a ListBox or
 	 *         ComboBox, returns null if failed.
 	 */
-	Integer findString(WinRef hWnd, WinRef hCtrl,
+	Integer findString(T hWnd, T hCtrl,
 					   String string, boolean ignoreCase);
 
 	/**
@@ -1011,7 +1011,7 @@ public interface Control {
 	 *            The zero-based index of the item to retrieve.
 	 * @return Returns the item according to index in a ListBox or ComboBox.
 	 */
-	String getString(WinRef hWnd, WinRef hCtrl,
+	String getString(T hWnd, T hCtrl,
 					 int index);
 
 	/**
@@ -1082,7 +1082,7 @@ public interface Control {
 	 * @return Returns the items in a ListBox or ComboBox, returns null if
 	 *         failed.
 	 */
-	List<String> getStringList(WinRef hWnd, WinRef hCtrl);
+	List<String> getStringList(T hWnd, T hCtrl);
 
 	/**
 	 * Retrieves the number of items in a ListBox or ComboBox.
@@ -1152,7 +1152,7 @@ public interface Control {
 	 * @return Returns the number of items in a ListBox or ComboBox, returns
 	 *         null if failed.
 	 */
-	Integer getStringCount(WinRef hWnd, WinRef hCtrl);
+	Integer getStringCount(T hWnd, T hCtrl);
 
 	/**
 	 * Sets selection to occurrence ref in a ListBox or ComboBox.
@@ -1231,8 +1231,8 @@ public interface Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	boolean setCurrentSelection(WinRef hWnd,
-								WinRef hCtrl, int occurrence);
+	boolean setCurrentSelection(T hWnd,
+								T hCtrl, int occurrence);
 
 	/**
 	 * Sets selection according to string in a ListBox or ComboBox.
@@ -1308,7 +1308,7 @@ public interface Control {
 	 * @return Return the index of the selected string if success, otherwise
 	 *         return null.
 	 */
-	Integer selectString(WinRef hWnd, WinRef hCtrl,
+	Integer selectString(T hWnd, T hCtrl,
 						 String string);
 
 	/**
@@ -1375,7 +1375,7 @@ public interface Control {
 	 *            The handle of the control to interact with.
 	 * @return Return true if Button is checked, otherwise return false.
 	 */
-	boolean isChecked(WinRef hWnd, WinRef hCtrl);
+	boolean isChecked(T hWnd, T hCtrl);
 
 	/**
 	 * Checks radio or check Button.
@@ -1444,7 +1444,7 @@ public interface Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	boolean check(WinRef hWnd, WinRef hCtrl);
+	boolean check(T hWnd, T hCtrl);
 
 	/**
 	 * Unchecks radio or check Button.
@@ -1513,7 +1513,7 @@ public interface Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	boolean uncheck(WinRef hWnd, WinRef hCtrl);
+	boolean uncheck(T hWnd, T hCtrl);
 
 	/**
 	 * Returns the line # where the caret is in an Edit.
@@ -1586,7 +1586,7 @@ public interface Control {
 	 *         window/control), otherwise returns the line # where the caret is
 	 *         in an Edit.
 	 */
-	Integer getCurrentLine(WinRef hWnd, WinRef hCtrl);
+	Integer getCurrentLine(T hWnd, T hCtrl);
 
 	/**
 	 * Returns the column # where the caret is in an Edit.
@@ -1658,7 +1658,7 @@ public interface Control {
 	 *         window/control), otherwise returns the column # where the caret
 	 *         is in an Edit.
 	 */
-	Integer getCurrentCol(WinRef hWnd, WinRef hCtrl);
+	Integer getCurrentCol(T hWnd, T hCtrl);
 
 	/**
 	 * Returns name of the currently selected item in a ListBox or ComboBox.
@@ -1728,7 +1728,7 @@ public interface Control {
 	 * @return Returns name of the currently selected item in a ListBox or
 	 *         ComboBox if success, returns null if failed.
 	 */
-	String getCurrentSelection(WinRef hWnd, WinRef hCtrl);
+	String getCurrentSelection(T hWnd, T hCtrl);
 
 	/**
 	 * Returns # of lines in an Edit.
@@ -1797,7 +1797,7 @@ public interface Control {
 	 * @return Returns null if there is an error (such as an invalid
 	 *         window/control), otherwise returns # of lines in an Edit.
 	 */
-	Integer getLineCount(WinRef hWnd, WinRef hCtrl);
+	Integer getLineCount(T hWnd, T hCtrl);
 
 	/**
 	 * Returns text at line # passed of an Edit.
@@ -1873,7 +1873,7 @@ public interface Control {
 	 * @return Returns text at line # passed of an Edit if success, returns null
 	 *         if failed.
 	 */
-	String getLine(WinRef hWnd, WinRef hCtrl,
+	String getLine(T hWnd, T hCtrl,
 				   int lineNumber);
 
 	/**
@@ -1943,7 +1943,7 @@ public interface Control {
 	 * @return Returns selected text of an Edit if success, returns null if
 	 *         failed.
 	 */
-	String getSelected(WinRef hWnd, WinRef hCtrl);
+	String getSelected(T hWnd, T hCtrl);
 
 	/**
 	 * Pastes the 'string' at the Edit's caret position.
@@ -2019,7 +2019,7 @@ public interface Control {
 	 * @return Return false if there is an error (such as an invalid
 	 *         window/control), otherwise return true.
 	 */
-	boolean editPaste(WinRef hWnd, WinRef hCtrl,
+	boolean editPaste(T hWnd, T hCtrl,
 					  String string);
 
 	/**
@@ -2089,7 +2089,7 @@ public interface Control {
 	 * @return @return Returns the current Tab shown of a SysTabControl32 if
 	 *         success, returns null if failed.
 	 */
-	Integer currentTab(WinRef hWnd, WinRef hCtrl);
+	Integer currentTab(T hWnd, T hCtrl);
 
 	/**
 	 * Moves to the next tab to the right of a SysTabControl32.
@@ -2155,7 +2155,7 @@ public interface Control {
 	 *            The handle of the control to interact with.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean tabRight(WinRef hWnd, WinRef hCtrl);
+	boolean tabRight(T hWnd, T hCtrl);
 
 	/**
 	 * Moves to the next tab to the left of a SysTabControl32.
@@ -2221,7 +2221,7 @@ public interface Control {
 	 *            The handle of the control to interact with.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean tabLeft(WinRef hWnd, WinRef hCtrl);
+	boolean tabLeft(T hWnd, T hCtrl);
 
 	/**
 	 * Disables or "grays-out" a control.
@@ -2272,7 +2272,7 @@ public interface Control {
 	 *            The handle of the control to interact with.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean disable(WinRef hWnd, WinRef hCtrl);
+	boolean disable(T hWnd, T hCtrl);
 
 	/**
 	 * Enables a "grayed-out" control.
@@ -2326,7 +2326,7 @@ public interface Control {
 	 *            The handle of the control to interact with.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean enable(WinRef hWnd, WinRef hCtrl);
+	boolean enable(T hWnd, T hCtrl);
 
 	/**
 	 * Sets input focus to a given control on a window.
@@ -2377,7 +2377,7 @@ public interface Control {
 	 *            The handle of the control to interact with.
 	 * @return Returns true if success, returns false if failed.
 	 */
-	boolean focus(WinRef hWnd, WinRef hCtrl);
+	boolean focus(T hWnd, T hCtrl);
 
 	/**
 	 * Returns the ControlRef# of the control that has keyboard focus within a
@@ -2412,7 +2412,7 @@ public interface Control {
 	 * @return Returns ControlRef# of the control that has keyboard focus within
 	 *         a specified window, returns null if window is not found.
 	 */
-	String getFocus(WinRef hWnd);
+	String getFocus(T hWnd);
 
 	/**
 	 * Retrieves the internal handle of a control.
@@ -2436,7 +2436,7 @@ public interface Control {
 	 * @return Returns a string containing the control handle value, returns
 	 *         null if no window matches the criteria.
 	 */
-	String getHandle(WinRef hWnd, WinRef hCtrl);
+	String getHandle(T hWnd, T hCtrl);
 
 	/**
 	 * Retrieves the handle of a control.
@@ -2448,7 +2448,7 @@ public interface Control {
 	 * @return Returns the handle of the control if success, returns null if no
 	 *         window matches the criteria.
 	 */
-	WinRef getHandle_(String title, String control);
+	T getHandle_(String title, String control);
 
 	/**
 	 * Retrieves the handle of a control.
@@ -2462,7 +2462,7 @@ public interface Control {
 	 * @return Returns the handle of the control if success, returns null if no
 	 *         window matches the criteria.
 	 */
-	WinRef getHandle_(String title, String text,
+	T getHandle_(String title, String text,
 						   String control);
 
 	/**
@@ -2475,7 +2475,7 @@ public interface Control {
 	 * @return Returns the handle of the control if success, returns null if no
 	 *         window matches the criteria.
 	 */
-	WinRef getHandle_(WinRef hWnd, WinRef hCtrl);
+	T getHandle_(T hWnd, T hCtrl);
 
 	/**
 	 * Retrieves the position of a control relative to it's window.
@@ -2529,7 +2529,7 @@ public interface Control {
 	 * @return Returns the position of the control if success, returns null if
 	 *         failed.
 	 */
-	int[] getPos(WinRef hWnd, WinRef hCtrl);
+	int[] getPos(T hWnd, T hCtrl);
 
 	/**
 	 * Retrieves the X coordinate of a control relative to it's window.
@@ -2583,7 +2583,7 @@ public interface Control {
 	 * @return Returns the X coordinate of the control if success, returns null
 	 *         if failed.
 	 */
-	Integer getPosX(WinRef hWnd, WinRef hCtrl);
+	Integer getPosX(T hWnd, T hCtrl);
 
 	/**
 	 * Retrieves the Y coordinate of a control relative to it's window.
@@ -2637,7 +2637,7 @@ public interface Control {
 	 * @return Returns the Y coordinate of the control if success, returns null
 	 *         if failed.
 	 */
-	Integer getPosY(WinRef hWnd, WinRef hCtrl);
+	Integer getPosY(T hWnd, T hCtrl);
 
 	/**
 	 * Retrieves the height of a control.
@@ -2691,7 +2691,7 @@ public interface Control {
 	 * @return Returns the height of the control if success, return null if
 	 *         failed.
 	 */
-	Integer getHeight(WinRef hWnd, WinRef hCtrl);
+	Integer getHeight(T hWnd, T hCtrl);
 
 	/**
 	 * Retrieves the width of a control.
@@ -2745,7 +2745,7 @@ public interface Control {
 	 * @return Returns the width of the control if success, returns null if
 	 *         failed.
 	 */
-	Integer getWidth(WinRef hWnd, WinRef hCtrl);
+	Integer getWidth(T hWnd, T hCtrl);
 
 	/**
 	 * Retrieves the size of a control.
@@ -2799,7 +2799,7 @@ public interface Control {
 	 * @return Returns the size of the control if success, returns null if
 	 *         failed.
 	 */
-	int[] getSize(WinRef hWnd, WinRef hCtrl);
+	int[] getSize(T hWnd, T hCtrl);
 
 	/**
 	 * Retrieves text from a control.
@@ -2850,7 +2850,7 @@ public interface Control {
 	 *            The handle of the control to interact with.
 	 * @return Returns text from a control if success, returns null if failed.
 	 */
-	String getText(WinRef hWnd, WinRef hCtrl);
+	String getText(T hWnd, T hCtrl);
 
 	/**
 	 * Hides a control.
@@ -2904,7 +2904,7 @@ public interface Control {
 	 * @return Returns true if success, returns false if window/control is not
 	 *         found.
 	 */
-	boolean hide(WinRef hWnd, WinRef hCtrl);
+	boolean hide(T hWnd, T hCtrl);
 
 	/**
 	 * Moves a control within a window.
@@ -2971,7 +2971,7 @@ public interface Control {
 	 * @return Returns true if success, returns false if window/control is not
 	 *         found.
 	 */
-	boolean move(WinRef hWnd, WinRef hCtrl, int x,
+	boolean move(T hWnd, T hCtrl, int x,
 				 int y);
 
 	/**
@@ -3052,7 +3052,7 @@ public interface Control {
 	 * @return Returns true if success, returns false if window/control is not
 	 *         found.
 	 */
-	boolean move(WinRef hWnd, WinRef hCtrl, int x,
+	boolean move(T hWnd, T hCtrl, int x,
 				 int y, Integer width, Integer height);
 
 	/**
@@ -3155,7 +3155,7 @@ public interface Control {
 	 * @return Returns true if success, returns false if window/control is not
 	 *         found.
 	 */
-	boolean send(WinRef hWnd, WinRef hCtrl,
+	boolean send(T hWnd, T hCtrl,
 				 String sendText);
 
 	/**
@@ -3218,7 +3218,7 @@ public interface Control {
 	 * @return Returns true if success, returns false if window/control is not
 	 *         found.
 	 */
-	boolean send(WinRef hWnd, WinRef hCtrl,
+	boolean send(T hWnd, T hCtrl,
 				 String sendText, Boolean sendRawText);
 
 	/**
@@ -3280,7 +3280,7 @@ public interface Control {
 	 * @return Returns true if success, returns false if window/control is not
 	 *         found.
 	 */
-	boolean setText(WinRef hWnd, WinRef hCtrl,
+	boolean setText(T hWnd, T hCtrl,
 					String controlText);
 
 	/**
@@ -3335,7 +3335,7 @@ public interface Control {
 	 * @return Returns true is success, returns false if window/control is not
 	 *         found.
 	 */
-	boolean show(WinRef hWnd, WinRef hCtrl);
+	boolean show(T hWnd, T hCtrl);
 
 	/**
 	 * Retrieves the text from a standard status bar control.
@@ -3391,7 +3391,7 @@ public interface Control {
 	 * @return Returns the text read if success, returns null if no text could
 	 *         be read.
 	 */
-	String statusbarGetText(WinRef hWnd);
+	String statusbarGetText(T hWnd);
 
 	/**
 	 * Retrieves the text from a standard status bar control.
@@ -3460,7 +3460,7 @@ public interface Control {
 	 * @return Returns the text read if success, returns null if no text could
 	 *         be read.
 	 */
-	String statusbarGetText(WinRef hWnd, Integer part);
+	String statusbarGetText(T hWnd, Integer part);
 
 	/**
 	 * The mouse button to click: "left", "right", "middle".

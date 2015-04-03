@@ -2,7 +2,7 @@ package cn.com.jautoitx.impl;
 
 import cn.com.jautoitx.contract.AutoItX;
 import cn.com.jautoitx.contract.Win32;
-import cn.com.jautoitx.domain.WinRef;
+import cn.com.jautoitx.domain.WinRefEx;
 import cn.com.jautoitx.jna.User32Ext;
 import cn.com.jautoitx.util.AutoItUtils;
 import cn.com.jautoitx.util.TitleBuilder;
@@ -24,7 +24,7 @@ import java.nio.CharBuffer;
 
 import static cn.com.jautoitx.util.AutoItUtils.toHWND;
 
-public class Win32Impl implements Win32 {
+public class Win32Impl implements Win32<WinRefEx> {
     public static final GDI32Ext gdi32 = GDI32Ext.INSTANCE;
     public static final User32Ext user32 = User32Ext.INSTANCE;
     public static final Version version = Version.INSTANCE;
@@ -46,7 +46,7 @@ public class Win32Impl implements Win32 {
         String className = null;
 
         if (StringUtils.isNotBlank(control)) {
-            WinRef hWnd = AutoItUtils.handleToHwnd(getHandle(title, text, control));
+            WinRefEx hWnd = AutoItUtils.handleToHwnd(getHandle(title, text, control));
             if (hWnd != null) {
                 className = getClassName(hWnd);
             }
@@ -59,7 +59,7 @@ public class Win32Impl implements Win32 {
         return getClassName(AutoItUtils.handleToHwnd(handle));
     }
 
-    public String getClassName(final WinRef hWnd) {
+    public String getClassName(final WinRefEx hWnd) {
         String className = null;
 
         if (hWnd != null) {
@@ -83,7 +83,7 @@ public class Win32Impl implements Win32 {
      * invalid value for the hwndCtl parameter, for example, will cause
      * the function to fail.
      */
-    public int getControlId(WinRef controlHwnd) {
+    public int getControlId(WinRefEx controlHwnd) {
         int controlId = 0;
         if (controlHwnd != null) {
             controlId = user32.GetDlgCtrlID(toHWND(controlHwnd));
@@ -94,7 +94,7 @@ public class Win32Impl implements Win32 {
         return controlId;
     }
 
-    public String getControlText(WinRef hCtrl) {
+    public String getControlText(WinRefEx hCtrl) {
         String text = null;
         if (isHWnd(hCtrl)) {
             int textLength = user32.SendMessage(toHWND(hCtrl), WM_GETTEXTLENGTH, 0, 0);
@@ -181,7 +181,7 @@ public class Win32Impl implements Win32 {
         return fileVersion;
     }
 
-    public String getWindowText(WinRef hWnd) {
+    public String getWindowText(WinRefEx hWnd) {
         String text = null;
         if (isHWnd(hWnd)) {
             int textLength = user32.GetWindowTextLength(toHWND(hWnd));
@@ -214,11 +214,11 @@ public class Win32Impl implements Win32 {
         return "ComboBox".equals(getClassName(title, text, control));
     }
 
-    public boolean isComboBox(final WinRef hWnd) {
+    public boolean isComboBox(final WinRefEx hWnd) {
         return "ComboBox".equals(getClassName(hWnd));
     }
 
-    public boolean isClassName(final WinRef hWnd, String className) {
+    public boolean isClassName(final WinRefEx hWnd, String className) {
         return ((className != null) && className
                 .equalsIgnoreCase(getClassName(hWnd)));
     }
@@ -230,7 +230,7 @@ public class Win32Impl implements Win32 {
      * @return Returns true if the handle is a valid window handle, otherwise
      * returns false.
      */
-    public boolean isHWnd(WinRef hWnd) {
+    public boolean isHWnd(WinRefEx hWnd) {
         String title = TitleBuilder.byHandle(hWnd);
         return (hWnd != null) && AutoItXImpl.autoItX.AU3_WinExists(AutoItUtils.stringToWString(AutoItUtils.defaultString(title)),null) == AutoItX.TRUE;
     }
@@ -244,7 +244,7 @@ public class Win32Impl implements Win32 {
         return "ListBox".equals(getClassName(title, text, control));
     }
 
-    public boolean isListBox(final WinRef hWnd) {
+    public boolean isListBox(final WinRefEx hWnd) {
         return "ListBox".equals(getClassName(hWnd));
     }
 
@@ -312,7 +312,7 @@ public class Win32Impl implements Win32 {
      * href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms645505(v=vs.85).aspx">MessageBox
      * function (Windows)</a>
      */
-    public int MessageBox(WinRef hWnd, String text, String caption, int type) {
+    public int MessageBox(WinRefEx hWnd, String text, String caption, int type) {
         return User32Ext.INSTANCE.MessageBox(toHWND(hWnd), text, caption, type);
     }
 

@@ -7,7 +7,7 @@ import cn.com.jautoitx.domain.WinRef;
  * @created: 03/30/2015 23:37
  * @version: 1.0
  */
-public interface Win32 {
+public interface Win32<T extends WinRef> {
 	String getClassName(String title, String control);
 
 	String getClassName(String title, String text,
@@ -15,7 +15,7 @@ public interface Win32 {
 
 	String getClassName(String handle);
 
-	String getClassName(WinRef hWnd);
+	String getClassName(T hWnd);
 
 	/**
 	 * Retrieves the identifier of the specified control.
@@ -27,9 +27,9 @@ public interface Win32 {
 	 *         invalid value for the hwndCtl parameter, for example, will cause
 	 *         the function to fail.
 	 */
-	int getControlId(WinRef controlHwnd);
+	int getControlId(T controlHwnd);
 
-	String getControlText(WinRef hCtrl);
+	String getControlText(T hCtrl);
 
 	/**
 	 * Retrieves version information for the specified file.
@@ -59,7 +59,7 @@ public interface Win32 {
 //	 */
 //	String getFileVersion(File file);
 
-	String getWindowText(WinRef hWnd);
+	String getWindowText(T hWnd);
 
 	/**
 	 * Check whether the capslock is on or not.
@@ -73,9 +73,9 @@ public interface Win32 {
 	boolean isComboBox(String title, String text,
 					   String control);
 
-	boolean isComboBox(WinRef hWnd);
+	boolean isComboBox(T hWnd);
 
-	boolean isClassName(WinRef hWnd, String className);
+	boolean isClassName(T hWnd, String className);
 
 	/**
 	 * Checks if the handle is a valid window handle.
@@ -85,14 +85,14 @@ public interface Win32 {
 	 * @return Returns true if the handle is a valid window handle, otherwise
 	 *         returns false.
 	 */
-	boolean isHWnd(WinRef hWnd);
+	boolean isHWnd(T hWnd);
 
 	boolean isListBox(String title, String control);
 
 	boolean isListBox(String title, String text,
 					  String control);
 
-	boolean isListBox(WinRef hWnd);
+	boolean isListBox(T hWnd);
 
 	/**
 	 * Set the status of the capslock.
@@ -150,5 +150,5 @@ public interface Win32 {
 	 *      href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms645505(v=vs.85).aspx">MessageBox
 	 *      function (Windows)</a>
 	 */
-	int MessageBox(WinRef hWnd, String text, String caption, int type);
+	int MessageBox(T hWnd, String text, String caption, int type);
 }
