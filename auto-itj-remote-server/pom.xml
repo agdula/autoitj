@@ -14,13 +14,11 @@
      <dependencies>
          <dependency>
              <groupId>pl.agdula.autoitj</groupId>
-             <artifactId>auto-itj-domain</artifactId>
-             <version>1.0-SNAPSHOT</version>
+             <artifactId>auto-itj-common</artifactId>
          </dependency>
          <dependency>
              <groupId>pl.agdula.autoitj</groupId>
              <artifactId>auto-itj-local</artifactId>
-             <version>1.0-SNAPSHOT</version>
          </dependency>
      </dependencies>
 

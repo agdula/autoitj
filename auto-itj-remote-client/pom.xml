@@ -11,5 +11,10 @@
 
     <artifactId>auto-itj-remote-client</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>pl.agdula.autoitj</groupId>
+            <artifactId>auto-itj-common</artifactId>
+        </dependency>
+    </dependencies>
 </project>
