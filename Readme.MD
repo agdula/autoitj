@@ -1,3 +1,5 @@
+ [ ![Download](https://api.bintray.com/packages/agdula/maven/autoitj/images/download.svg) ](https://bintray.com/agdula/maven/autoitj/_latestVersion)
+
 What are AutoIt and AutoItJ?
 ============================
 
