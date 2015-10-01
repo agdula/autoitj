@@ -21,4 +21,5 @@ public class LocalInstances {
     public static final KeyboardImpl keyboard = new KeyboardImpl();
     public static final DriveMapImpl driveMap = new DriveMapImpl();
     public static final AutoItXImpl autoItX = new AutoItXImpl();
+    public static final Netapi32Impl netApi32 = new Netapi32Impl();
 }

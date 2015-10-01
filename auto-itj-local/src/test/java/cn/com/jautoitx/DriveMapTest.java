@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class DriveMapTest extends BaseTest {
 	@Autowired
 	cn.com.jautoitx.contract.DriveMap DriveMap;
+	@Autowired
+	cn.com.jautoitx.contract.Netapi32 NetApi32;
 	@Test
 	public void add() {
 		long currentTimeMillis = System.currentTimeMillis();
@@ -25,8 +27,8 @@ public class DriveMapTest extends BaseTest {
 			Assert.assertTrue(dir.mkdir());
 
 			// add net share with read permission
-			Assert.assertTrue(netShareAdd(null, netname, "add Test",
-					NET_SHARE_PERMISSION_ACCESS_READ, path, null));
+			Assert.assertEquals(NetApi32.netShareAdd(null, netname, "add Test",
+					NET_SHARE_PERMISSION_ACCESS_READ, path, null), 0);
 			netShareAdded = true;
 
 			// add drive map
@@ -78,22 +80,22 @@ public class DriveMapTest extends BaseTest {
 					DriveMap.getAddError());
 
 			// delete net share
-			Assert.assertTrue(netShareDel(null, netname));
+			Assert.assertEquals(NetApi32.netShareDel(null, netname), 0);
 			netShareAdded = false;
 
 			// add net share with none permission and password 'test'
-			Assert.assertTrue(netShareAdd(null, netname, "add Test",
-					NET_SHARE_PERMISSION_ACCESS_NONE, path, "test"));
+			Assert.assertEquals(NetApi32.netShareAdd(null, netname, "add Test",
+					NET_SHARE_PERMISSION_ACCESS_NONE, path, "test"),0);
 			netShareAdded = true;
 
 			// delete net share
-			Assert.assertTrue(netShareDel(null, netname));
+			Assert.assertEquals(NetApi32.netShareDel(null, netname), 0);
 			netShareAdded = false;
 		} finally {
 			if (dir.exists()) {
 				if (netShareAdded) {
 					// delete net share
-					Assert.assertTrue(netShareDel(null, netname));
+					Assert.assertEquals(NetApi32.netShareDel(null, netname), 0);
 				}
 
 				Assert.assertTrue(dir.delete());
@@ -113,8 +115,8 @@ public class DriveMapTest extends BaseTest {
 			Assert.assertTrue(dir.mkdir());
 
 			// add net share with read permission
-			Assert.assertTrue(netShareAdd(null, netname, "driveMapDel Test",
-					NET_SHARE_PERMISSION_ACCESS_READ, path, null));
+			Assert.assertEquals(NetApi32.netShareAdd(null, netname, "driveMapDel Test",
+					NET_SHARE_PERMISSION_ACCESS_READ, path, null), 0);
 			netShareAdded = true;
 
 			// add drive map
@@ -175,7 +177,7 @@ public class DriveMapTest extends BaseTest {
 			if (dir.exists()) {
 				if (netShareAdded) {
 					// delete net share
-					Assert.assertTrue(netShareDel(null, netname));
+					Assert.assertEquals(NetApi32.netShareDel(null, netname), 0);
 				}
 
 				Assert.assertTrue(dir.delete());
@@ -195,8 +197,8 @@ public class DriveMapTest extends BaseTest {
 			Assert.assertTrue(dir.mkdir());
 
 			// add net share with read permission
-			Assert.assertTrue(netShareAdd(null, netname, "driveMapGet Test",
-					NET_SHARE_PERMISSION_ACCESS_READ, path, null));
+			Assert.assertEquals(NetApi32.netShareAdd(null, netname, "driveMapGet Test",
+					NET_SHARE_PERMISSION_ACCESS_READ, path, null), 0);
 			netShareAdded = true;
 
 			// add drive map
@@ -241,7 +243,7 @@ public class DriveMapTest extends BaseTest {
 			if (dir.exists()) {
 				if (netShareAdded) {
 					// delete net share
-					Assert.assertTrue(netShareDel(null, netname));
+					Assert.assertEquals(NetApi32.netShareDel(null, netname),0);
 				}
 
 				Assert.assertTrue(dir.delete());

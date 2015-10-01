@@ -29,4 +29,5 @@ public class BaseTestConfiguration {
     @Bean  Keyboard getKeyboard(){ return LocalInstances.keyboard; }
     @Bean  DriveMap getDriveMap(){ return LocalInstances.driveMap; }
     @Bean AutoItX getAutoItX(){ return LocalInstances.autoItX; }
+    @Bean Netapi32 getNetapi32(){ return LocalInstances.netApi32; }
 }
