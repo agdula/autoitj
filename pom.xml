@@ -16,6 +16,20 @@
     <version>1.0</version>
 
 
+    <scm>
+        <connection>scm:git:https://github.com/agdula/autoitj.git</connection>
+        <developerConnection>scm:git:git@github.com:agdula/autoitj.git</developerConnection>
+        <url>https://github.com/agdula/autoitj</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <distributionManagement>
+        <repository>
+            <id>bintray</id>
+            <url>https://api.bintray.com/maven/agdula/maven/autoitj</url>
+        </repository>
+    </distributionManagement>
+
     <modelVersion>4.0.0</modelVersion>
     <dependencyManagement>
         <dependencies>
@@ -101,6 +115,18 @@
         </repository>
     </repositories>
 
-
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <releaseProfiles>release</releaseProfiles>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
