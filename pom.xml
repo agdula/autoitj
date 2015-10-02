@@ -13,7 +13,7 @@
         <module>auto-itj-remote-server</module>
     </modules>
     <groupId>pl.agdula.autoitj</groupId>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
 
 
     <scm>
@@ -44,22 +44,22 @@
             <dependency>
                 <groupId>pl.agdula.autoitj</groupId>
                 <artifactId>auto-itj-common</artifactId>
-                <version>1.0.1</version>
+                <version>1.0.2-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>pl.agdula.autoitj</groupId>
                 <artifactId>auto-itj-local</artifactId>
-                <version>1.0.1</version>
+                <version>1.0.2-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>pl.agdula.autoitj</groupId>
                 <artifactId>auto-itj-remote-client</artifactId>
-                <version>1.0.1</version>
+                <version>1.0.2-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>pl.agdula.autoitj</groupId>
                 <artifactId>auto-itj-remote-server</artifactId>
-                <version>1.0.1</version>
+                <version>1.0.2-SNAPSHOT</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
