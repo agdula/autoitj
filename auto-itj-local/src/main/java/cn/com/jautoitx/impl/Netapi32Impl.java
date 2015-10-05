@@ -125,7 +125,7 @@ public class Netapi32Impl implements Netapi32 {
         buf.shi2_type = 0;
         buf.shi2_remark = (remark == null) ? null : new WString(remark);
         buf.shi2_permissions = permissions;
-        buf.shi2_max_uses = 1;
+        buf.shi2_max_uses = -1;
         buf.shi2_current_uses = 0;
         buf.shi2_path = (path == null) ? null : new WString(path);
         buf.shi2_passwd = (passwd == null) ? null : new WString(passwd);
