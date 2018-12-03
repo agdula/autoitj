@@ -14,6 +14,11 @@
     </modules>
     <groupId>pl.agdula.autoitj</groupId>
     <version>1.0.1</version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+    </properties>
 
 
     <scm>
@@ -95,10 +100,17 @@
         </dependency>
         <dependency>
             <groupId>org.eclipse.swt</groupId>
-            <artifactId>org.eclipse.swt.win32.win32.x86</artifactId>
-            <version>4.4</version>
+            <artifactId>org.eclipse.swt.win32.win32.x86_64</artifactId>
+            <version>4.3</version>
             <scope>test</scope>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.eclipse.swt</groupId>-->
+            <!--<artifactId>org.eclipse.swt.win32.win32.x86</artifactId>-->
+            <!--<version>4.3</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>org.fusesource</groupId>
             <artifactId>sigar</artifactId>
