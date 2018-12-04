@@ -122,7 +122,7 @@ public interface User32Ext extends User32 {
      * function (Windows)</a>
      */
     int MessageBox(HWND hWnd, String text, String caption, int type);
-
+//
     /**
      * Sends the specified message to a window or windows. The SendMessage
      * function calls the window procedure for the specified window and does
@@ -183,7 +183,7 @@ public interface User32Ext extends User32 {
      * "http://msdn.microsoft.com/en-us/library/windows/desktop/ms644950(v=vs.85).aspx"
      * >SendMessage function (Windows)</a>
      */
-    HWND SendMessage(HWND hWnd, int msg, WPARAM wParam, LPARAM lParam);
+     LRESULT SendMessage(HWND hWnd, int msg, WPARAM wParam, LPARAM lParam);
 
     /**
      * Sends the specified message to a window or windows. The SendMessage

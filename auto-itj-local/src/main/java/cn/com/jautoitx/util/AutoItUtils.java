@@ -57,6 +57,12 @@ public class AutoItUtils {
                 .toHexString(Pointer.nativeValue(hWnd.getPointer()))
                 .toUpperCase(), Platform.is64Bit() ? 16 : 8, '0'));
     }
+    
+    public static String hwndToHandle(final WinDef.LRESULT hWnd) {
+        return (hWnd == null) ? null : ("0x" + StringUtils.leftPad(Long
+                .toHexString(hWnd.longValue())
+                .toUpperCase(), Platform.is64Bit() ? 16 : 8, '0'));
+    }
 
     static java.awt.Color toAwtColor(final String hexColor){
         return new java.awt.Color(Integer.parseInt(hexColor.substring(0, 2), 16),
